@@ -8,16 +8,7 @@ namespace TH_Bank
     {
         static void Main(string[] args)
         {
-            User user1 = new Customer("id", "password", "firstname", "lastname", "username");
 
-            var s1 = ActiveUserSingleton.GetInstance(user1);
-
-            var s2 = ActiveUserSingleton.GetInstance(null);
-
-            Console.WriteLine(s1.LoggedInUser.UserName); 
-            Console.WriteLine(s2.LoggedInUser.UserName); 
-
-            
             var customerFactory = new CustomerFactory();
             var userdatahandler = new UserDataHandler();
 
@@ -37,6 +28,8 @@ namespace TH_Bank
             // LogIn();
 
             Console.ReadLine();
+
+            // END TESTING
         }
 
         void LogIn(UserDataHandler usr)
