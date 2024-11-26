@@ -6,7 +6,7 @@ namespace TH_Bank
 
         public CustomerMenu()
         {
-            _menu = new string[]
+            _menu = new string[] // Menu in array = easy to add options.
             {
                 "1. Show balance / accounts.",
                 "2. Show transactions.",
@@ -15,7 +15,6 @@ namespace TH_Bank
                 "5. Apply for loan.",
                 "6. Logout.",
                 "7. Exit program.",
-                // Menu in array = easy to add options.
             };
             menuWidth = CalculateWidth(extraWidth: 10);
         }
@@ -44,8 +43,7 @@ namespace TH_Bank
                 {
 
                     case 1:
-                        ShowAccounts();
-                        // Foreach account in accounts?
+                        ShowAccounts(); // Shows accounts & balance of current user.
                         break;
 
                     case 2:
@@ -75,14 +73,16 @@ namespace TH_Bank
                 }
             }
         }
-        void ShowAccounts()
+        void ShowAccounts(ActiveUserSingleton user, AccountDataHandler activeUser)
         {
-            List<string> accountList = new List<string>();
+            List<Account> accountList = activeUser.LoadAll(user.LoggedInUser.Id);
+
+            AccountDataHandler accountShow = new AccountDataHandler();
+
 
             foreach (var acc in accountList)
             {
-                Console.WriteLine(acc);
-                Console.WriteLine("--------------");
+                Console.WriteLine(acc.ToString());
             }
         }
 

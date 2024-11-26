@@ -6,14 +6,13 @@ namespace TH_Bank
     {
         public AdminMenu()
         {
-            _menu = new string[]
+            _menu = new string[] // Menu in array = easy to add options.
         {
             "1. Add new customer.",
             "2. Handle suspended customers.",
             "3. Change currency exchange rate.",
             "4. Logout.",
             "5. Exit program.",
-            // Menu in array = easy to add options.
         };
             menuWidth = CalculateWidth(extraWidth: 10);
         }
@@ -24,7 +23,6 @@ namespace TH_Bank
             foreach (string item in _menu)
             {
                 DrawMenuItem(item);
-
             }
             DrawBorder();
         }

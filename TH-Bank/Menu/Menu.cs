@@ -6,8 +6,8 @@
         internal bool access;
         internal string[]? _menu;
         internal int menuWidth;
-        public abstract void ShowMenu();
 
+        public abstract void ShowMenu();
 
         internal void Return() // Method to return to Login.
         {
@@ -60,6 +60,7 @@
                 "  \\_/ \\_| |_/ \\____/\\_| |_|_| \\_|_| \\_/\n");
         }
 
+        /*------------Methods to create dynamic border based on length on menu options--------*/
         internal int CalculateWidth(int extraWidth)
         {
             int maxWidth = 0;
@@ -82,7 +83,7 @@
         {
             Console.WriteLine($"# {item.PadRight(menuWidth - 4)} #");
         }
-
+        /*------------------------------------------------------------------------------------*/
         public void Logo()
         {
             //ASCII Art?
