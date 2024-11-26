@@ -9,6 +9,11 @@
         {
             LoggedInUser = user;
         }
+
+        public User GetUser()
+        {
+            return LoggedInUser;
+        }
         public static ActiveUserSingleton GetInstance(User loginUser)
         {
             if (_instance == null)
