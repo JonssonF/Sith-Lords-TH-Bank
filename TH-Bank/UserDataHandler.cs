@@ -1,8 +1,7 @@
-﻿
+﻿using System.Security.Cryptography.X509Certificates;
+using TH_Bank.Users;
 
-using System.Security.Cryptography.X509Certificates;
-
-namespace Shitlords_Bankomat
+namespace TH_Bank
 {
     public class UserDataHandler : IDataHandler<User>
     {
@@ -35,37 +34,37 @@ namespace Shitlords_Bankomat
         {
             throw new NotImplementedException();
         }
-    
+
         public User Load(string userid)
         {
             string[] openFile = File.ReadAllLines(FilePath);
 
-                    foreach (string line in openFile)
-                    {
-                        if (line.Contains(userid) && line.Contains("Customer"))
-                        {
-                            string[] variables = line.Split('|');
-                            string id = variables[0];
-                            string pw = variables[1];
-                            string fn = variables[2];
-                            string ln = variables[3];
+            foreach (string line in openFile)
+            {
+                if (line.Contains(userid) && line.Contains("Customer"))
+                {
+                    string[] variables = line.Split('|');
+                    string id = variables[0];
+                    string pw = variables[1];
+                    string fn = variables[2];
+                    string ln = variables[3];
                     string un = variables[4];
-                            var customer = new Customer(id, pw, fn, ln,un);
+                    var customer = new Customer(id, pw, fn, ln, un);
 
-                            return customer;
-                        }
-                        else if (line.Contains(userid) && line.Contains("Admin"))
-                        {
-                            string[] variables = line.Split('|');
-                            string id = variables[0];
-                            string pw = variables[1];
-                            var admin = new Admin(id, pw, "hej");
+                    return customer;
+                }
+                else if (line.Contains(userid) && line.Contains("Admin"))
+                {
+                    string[] variables = line.Split('|');
+                    string id = variables[0];
+                    string pw = variables[1];
+                    var admin = new Admin(id, pw, "hej");
 
-                            return admin;
-                        }
-                    }
+                    return admin;
+                }
+            }
 
-        throw new Exception("Invalid User Type");
+            throw new Exception("Invalid User Type");
         }
 
         public List<User> LoadAll()
@@ -122,28 +121,28 @@ namespace Shitlords_Bankomat
 
         public bool PasswordCheck(string username, string password)
         {
-            string[] openFile = File.ReadAllLines (FilePath);
+            string[] openFile = File.ReadAllLines(FilePath);
 
-            foreach(string s in openFile)
+            foreach (string s in openFile)
             {
-                if(s.Contains(password) && s.Contains(username))
+                if (s.Contains(password) && s.Contains(username))
                 {
                     return true;
                 }
             }
-            return false; 
+            return false;
         }
 
         public bool BlockCheck(string username)
         {
             string[] openFile = File.ReadAllLines(FilePath);
 
-            foreach(string s in openFile)
+            foreach (string s in openFile)
             {
                 if (s.Contains(username) && s.Contains("Blocked"))
-                    {
+                {
                     return false;
-                    }   
+                }
             }
 
             return true;
@@ -153,7 +152,7 @@ namespace Shitlords_Bankomat
         {
             string[] openFile = File.ReadAllLines(FilePath);
 
-            foreach(string s in openFile)
+            foreach (string s in openFile)
             {
                 if (s.Contains(username))
                 {

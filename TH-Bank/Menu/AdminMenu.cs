@@ -1,8 +1,10 @@
-﻿namespace Shitlords_Bankomat
+﻿using TH_Bank.Users;
+
+namespace TH_Bank.Menu
 {
     public class AdminMenu : Menu
     {
-        
+
         public AdminMenu()
         {
 
@@ -28,7 +30,7 @@
             {
                 ShowMenu();
                 int adminChoice;
-                Int32.TryParse(Console.ReadLine(), out adminChoice);
+                int.TryParse(Console.ReadLine(), out adminChoice);
                 switch (adminChoice)
                 {
 

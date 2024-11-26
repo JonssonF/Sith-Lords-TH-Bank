@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shitlords_Bankomat
+namespace TH_Bank
 {
     internal class Log
     {

@@ -1,6 +1,8 @@
-﻿using Shitlords_Bankomat;
+﻿using TH_Bank;
+using TH_Bank.Accounts;
+using TH_Bank.Menu;
 
-namespace Shitlords_Bankomat
+namespace TH_Bank.Users
 {
     public class Customer : User
     {
@@ -26,7 +28,7 @@ namespace Shitlords_Bankomat
 
         public override string ToString()
         {
-            
+
             return $"{Id}|{UserType}|{FirstName}|{LastName}|";
         }
 

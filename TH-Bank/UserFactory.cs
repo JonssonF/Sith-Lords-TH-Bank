@@ -1,4 +1,6 @@
-﻿namespace Shitlords_Bankomat
+﻿using TH_Bank.Users;
+
+namespace TH_Bank
 {
     public abstract class UserFactory
     {
@@ -6,7 +8,7 @@
 
         public User CreateUser()
         {
-            return this.MakeUser(new UserDataHandler());
+            return MakeUser(new UserDataHandler());
         }
     }
 }

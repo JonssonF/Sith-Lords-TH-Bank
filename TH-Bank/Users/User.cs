@@ -1,10 +1,10 @@
-﻿namespace Shitlords_Bankomat
+﻿namespace TH_Bank.Users
 {
     public abstract class User
     {
         private string _id;
         private string _passWord;
-       
+
 
         public string Id { get; set; }
         public string PassWord { get; set; }

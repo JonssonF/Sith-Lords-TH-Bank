@@ -1,6 +1,7 @@
 ﻿using System.Xml.Linq;
+using TH_Bank.Users;
 
-namespace Shitlords_Bankomat
+namespace TH_Bank
 {
     public class CustomerFactory : UserFactory
     {
@@ -15,18 +16,18 @@ namespace Shitlords_Bankomat
             string lName = Console.ReadLine();
             Console.WriteLine("Choose a user name:");
             string username = Console.ReadLine();
-            if(udh.Exists(username))
+            if (udh.Exists(username))
             {
                 Console.WriteLine("username exists!");
             }
             Console.WriteLine("Choose a password:");
             string password = Console.ReadLine();
 
-            
+
             User user = new Customer(id, password, fName, lName, username);
 
             return user;
-            
+
         }
     }
 }

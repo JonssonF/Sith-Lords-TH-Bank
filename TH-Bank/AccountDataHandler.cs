@@ -1,6 +1,7 @@
 ﻿using System.Security.Principal;
+using TH_Bank.Accounts;
 
-namespace Shitlords_Bankomat
+namespace TH_Bank
 {
     public class AccountDataHandler : IDataHandler<Account>
     {
@@ -17,17 +18,17 @@ namespace Shitlords_Bankomat
 
             // Finds the row that contains the account to be deleted.
             int deleterow = Array.IndexOf(openFile, deleteThis.ToString());
-            
+
             // Loops trough accounts starting at deleted row, and shifts them one to the left,
             // writing over the deleted account info.
-            for(int i = deleterow + 1; i < openFile.Length; i++)
+            for (int i = deleterow + 1; i < openFile.Length; i++)
             {
                 openFile[i - 1] = openFile[i];
             }
 
             File.WriteAllLines(FilePath, openFile);
-            
-            
+
+
         }
 
         public Account Load()
@@ -54,9 +55,9 @@ namespace Shitlords_Bankomat
                     string[] variables = line.Split('|');
 
                     string accountName = variables[0];
-                    decimal amount = Decimal.Parse(variables[1]);
+                    decimal amount = decimal.Parse(variables[1]);
                     string currency = variables[2];
-                    int accountnumber = Int32.Parse(variables[3]);
+                    int accountnumber = int.Parse(variables[3]);
                     string ownerid = variables[4];
 
                     accounts.Add(new SalaryAccount(amount, currency, accountnumber, ownerid));
@@ -66,11 +67,11 @@ namespace Shitlords_Bankomat
                     string[] variables = line.Split('|');
 
                     string accountName = variables[0];
-                    decimal balance = Decimal.Parse(variables[1]);
+                    decimal balance = decimal.Parse(variables[1]);
                     string currency = variables[2];
-                    int accountnumber = Int32.Parse(variables[3]);
+                    int accountnumber = int.Parse(variables[3]);
                     string ownerid = variables[4];
-                    decimal interest = Decimal.Parse(variables[5]);
+                    decimal interest = decimal.Parse(variables[5]);
 
                     accounts.Add(new SavingsAccount(balance, currency, accountnumber, ownerid));
                 }
@@ -92,9 +93,9 @@ namespace Shitlords_Bankomat
                     string[] variables = lines.Split('|');
 
                     string accountName = variables[0];
-                    decimal amount = Decimal.Parse(variables[1]);
+                    decimal amount = decimal.Parse(variables[1]);
                     string currency = variables[2];
-                    int accountnumber = Int32.Parse(variables[3]);
+                    int accountnumber = int.Parse(variables[3]);
                     string ownerid = variables[4];
 
                     accounts.Add(new SalaryAccount(amount, currency, accountnumber, ownerid));
@@ -104,11 +105,11 @@ namespace Shitlords_Bankomat
                     string[] variables = lines.Split('|');
 
                     string accountName = variables[0];
-                    decimal balance = Decimal.Parse(variables[1]);
+                    decimal balance = decimal.Parse(variables[1]);
                     string currency = variables[2];
-                    int accountnumber = Int32.Parse(variables[3]);
+                    int accountnumber = int.Parse(variables[3]);
                     string ownerid = variables[4];
-                    decimal interest = Decimal.Parse(variables[5]);
+                    decimal interest = decimal.Parse(variables[5]);
 
                     accounts.Add(new SavingsAccount(balance, currency, accountnumber, ownerid));
                 }
@@ -121,16 +122,16 @@ namespace Shitlords_Bankomat
         {
             string[] openFile = File.ReadAllLines(FilePath);
 
-            string x = Array.Find(openFile, y => y.Contains((saveThis.AccountNumber).ToString()));
+            string x = Array.Find(openFile, y => y.Contains(saveThis.AccountNumber.ToString()));
 
             if (x == null)
             {
                 openFile.Append(saveThis.ToString());
-                
+
             }
             else
             {
-                openFile[Array.IndexOf(openFile, Array.Find(openFile, y => y.Contains((saveThis.AccountNumber).ToString())))] = saveThis.ToString();
+                openFile[Array.IndexOf(openFile, Array.Find(openFile, y => y.Contains(saveThis.AccountNumber.ToString())))] = saveThis.ToString();
             }
 
             File.WriteAllLines(FilePath, openFile);

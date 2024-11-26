@@ -1,4 +1,6 @@
-﻿namespace Shitlords_Bankomat
+﻿using TH_Bank.Accounts;
+
+namespace TH_Bank
 {
     public class Transaction
     {
@@ -21,7 +23,7 @@
         }
         public bool TransferFunds() //Method for moneytransfer
         {
-            if(FromAccount.Balance >= Amount)
+            if (FromAccount.Balance >= Amount)
             {
                 Transaction transaction = new Transaction(Amount, FromAccount, ToAccount);
                 FromAccount.Balance -= Amount;
@@ -36,7 +38,7 @@
                 return false;
             }
         }
-       
+
         public override string ToString()
         {
             return $"{TransferDate}|{Amount}|{FromAccount.AccountNumber}|{ToAccount.AccountNumber}";

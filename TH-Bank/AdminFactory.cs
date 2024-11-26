@@ -1,17 +1,19 @@
-﻿namespace Shitlords_Bankomat
+﻿using TH_Bank.Users;
+
+namespace TH_Bank
 {
     internal class AdminFactory : UserFactory
     {
         public override User MakeUser(UserDataHandler n)
         {
-        //    string id;
-        //    string password;
-        //    string userType;
+            //    string id;
+            //    string password;
+            //    string userType;
 
-        //    User user = new Admin(id, password, userType);
+            //    User user = new Admin(id, password, userType);
 
-        //    return user;
-        return null;
+            //    return user;
+            return null;
         }
     }
 }

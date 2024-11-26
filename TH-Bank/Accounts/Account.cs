@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Shitlords_Bankomat
+namespace TH_Bank.Accounts
 {
     public abstract class Account
     {
-       // public List<History> history;
+        // public List<History> history;
         private string _accountName;
         private decimal _amount;
         private decimal _currency;
@@ -21,7 +21,7 @@ namespace Shitlords_Bankomat
 
         public Account(decimal balance, string currency, int accountNumber, string ownerID)
         {
-           //history = new List<History>();
+            //history = new List<History>();
             Balance = balance;
             Currency = currency;
             AccountNumber = accountNumber;

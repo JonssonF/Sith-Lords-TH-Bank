@@ -1,18 +1,18 @@
-﻿namespace Shitlords_Bankomat
+﻿namespace TH_Bank.Menu
 {
     public abstract class Menu
     {
 
         public static bool access;
         public abstract void ShowMenu();
-        
+
         public void Logo()
         {
             //ASCII Art?
         }
         public void LogoText()
         {
-            
+
             Console.WriteLine("" +
                 "   __  ___          __              ___           _                \r\n" +
                 "  /  |/  /__  ___  / /_____ __ __  / _ )__ _____ (_)__  ___ ___ ___\r\n" +
@@ -30,7 +30,7 @@
             access = false;
             //Metod för att återgå till login.
         }
-        
+
         public void Close()
         {
             Console.Clear();

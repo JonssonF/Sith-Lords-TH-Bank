@@ -1,5 +1,4 @@
-﻿
-namespace Shitlords_Bankomat
+﻿namespace TH_Bank
 {
     public class TransactionDataHandler : IDataHandler<Transaction>
     {

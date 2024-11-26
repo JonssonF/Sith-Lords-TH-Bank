@@ -1,6 +1,6 @@
-﻿
+﻿using TH_Bank.Users;
 
-namespace Shitlords_Bankomat
+namespace TH_Bank
 {
     internal class Program
     {
@@ -9,20 +9,20 @@ namespace Shitlords_Bankomat
             var customerFactory = new CustomerFactory();
             var userdatahandler = new UserDataHandler();
 
-            for(int i = 0; i < 4; i++)
+            for (int i = 0; i < 4; i++)
             {
-               userdatahandler.Save(customerFactory.CreateUser());
+                userdatahandler.Save(customerFactory.CreateUser());
             }
 
-            
+
             var userlist = userdatahandler.LoadAll();
 
-            foreach(User u in userlist)
+            foreach (User u in userlist)
             {
                 Console.WriteLine(u.ToString());
             }
 
-           // LogIn();
+            // LogIn();
 
             Console.ReadLine();
         }

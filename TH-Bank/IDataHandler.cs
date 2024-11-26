@@ -1,4 +1,4 @@
-﻿namespace Shitlords_Bankomat
+﻿namespace TH_Bank
 {
     public interface IDataHandler<T>
     {
