@@ -3,9 +3,12 @@
     public abstract class TransactionFactory
     {
         public abstract Transaction DoTransaction(TransactionDataHandler transactionDataHandler);
-        public Transaction CreateTransaction()
+        public Transaction CreateTransaction(Transaction trans)
         {
-            return this.DoTransaction(new TransactionDataHandler());
+            Transaction transaction = new Transaction(trans.Amount, trans.FromAccount, trans.ToAccount, trans.Id);
+            var transactionDataHandler = new TransactionDataHandler();
+            transactionDataHandler.Save(transaction);
+            return this.DoTransaction(transactionDataHandler);
         }
     }
 }
