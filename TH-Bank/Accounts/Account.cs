@@ -4,7 +4,7 @@ namespace TH_Bank
 {
     public abstract class Account
     {
-        // public List<History> history;
+        
         private string _accountName;
         private decimal _amount;
         private decimal _currency;
@@ -17,22 +17,34 @@ namespace TH_Bank
         public int AccountNumber { get; set; }
         public string OwnerID { get; set; }
         public decimal Interest { get; set; }
+        public List<Log> Log {get; set; }
 
 
         public Account(decimal balance, string currency, int accountNumber, string ownerID)
         {
-            //history = new List<History>();
+            Log = new List<Log>();
             Balance = balance;
             Currency = currency;
             AccountNumber = accountNumber;
             OwnerID = ownerID;
         }
 
-        public abstract decimal GetInterest();
-
         public override string ToString()
         {
             return $"{OwnerID}|{AccountNumber}|{Balance}|{Currency}";
         }
+
+        public abstract decimal GetInterest();
+
+        public void UpdateLog() { }
+
+        public void ViewLog() { }
+
+        public void DoTransaction() { }
+
+        public void Withdraw() { }
+
+
+
     }
 }

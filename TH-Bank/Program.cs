@@ -1,5 +1,7 @@
 ﻿
 
+using System.Security.Cryptography.X509Certificates;
+
 namespace TH_Bank
 {
     internal class Program
@@ -7,9 +9,6 @@ namespace TH_Bank
         static void Main(string[] args)
         {
 
-            // TESTING 
-
-            FilePaths.CreateFiles();
             var customerFactory = new CustomerFactory();
             var userdatahandler = new UserDataHandler();
 
