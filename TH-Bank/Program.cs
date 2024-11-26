@@ -8,68 +8,73 @@ namespace TH_Bank
     {
         static void Main(string[] args)
         {
-            // TEST
-            FilePaths.CreateFiles();
-            User user = new Customer("id1", "i", "i", "i", "i");
-            ActiveUserSingleton.GetInstance(user);
 
-            user.userMenu.ShowAccounts(ActiveUserSingleton.GetInstance(), new AccountDataHandler());
-
-            // END TEST
-
-            // LogIn();
+            LogIn(new UserDataHandler());
 
             Console.ReadLine();
 
-            // END TESTING
         }
 
-        void LogIn(UserDataHandler usr)
+        public static void LogIn(UserDataHandler userDataHandler)
         {
-            //bool login = true;
+            bool userValidation = false;
+            bool loginSuccess = false;
+            int loginAttempts = 0;
+            int maxAttempts = 3;
+            string userName = "";
+            string passWord = "";
 
-            //while(login == true)
-            //{
-            //    Console.WriteLine("Welcome to Goliath National Bank.");
-            //    Console.WriteLine("Please enter your username: ");
-            //    string userName = Console.ReadLine();
+            while (!userValidation)
+            {
+                Console.WriteLine("Welcome to TH-Bank.");
+                Console.WriteLine("Please enter your username: ");
+                userName = Console.ReadLine();
 
-            //    if (blockedUser.Contains(userName))
-            //    {
-            //        Console.WriteLine($"Username: {userName}, is unfortunately blocked. Please contact bank for further instructions.");
-            //        return;
-            //    }
-            //    else
-            //    {
-            //        login = false;
-            //        return;
-            //    }
-            //}
+                // Does user exist?
+                if(!userDataHandler.Exists(userName))
+                {
+                    Console.WriteLine("User does not exist!");
+                    
+                }
 
-            //int logInAttempts = 0;
-            //bool loggedIn = false;
+                // is user blocked?
 
-            //while(logInAttempts < 3 && !loggedIn)
-            //{
-            //    Console.WriteLine($"{userName} please type in your password.");
-            //    string userPassword = Console.ReadLine();
+                if (userDataHandler.BlockCheck(userName))
+                {
+                    Console.WriteLine("You have been denied access. Contact you local office" +
+                        "at office hours (9:30 AM - 10 AM on Wednesdays");
+                }
 
+                if(!userDataHandler.BlockCheck(userName) && userDataHandler.Exists(userName))
+                    {
+                    userValidation = true;
+                    }
 
-            //    if (UserCheck.Contains(userName) && UserCheck[userName].Password == userPassword)
-            //    {
-            //        loggedIn = true;
-
-            //        usr.
-
-
-            //    }
-
-            //}
+            }
 
 
-            //PasswordCheck
-            //BlockedCheck
-            //Usercheck.
+            while (loginAttempts < maxAttempts)
+            {
+                Console.WriteLine($"{userName} please type in your password.");
+                passWord = Console.ReadLine();
+
+
+                if (userDataHandler.PasswordCheck(userName,passWord))
+                {
+                    Console.WriteLine("LOGIN SUCCESS");
+                }
+                else
+                {
+                    Console.WriteLine($"Login failed. {maxAttempts - loginAttempts} attempts left.");
+                }
+
+                if(loginAttempts == maxAttempts)
+                {
+                    // Exit program
+                }
+                
+            }
+
 
         }
     }
