@@ -14,8 +14,6 @@
 
         public bool IsBlocked { get; set; }
 
-        public Menu userMenu { get; set; }
-
         public User(string id, string passWord, string userName)
         {
             Id = id;

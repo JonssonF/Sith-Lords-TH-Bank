@@ -18,7 +18,6 @@ namespace TH_Bank
             LastName = lastName;
             IsBlocked = false;
             dataHandler = new AccountDataHandler();
-            userMenu = new CustomerMenu();
         }
 
         public override string ToString()

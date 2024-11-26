@@ -8,11 +8,6 @@ namespace TH_Bank
     {
         static void Main(string[] args)
         {
-            var user = new Customer("id1", "hej", "Vattenflaska", "Påse", "Telefon");
-            var dh = new UserDataHandler();
-
-            dh.Save(user);
-
             LogIn(new UserDataHandler());
 
             Console.ReadLine();
@@ -65,7 +60,13 @@ namespace TH_Bank
 
                 if (userDataHandler.PasswordCheck(userName,passWord))
                 {
-                    Console.WriteLine("LOGIN SUCCESS");
+
+                    // Successful login! Loads user into active user spot
+                    var activeUser = ActiveUserSingleton.GetInstance(userDataHandler.Load(userName));
+                    
+                    LoadMenu(activeUser.LoggedInUser);
+                    break;
+
                 }
                 else
                 {
@@ -84,6 +85,27 @@ namespace TH_Bank
             }
 
 
+        }
+
+        public static void LoadMenu(User user)
+        {
+            Menu menu;
+
+            // Chooses the correct menu depending on user type.
+            if(user.UserType == "Admin")
+            {
+                menu = new AdminMenu();
+            }
+            else if(user.UserType == "Customer")
+            {
+                menu = new CustomerMenu();
+            }
+            else
+            {
+                throw new Exception($"Ingen meny matchar användare av typen: {user.UserType}");
+            }
+
+            menu.ShowMenu();
         }
     }
 }
