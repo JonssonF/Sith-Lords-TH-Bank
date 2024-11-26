@@ -1,14 +1,15 @@
-﻿namespace TH_Bank
+﻿using TH_Bank;
+
+namespace TH_Bank
 {
-    public abstract class TransactionFactory
+    public class TransactionFactory
     {
-        public abstract Transaction DoTransaction(TransactionDataHandler transactionDataHandler);
-        public Transaction CreateTransaction(Transaction trans)
+        public Transaction CreateTransaction(decimal Amount, Account FromAccount, Account ToAccount, string Id)
         {
-            Transaction transaction = new Transaction(trans.Amount, trans.FromAccount, trans.ToAccount, trans.Id);
+            Transaction transaction = new Transaction(Amount, FromAccount, ToAccount, Id);
             var transactionDataHandler = new TransactionDataHandler();
             transactionDataHandler.Save(transaction);
-            return this.DoTransaction(transactionDataHandler);
+            return transaction;
         }
     }
 }
