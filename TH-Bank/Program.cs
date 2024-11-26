@@ -8,22 +8,14 @@ namespace TH_Bank
     {
         static void Main(string[] args)
         {
+            // TEST
+            FilePaths.CreateFiles();
+            User user = new Customer("id1", "i", "i", "i", "i");
+            ActiveUserSingleton.GetInstance(user);
 
-            var customerFactory = new CustomerFactory();
-            var userdatahandler = new UserDataHandler();
+            user.userMenu.ShowAccounts(ActiveUserSingleton.GetInstance(), new AccountDataHandler());
 
-            for (int i = 0; i < 4; i++)
-            {
-                userdatahandler.Save(customerFactory.CreateUser());
-            }
-
-
-            var userlist = userdatahandler.LoadAll();
-
-            foreach (User u in userlist)
-            {
-                Console.WriteLine(u.ToString());
-            }
+            // END TEST
 
             // LogIn();
 

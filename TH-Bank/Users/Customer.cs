@@ -10,7 +10,6 @@ namespace TH_Bank
         public override string UserType { get; } = "Customer";
 
         public AccountDataHandler dataHandler { get; set; }
-        public CustomerMenu menu { get; set; }
 
         public bool IsBlocked { get; set; }
 
@@ -21,7 +20,7 @@ namespace TH_Bank
             LastName = lastName;
             IsBlocked = false;
             dataHandler = new AccountDataHandler();
-            menu = new CustomerMenu();
+            userMenu = new CustomerMenu();
         }
 
         public override string ToString()

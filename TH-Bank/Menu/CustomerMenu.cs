@@ -43,7 +43,7 @@ namespace TH_Bank
                 {
 
                     case 1:
-                        ShowAccounts(); // Shows accounts & balance of current user.
+                        //ShowAccounts(); // Shows accounts & balance of current user.
                         break;
 
                     case 2:
@@ -73,11 +73,11 @@ namespace TH_Bank
                 }
             }
         }
-        void ShowAccounts(ActiveUserSingleton user, AccountDataHandler activeUser)
+        public override void ShowAccounts(ActiveUserSingleton user, AccountDataHandler activeUser)
         {
             List<Account> accountList = activeUser.LoadAll(user.LoggedInUser.Id);
 
-            AccountDataHandler accountShow = new AccountDataHandler();
+            
 
 
             foreach (var acc in accountList)

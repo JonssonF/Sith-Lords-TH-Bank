@@ -27,6 +27,12 @@ namespace TH_Bank
             DrawBorder();
         }
 
+        public override void ShowAccounts(ActiveUserSingleton activeUser, AccountDataHandler accountDataHandler)
+        {
+            throw new NotImplementedException();
+        }
+
+
         public void MenuAdmin()
         {
             optionCount = _menu.Length; // Combined with Choice method from MenuClass wrongful inputs can't be made.

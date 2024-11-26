@@ -109,7 +109,7 @@ namespace TH_Bank
                     string currency = variables[2];
                     int accountnumber = int.Parse(variables[3]);
                     string ownerid = variables[4];
-                    decimal interest = decimal.Parse(variables[5]);
+                    //decimal interest = decimal.Parse(variables[5]);
 
                     accounts.Add(new SavingsAccount(balance, currency, accountnumber, ownerid));
                 }

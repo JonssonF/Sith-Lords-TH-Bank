@@ -9,6 +9,8 @@
 
         public abstract void ShowMenu();
 
+        public abstract void ShowAccounts(ActiveUserSingleton activeUser, AccountDataHandler accountDataHandler);
+
         internal void Return() // Method to return to Login.
         {
             Console.Clear();
