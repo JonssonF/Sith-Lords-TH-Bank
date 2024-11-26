@@ -1,5 +1,4 @@
-﻿using TH_Bank.Users;
-
+﻿
 namespace TH_Bank
 {
     internal class AdminFactory : UserFactory
