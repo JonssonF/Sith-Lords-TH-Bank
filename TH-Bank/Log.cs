@@ -1,7 +1,7 @@
 ﻿
 namespace TH_Bank
 {
-    internal class Log
+    public class Log
     {
         DateTime _timeStamp;
         private decimal _amount;
