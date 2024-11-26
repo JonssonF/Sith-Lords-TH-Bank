@@ -8,6 +8,10 @@ namespace TH_Bank
     {
         static void Main(string[] args)
         {
+            var user = new Customer("id1", "hej", "Vattenflaska", "Påse", "Telefon");
+            var dh = new UserDataHandler();
+
+            dh.Save(user);
 
             LogIn(new UserDataHandler());
 
@@ -39,13 +43,13 @@ namespace TH_Bank
 
                 // is user blocked?
 
-                if (userDataHandler.BlockCheck(userName))
+                if (!userDataHandler.BlockCheck(userName))
                 {
                     Console.WriteLine("You have been denied access. Contact you local office" +
                         "at office hours (9:30 AM - 10 AM on Wednesdays");
                 }
 
-                if(!userDataHandler.BlockCheck(userName) && userDataHandler.Exists(userName))
+                if(userDataHandler.BlockCheck(userName) && userDataHandler.Exists(userName))
                     {
                     userValidation = true;
                     }
@@ -65,12 +69,16 @@ namespace TH_Bank
                 }
                 else
                 {
+                    loginAttempts++;
                     Console.WriteLine($"Login failed. {maxAttempts - loginAttempts} attempts left.");
                 }
 
                 if(loginAttempts == maxAttempts)
                 {
-                    // Exit program
+                    User blockme = userDataHandler.Load(userName);
+                    blockme.IsBlocked = true;
+                    userDataHandler.Save(blockme);
+                    
                 }
                 
             }

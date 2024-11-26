@@ -2,10 +2,10 @@
 {
     public abstract class LogFactory
     {
-        public abstract Log PerformLog(LogDataHandler logDataHandler);
-        public Log CreateLog()
+        public abstract Record PerformRecord(LogDataHandler logDataHandler);
+        public Record CreateRecord()
         {
-            return this.PerformLog(new LogDataHandler());
+            return this.PerformRecord(new LogDataHandler());
         }
     }
 }

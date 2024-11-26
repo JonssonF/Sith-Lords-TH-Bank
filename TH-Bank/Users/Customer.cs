@@ -11,9 +11,7 @@ namespace TH_Bank
 
         public AccountDataHandler dataHandler { get; set; }
 
-        public bool IsBlocked { get; set; }
-
-        public Customer(string id, string passWord, string firstName, string lastName, string userName) : base(id, passWord, userName)
+        public Customer(string id, string passWord, string userName, string firstName, string lastName) : base(id, passWord, userName)
         {
             accounts = new List<Account>();
             FirstName = firstName;
@@ -26,7 +24,7 @@ namespace TH_Bank
         public override string ToString()
         {
 
-            return $"{Id}|{UserType}|{FirstName}|{LastName}|";
+            return $"{Id}|{UserName}|{PassWord}|{FirstName}|{LastName}|{UserType}|Blocked:{IsBlocked}";
         }
 
     }

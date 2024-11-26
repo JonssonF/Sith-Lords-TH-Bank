@@ -12,6 +12,8 @@
         public bool IsLoggedIn { get; set; }
         public string UserName { get; set; }
 
+        public bool IsBlocked { get; set; }
+
         public Menu userMenu { get; set; }
 
         public User(string id, string passWord, string userName)
@@ -20,8 +22,8 @@
             PassWord = passWord;
             IsLoggedIn = false;
             UserName = userName;
-
-            
         }
+
+
     }
 }
