@@ -13,24 +13,23 @@ namespace TH_Bank
         public Account FromAccount { get; set; }
         public Account ToAccount { get; set; }
         public DateTime TransferDate { get; set; }
+        public string Id { get; set; }
 
-        public Transaction(decimal amount, Account fromAccount, Account toAccount)
+        public Transaction(decimal amount, Account fromAccount, Account toAccount, string id)
         {
             Amount = amount;
             FromAccount = fromAccount;
             ToAccount = toAccount;
+            Id = id;
             TransferDate = DateTime.Now;
         }
         public bool TransferFunds() //Method for moneytransfer
         {
             if (FromAccount.Balance >= Amount)
-            {
-                Transaction transaction = new Transaction(Amount, FromAccount, ToAccount);
+            {                
                 FromAccount.Balance -= Amount;
                 ToAccount.Balance += Amount;
-                var transactionDataHandler = new TransactionDataHandler();
-                transactionDataHandler.Save(transaction);
-                return true;
+                return true;                                
             }
             else
             {
@@ -38,10 +37,10 @@ namespace TH_Bank
                 return false;
             }
         }
-
         public override string ToString()
         {
             return $"{TransferDate}|{Amount}|{FromAccount.AccountNumber}|{ToAccount.AccountNumber}";
+            //Add "Id" to ToString. Figure out a way to make this unique
         }
     }
 }
