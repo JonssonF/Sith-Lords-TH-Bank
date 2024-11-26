@@ -21,6 +21,11 @@
 
         public static ActiveUserSingleton GetInstance()
         {
+            if (_instance == null)
+            {
+                throw new Exception("No User is currently Active and Logged in!");
+            }
+
             return _instance;
         }
 
