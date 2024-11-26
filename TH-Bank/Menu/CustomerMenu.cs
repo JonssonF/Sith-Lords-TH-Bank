@@ -4,39 +4,46 @@ namespace TH_Bank
     public class CustomerMenu : Menu
     {
 
-
         public CustomerMenu()
         {
-
+            _menu = new string[] // Menu in array = easy to add options.
+            {
+                "1. Show balance / accounts.",
+                "2. Show transactions.",
+                "3. Internal transfer.",
+                "4. External transfer.",
+                "5. Apply for loan.",
+                "6. Logout.",
+                "7. Exit program.",
+            };
+            menuWidth = CalculateWidth(extraWidth: 10);
         }
+
 
         public override void ShowMenu()
         {
-            Console.WriteLine($"Customer Menu:\n" +
-                $"1. Show balance / accounts.\n" +
-                $"2. Show transactions.\n" +
-                $"3. Internal transfer.\n" +
-                $"4. External transfer.\n" +
-                $"5. Set up new loan.\n" +
-                $"6. Logout." +
-                $"7. Exit program.");
-            Console.Write("");
+            DrawBorder();
+            foreach (string item in _menu)
+            {
+                DrawMenuItem(item);
+            }
+            DrawBorder();
         }
 
-        public void MenuCustomer(User user)
+
+        public void MenuCustomer()
         {
+            optionCount = _menu.Length; // Combined with Choice method from MenuClass wrongful inputs can't be made.
             access = true;
             while (access)
             {
                 ShowMenu();
-                int customerChoice;
-                int.TryParse(Console.ReadLine(), out customerChoice);
+                int customerChoice = Choice(optionCount); 
                 switch (customerChoice)
                 {
 
                     case 1:
-                        // Show accounts / balance.
-                        // Foreach account in accounts?
+                        //ShowAccounts(); // Shows accounts & balance of current user.
                         break;
 
                     case 2:
@@ -63,14 +70,21 @@ namespace TH_Bank
                     case 7:
                         Close(); // Close application.
                         break;
-
-                    default:
-                        Console.WriteLine("Please, choose a option between 1-7.");
-                        break;
                 }
             }
         }
+        public override void ShowAccounts(ActiveUserSingleton user, AccountDataHandler activeUser)
+        {
+            List<Account> accountList = activeUser.LoadAll(user.LoggedInUser.Id);
 
+            
+
+
+            foreach (var acc in accountList)
+            {
+                Console.WriteLine(acc.ToString());
+            }
+        }
 
     }
 }

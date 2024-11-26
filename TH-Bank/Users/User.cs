@@ -11,7 +11,10 @@
         public abstract string UserType { get; }
         public bool IsLoggedIn { get; set; }
         public string UserName { get; set; }
-        //Menu userMenu
+
+        public bool IsBlocked { get; set; }
+
+        public Menu userMenu { get; set; }
 
         public User(string id, string passWord, string userName)
         {
@@ -19,8 +22,8 @@
             PassWord = passWord;
             IsLoggedIn = false;
             UserName = userName;
-            //_dataHandler = new DataHandler;
-            //userMenu = new Menu;
         }
+
+
     }
 }

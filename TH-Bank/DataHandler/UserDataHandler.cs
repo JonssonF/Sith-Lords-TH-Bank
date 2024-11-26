@@ -79,11 +79,19 @@ namespace TH_Bank
                 {
                     string[] variables = line.Split('|');
                     string id = variables[0];
-                    string pw = variables[1];
-                    string fn = variables[2];
-                    string ln = variables[3];
-                    string un = variables[4];
-                    var customer = new Customer(id, pw, fn, ln, un);
+                    string username = variables[1];
+                    string password = variables[2];
+                    string firstname = variables[3];
+                    string lastname = variables[4];
+                    // user type
+                    // blocked?
+
+                    var customer = new Customer(id, username, password, firstname, lastname);
+
+                    if(line.Contains("True"))
+                    { 
+                        customer.IsBlocked = true;  
+                    }
 
                     allusers.Add(customer);
                 }
@@ -101,9 +109,9 @@ namespace TH_Bank
         {
             string[] openFile = File.ReadAllLines(FilePath);
 
-            if (!openFile.Contains(saveThis.Id))
+            if (!openFile.Contains(saveThis.UserName))
             {
-                openFile.Append(saveThis.ToString());
+                openFile = openFile.Append(saveThis.ToString()).ToArray();
             }
             else
             {
@@ -139,7 +147,7 @@ namespace TH_Bank
 
             foreach (string s in openFile)
             {
-                if (s.Contains(username) && s.Contains("Blocked"))
+                if (s.Contains(username) && s.Contains("Blocked:True"))
                 {
                     return false;
                 }

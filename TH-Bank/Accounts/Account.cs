@@ -17,12 +17,12 @@ namespace TH_Bank
         public int AccountNumber { get; set; }
         public string OwnerID { get; set; }
         public decimal Interest { get; set; }
-        public List<Log> Log {get; set; }
+        public List<Record> Log {get; set; }
 
 
         public Account(decimal balance, string currency, int accountNumber, string ownerID)
         {
-            Log = new List<Log>();
+            Log = new List<Record>();
             Balance = balance;
             Currency = currency;
             AccountNumber = accountNumber;

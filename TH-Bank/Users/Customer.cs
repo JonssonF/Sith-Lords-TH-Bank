@@ -10,24 +10,21 @@ namespace TH_Bank
         public override string UserType { get; } = "Customer";
 
         public AccountDataHandler dataHandler { get; set; }
-        public CustomerMenu menu { get; set; }
 
-        public bool IsBlocked { get; set; }
-
-        public Customer(string id, string passWord, string firstName, string lastName, string userName) : base(id, passWord, userName)
+        public Customer(string id, string passWord, string userName, string firstName, string lastName) : base(id, passWord, userName)
         {
             accounts = new List<Account>();
             FirstName = firstName;
             LastName = lastName;
             IsBlocked = false;
             dataHandler = new AccountDataHandler();
-            menu = new CustomerMenu();
+            userMenu = new CustomerMenu();
         }
 
         public override string ToString()
         {
 
-            return $"{Id}|{UserType}|{FirstName}|{LastName}|";
+            return $"{Id}|{UserName}|{PassWord}|{FirstName}|{LastName}|{UserType}|Blocked:{IsBlocked}";
         }
 
     }

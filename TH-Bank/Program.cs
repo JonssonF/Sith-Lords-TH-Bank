@@ -1,79 +1,88 @@
 ﻿
 
+using System.Security.Cryptography.X509Certificates;
+
 namespace TH_Bank
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            var customerFactory = new CustomerFactory();
-            var userdatahandler = new UserDataHandler();
+            var user = new Customer("id1", "hej", "Vattenflaska", "Påse", "Telefon");
+            var dh = new UserDataHandler();
 
-            for (int i = 0; i < 4; i++)
-            {
-                userdatahandler.Save(customerFactory.CreateUser());
-            }
+            dh.Save(user);
 
-
-            var userlist = userdatahandler.LoadAll();
-
-            foreach (User u in userlist)
-            {
-                Console.WriteLine(u.ToString());
-            }
-
-            // LogIn();
+            LogIn(new UserDataHandler());
 
             Console.ReadLine();
 
         }
 
-        void LogIn(UserDataHandler usr)
+        public static void LogIn(UserDataHandler userDataHandler)
         {
-            //bool login = true;
+            bool userValidation = false;
+            bool loginSuccess = false;
+            int loginAttempts = 0;
+            int maxAttempts = 3;
+            string userName = "";
+            string passWord = "";
 
-            //while(login == true)
-            //{
-            //    Console.WriteLine("Welcome to Goliath National Bank.");
-            //    Console.WriteLine("Please enter your username: ");
-            //    string userName = Console.ReadLine();
+            while (!userValidation)
+            {
+                Console.WriteLine("Welcome to TH-Bank.");
+                Console.WriteLine("Please enter your username: ");
+                userName = Console.ReadLine();
 
-            //    if (blockedUser.Contains(userName))
-            //    {
-            //        Console.WriteLine($"Username: {userName}, is unfortunately blocked. Please contact bank for further instructions.");
-            //        return;
-            //    }
-            //    else
-            //    {
-            //        login = false;
-            //        return;
-            //    }
-            //}
+                // Does user exist?
+                if(!userDataHandler.Exists(userName))
+                {
+                    Console.WriteLine("User does not exist!");
+                    
+                }
 
-            //int logInAttempts = 0;
-            //bool loggedIn = false;
+                // is user blocked?
 
-            //while(logInAttempts < 3 && !loggedIn)
-            //{
-            //    Console.WriteLine($"{userName} please type in your password.");
-            //    string userPassword = Console.ReadLine();
+                if (!userDataHandler.BlockCheck(userName))
+                {
+                    Console.WriteLine("You have been denied access. Contact you local office" +
+                        "at office hours (9:30 AM - 10 AM on Wednesdays");
+                }
 
+                if(userDataHandler.BlockCheck(userName) && userDataHandler.Exists(userName))
+                    {
+                    userValidation = true;
+                    }
 
-            //    if (UserCheck.Contains(userName) && UserCheck[userName].Password == userPassword)
-            //    {
-            //        loggedIn = true;
-
-            //        usr.
-
-
-            //    }
-
-            //}
+            }
 
 
-            //PasswordCheck
-            //BlockedCheck
-            //Usercheck.
+            while (loginAttempts < maxAttempts)
+            {
+                Console.WriteLine($"{userName} please type in your password.");
+                passWord = Console.ReadLine();
+
+
+                if (userDataHandler.PasswordCheck(userName,passWord))
+                {
+                    Console.WriteLine("LOGIN SUCCESS");
+                }
+                else
+                {
+                    loginAttempts++;
+                    Console.WriteLine($"Login failed. {maxAttempts - loginAttempts} attempts left.");
+                }
+
+                if(loginAttempts == maxAttempts)
+                {
+                    User blockme = userDataHandler.Load(userName);
+                    blockme.IsBlocked = true;
+                    userDataHandler.Save(blockme);
+                    
+                }
+                
+            }
+
 
         }
     }
