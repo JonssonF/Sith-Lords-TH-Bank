@@ -13,7 +13,6 @@ namespace TH_Bank
             LogIn(new UserDataHandler());
 
             Console.ReadLine();
-
         }
 
         public static void CreateFiles()
@@ -50,11 +49,9 @@ namespace TH_Bank
                 if(!userDataHandler.Exists(userName))
                 {
                     Console.WriteLine("User does not exist!");
-                    
                 }
 
                 // is user blocked?
-
                 if (!userDataHandler.BlockCheck(userName))
                 {
                     Console.WriteLine("You have been denied access. Contact you local office" +
@@ -79,9 +76,9 @@ namespace TH_Bank
                 {
 
                     // Successful login! Loads user into active user spot
-                    var activeUser = ActiveUserSingleton.GetInstance(userDataHandler.Load(userName));
+                    var activeUser = ActiveUserSingleton.SetInstance(userDataHandler.Load(userName));
                     
-                    LoadMenu(activeUser.LoggedInUser);
+                    LoadMenu(activeUser);
                     break;
 
                 }

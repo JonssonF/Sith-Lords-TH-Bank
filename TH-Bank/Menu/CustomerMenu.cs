@@ -75,10 +75,7 @@ namespace TH_Bank
         }
         public override void ShowAccounts(ActiveUserSingleton user, AccountDataHandler activeUser)
         {
-            List<Account> accountList = activeUser.LoadAll(user.LoggedInUser.Id);
-
-            
-
+            List<Account> accountList = activeUser.LoadAll(user.UserName);
 
             foreach (var acc in accountList)
             {

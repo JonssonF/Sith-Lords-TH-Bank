@@ -1,34 +1,26 @@
 ﻿namespace TH_Bank
 {
-    public sealed class ActiveUserSingleton
+    public sealed class ActiveUserSingleton : User
     {
-        private static ActiveUserSingleton _instance = null;
+        public override string UserType => throw new NotImplementedException();
 
-        public User LoggedInUser;
-        private ActiveUserSingleton(User user)
+        private static User? _instance;
+        private ActiveUserSingleton(string id, string passWord, string userName) : base(id, passWord, userName)
         {
-            LoggedInUser = user;
-        }
 
-        public User GetUser()
-        {
-            return LoggedInUser;
         }
-        public static ActiveUserSingleton GetInstance(User loginUser)
+        public static User SetInstance(User user)
         {
             if (_instance == null)
             {
-                _instance = new ActiveUserSingleton(loginUser);
+                _instance = user;
             }
-            
-                return _instance;
-        }
-
-        public static ActiveUserSingleton GetInstance()
-        {
             return _instance;
         }
 
-        
+        public static User GetInstance()
+        {
+            return _instance;
+        } 
     }
 }
