@@ -1,6 +1,4 @@
-﻿using TH_Bank;
-
-namespace TH_Bank
+﻿namespace TH_Bank
 {
     public class TransactionFactory
     {
