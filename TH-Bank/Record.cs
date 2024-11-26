@@ -1,7 +1,7 @@
 ﻿
 namespace TH_Bank
 {
-    public class Log
+    public class Record
     {
         DateTime _timeStamp;
         private decimal _amount;
@@ -12,13 +12,20 @@ namespace TH_Bank
         public decimal Amount { get; set; }
         public int FromAccount { get; set; }
         public int ToAccount { get; set; }
+        public string Id { get; set; }
 
-        public Log(decimal amount, int fromAccount, int toAccount)
+        public Record(decimal amount, int fromAccount, int toAccount, string id)
         {
             TimeStamp = DateTime.Now;
             Amount = amount;
             FromAccount = fromAccount;
             ToAccount = toAccount;
+            Id = id;
+        }
+
+        public override string ToString()
+        {
+            return $"{TimeStamp}|{Amount}|{FromAccount}|{ToAccount}";
         }
     }
 }
