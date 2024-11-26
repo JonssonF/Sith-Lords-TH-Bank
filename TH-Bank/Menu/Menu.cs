@@ -1,4 +1,4 @@
-﻿namespace TH_Bank.Menu
+﻿namespace TH_Bank
 {
     public abstract class Menu
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TH_Bank.Accounts
+namespace TH_Bank
 {
     public abstract class Account
     {

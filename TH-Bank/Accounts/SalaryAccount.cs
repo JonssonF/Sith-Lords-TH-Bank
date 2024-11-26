@@ -1,4 +1,4 @@
-﻿namespace TH_Bank.Accounts
+﻿namespace TH_Bank
 {
     internal class SalaryAccount : Account
     {

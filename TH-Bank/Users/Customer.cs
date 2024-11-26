@@ -1,8 +1,6 @@
-﻿using TH_Bank;
-using TH_Bank.Accounts;
-using TH_Bank.Menu;
+﻿
 
-namespace TH_Bank.Users
+namespace TH_Bank
 {
     public class Customer : User
     {

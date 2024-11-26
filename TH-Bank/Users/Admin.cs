@@ -1,4 +1,4 @@
-﻿namespace TH_Bank.Users
+﻿namespace TH_Bank
 {
     internal class Admin : User
     {

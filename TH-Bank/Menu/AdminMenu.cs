@@ -1,6 +1,6 @@
-﻿using TH_Bank.Users;
+﻿
 
-namespace TH_Bank.Menu
+namespace TH_Bank
 {
     public class AdminMenu : Menu
     {
