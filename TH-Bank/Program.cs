@@ -6,6 +6,10 @@ namespace TH_Bank
     {
         static void Main(string[] args)
         {
+
+            // TESTING 
+
+            FilePaths.CreateFiles();
             var customerFactory = new CustomerFactory();
             var userdatahandler = new UserDataHandler();
 
@@ -25,6 +29,8 @@ namespace TH_Bank
             // LogIn();
 
             Console.ReadLine();
+
+            // END TESTING
         }
 
         void LogIn(UserDataHandler usr)
