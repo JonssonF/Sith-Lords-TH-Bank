@@ -4,33 +4,39 @@ namespace TH_Bank
 {
     public class AdminMenu : Menu
     {
-
         public AdminMenu()
         {
-
+            _menu = new string[]
+        {
+            "1. Add new customer.",
+            "2. Handle suspended customers.",
+            "3. Change currency exchange rate.",
+            "4. Logout.",
+            "5. Exit program.",
+            // Menu in array = easy to add options.
+        };
+            menuWidth = CalculateWidth(extraWidth: 10);
         }
-
 
         public override void ShowMenu()
         {
-            Console.WriteLine($"Admin Menu:\n" +
-                $"1. Add new customer." +
-                $"2. Handle suspended customers.\n" +
-                $"3. Change currency exchange rate.\n" +
-                $"4. Logout.\n" +
-                $"5. Exit program.");
-            Console.Write("");
+            DrawBorder();
+            foreach (string item in _menu)
+            {
+                DrawMenuItem(item);
+
+            }
+            DrawBorder();
         }
 
-        public void MenuAdmin(User user)
+        public void MenuAdmin()
         {
-
+            optionCount = _menu.Length; // Combined with Choice method from MenuClass wrongful inputs can't be made.
             access = true;
             while (access)
             {
                 ShowMenu();
-                int adminChoice;
-                int.TryParse(Console.ReadLine(), out adminChoice);
+                int adminChoice = Choice(optionCount); 
                 switch (adminChoice)
                 {
 
@@ -55,10 +61,6 @@ namespace TH_Bank
 
                     case 5:
                         Close();
-                        break;
-
-                    default:
-                        Console.WriteLine("Please, choose a option between 1-5.");
                         break;
                 }
             }
