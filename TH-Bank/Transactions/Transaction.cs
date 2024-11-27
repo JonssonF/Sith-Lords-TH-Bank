@@ -53,13 +53,17 @@ namespace TH_Bank
             int fromacc = Int32.Parse(Console.ReadLine()) - 1;
             //Display igen?
             Console.WriteLine("Välj ett konto att föra över pengar till: ");
+            //for (int i = 0; i < accounts.Count; i++)
+            //{
+            //    Console.WriteLine($"{i + 1}, Konto: {accounts[i].AccountNumber} Saldo: {accounts[i].Balance}");
+            //}
             int toacc = Int32.Parse(Console.ReadLine()) - 1;
 
-            Account fromAccount = accounts[fromacc];
-            Account toAccount = accounts[toacc];
+            Account FromAccount = accounts[fromacc];
+            Account ToAccount = accounts[toacc];
 
             Console.WriteLine("Ange beloppet du vill föra över: ");
-            decimal amount = decimal.Parse(Console.ReadLine()); // Se över...
+            decimal Amount = decimal.Parse(Console.ReadLine()); // IMPLEMENTERA FELHANTERING**
 
             var transaction = new TransactionFactory().CreateTransaction(Amount, FromAccount, ToAccount, Id);
             transaction.TransferFunds();

@@ -2,7 +2,7 @@
 
 namespace TH_Bank
 {
-    public class Account
+    public abstract class Account
     {
         
         private string _accountName;
@@ -35,16 +35,6 @@ namespace TH_Bank
         }
 
         public abstract decimal GetInterest();
-
-        public void UpdateLog() { }
-
-        public void ViewLog() { }
-
-        public void DoTransaction() { }
-
-        public void Withdraw() { }
-
-
 
     }
 }
