@@ -50,28 +50,25 @@ namespace TH_Bank
             foreach (string line in openFile)
             {
 
-                if (line.Contains("BasicAccount"))
+                if (line.Contains("SalaryAccount"))
                 {
                     string[] variables = line.Split('|');
 
-                    string accountName = variables[0];
-                    decimal amount = decimal.Parse(variables[1]);
-                    string currency = variables[2];
-                    int accountnumber = int.Parse(variables[3]);
-                    string ownerid = variables[4];
+                    string ownerid = variables[0];
+                    int accountnumber = int.Parse(variables[1]);
+                    decimal balance = decimal.Parse(variables[2]);
+                    string currency = variables[3];
 
-                    accounts.Add(new SalaryAccount(amount, currency, accountnumber, ownerid));
+                    accounts.Add(new SalaryAccount(balance, currency, accountnumber, ownerid));
                 }
                 else if (line.Contains("SavingsAccount"))
                 {
                     string[] variables = line.Split('|');
 
-                    string accountName = variables[0];
-                    decimal balance = decimal.Parse(variables[1]);
-                    string currency = variables[2];
-                    int accountnumber = int.Parse(variables[3]);
-                    string ownerid = variables[4];
-                    decimal interest = decimal.Parse(variables[5]);
+                    string ownerid = variables[0];
+                    int accountnumber = int.Parse(variables[1]);
+                    decimal balance = decimal.Parse(variables[2]);
+                    string currency = variables[3];
 
                     accounts.Add(new SavingsAccount(balance, currency, accountnumber, ownerid));
                 }
@@ -92,29 +89,29 @@ namespace TH_Bank
                 {
                     string[] variables = lines.Split('|');
 
-                    string accountName = variables[0];
-                    decimal amount = decimal.Parse(variables[1]);
-                    string currency = variables[2];
-                    int accountnumber = int.Parse(variables[3]);
-                    string ownerid = variables[4];
+                    string ownerid = variables[0];
+                    int accountnumber = int.Parse(variables[1]);
+                    decimal balance = decimal.Parse(variables[2]);
+                    string currency = variables[3];
 
-                    accounts.Add(new SalaryAccount(amount, currency, accountnumber, ownerid));
+                    accounts.Add(new SalaryAccount(balance, currency, accountnumber, ownerid));
                 }
                 else if (lines.Contains(userid) && lines.Contains("SavingsAccount"))
                 {
                     string[] variables = lines.Split('|');
 
-                    string accountName = variables[0];
-                    decimal balance = decimal.Parse(variables[1]);
-                    string currency = variables[2];
-                    int accountnumber = int.Parse(variables[3]);
-                    string ownerid = variables[4];
-                    //decimal interest = decimal.Parse(variables[5]);
+                    string ownerid = variables[0];
+                    int accountnumber = int.Parse(variables[1]);
+                    decimal balance = decimal.Parse(variables[2]);
+                    string currency = variables[3];
+                    
+                    
+                    // decimal amount, string currency, int accountNumber, string ownerID
+                    // $"{OwnerID}|{AccountNumber}|{Balance}|{Currency}|{AccountType}"
 
                     accounts.Add(new SavingsAccount(balance, currency, accountnumber, ownerid));
                 }
             }
-
             return accounts;
         }
 
@@ -126,7 +123,7 @@ namespace TH_Bank
 
             if (x == null)
             {
-                openFile.Append(saveThis.ToString());
+                openFile = openFile.Append(saveThis.ToString()).ToArray();
 
             }
             else
