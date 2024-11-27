@@ -2,7 +2,7 @@
 
 namespace TH_Bank
 {
-    public abstract class Account
+    public class Account
     {
         
         private string _accountName;
