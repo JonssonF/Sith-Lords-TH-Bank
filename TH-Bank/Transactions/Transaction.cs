@@ -61,7 +61,7 @@ namespace TH_Bank
             Console.WriteLine("Ange beloppet du vill föra över: ");
             decimal amount = decimal.Parse(Console.ReadLine()); // Se över...
 
-            var transaction = new TransactionFactory().CreateTransaction(Amount, FromAccount, ToAccount, Id);tr
+            var transaction = new TransactionFactory().CreateTransaction(Amount, FromAccount, ToAccount, Id);
             transaction.TransferFunds();
         }
 
