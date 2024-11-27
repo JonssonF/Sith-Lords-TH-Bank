@@ -42,13 +42,28 @@ namespace TH_Bank
             return $"{TransferDate}|{Amount}|{FromAccount.AccountNumber}|{ToAccount.AccountNumber}";
             //Add "Id" to ToString. Figure out a way to make this unique
         }
-        public void MakeTransaction()
+        public void MakeTransaction(List<Account> accounts)
         {
-            Console.WriteLine("Överföring");
             //Display all avalible accounts or option to enter new accountnumber
             Console.WriteLine("Välj ett konto att föra över pengar ifrån: ");
+            for (int i = 0; i < accounts.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}, Konto: {accounts[i].AccountNumber} Saldo: {accounts[i].Balance}");
+            }
+            int fromacc = Int32.Parse(Console.ReadLine()) - 1;
+            //Display igen?
             Console.WriteLine("Välj ett konto att föra över pengar till: ");
+            int toacc = Int32.Parse(Console.ReadLine()) - 1;
+
+            Account fromAccount = accounts[fromacc];
+            Account toAccount = accounts[toacc];
+
+            Console.WriteLine("Ange beloppet du vill föra över: ");
+            decimal amount = decimal.Parse(Console.ReadLine()); // Se över...
+
+            var transaction = new TransactionFactory().CreateTransaction(Amount, FromAccount, ToAccount, Id);tr
+            transaction.TransferFunds();
         }
-        
+
     }
 }
