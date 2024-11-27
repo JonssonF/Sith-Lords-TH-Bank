@@ -14,7 +14,7 @@
 
         public bool IsBlocked { get; set; }
 
-        public User(string id, string passWord, string userName)
+        public User(string id, string userName, string passWord)
         {
             Id = id;
             PassWord = passWord;
@@ -22,6 +22,7 @@
             UserName = userName;
         }
 
+        public abstract string ToString();
 
     }
 }

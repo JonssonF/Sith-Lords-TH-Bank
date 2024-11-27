@@ -18,16 +18,28 @@ namespace TH_Bank
         public static void CreateFiles()
         {
             if (!File.Exists(FilePaths.AccountPath))
+            {
                 File.Create(FilePaths.AccountPath);
 
+            }
+
             if (!File.Exists(FilePaths.UserPath))
+            {
+
                 File.Create(FilePaths.UserPath);
+            }
 
             if (!File.Exists(FilePaths.LogPath))
+            {
                 File.Create(FilePaths.LogPath);
 
+            }
+
             if (!File.Exists(FilePaths.TransactionPath))
+            {
+
                 File.Create(FilePaths.TransactionPath);
+            }
         }
 
         public static void LogIn(UserDataHandler userDataHandler)

@@ -9,15 +9,12 @@ namespace TH_Bank
         public string LastName { get; private set; }
         public override string UserType { get; } = "Customer";
 
-        public AccountDataHandler dataHandler { get; set; }
-
-        public Customer(string id, string passWord, string userName, string firstName, string lastName) : base(id, passWord, userName)
+        public Customer(string id, string userName, string passWord, string firstName, string lastName) : base(id, userName, passWord)
         {
             accounts = new List<Account>();
             FirstName = firstName;
             LastName = lastName;
             IsBlocked = false;
-            dataHandler = new AccountDataHandler();
         }
 
         public override string ToString()

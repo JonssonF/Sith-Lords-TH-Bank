@@ -5,18 +5,18 @@ namespace TH_Bank
     public class UserFactory
     {
 
-        public User CreateUser(string id, string password, string username, string? fName, string? lName, string userInput)
+        public User CreateUser(string id, string username, string password, string? fName, string? lName, string userInput)
         {
 
             User user = null;
 
             if(userInput == "Customer")
             {
-                user = new Customer(id, password, fName, lName, username);
+                user = new Customer(id, username, password, fName, lName);
             }
             else if(userInput == "Admin")
             {
-                user = new Admin(id, password, username);
+                user = new Admin(id, username, password);
             }
             else
             {
