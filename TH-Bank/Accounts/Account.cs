@@ -31,7 +31,7 @@ namespace TH_Bank
 
         public override string ToString()
         {
-            return $"{OwnerID}|{AccountNumber}|{Balance}|{Currency}";
+            return $"{OwnerID}|{AccountNumber}|{Balance}|{Currency}|{AccountType}";
         }
 
         public abstract decimal GetInterest();

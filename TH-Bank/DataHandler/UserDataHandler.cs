@@ -5,7 +5,6 @@ namespace TH_Bank
 {
     public class UserDataHandler : IDataHandler<User>
     {
-
         public string FilePath { get; set; }
         public UserDataHandler()
         {
@@ -27,7 +26,6 @@ namespace TH_Bank
 
             File.WriteAllLines(FilePath, openFile);
 
-
         }
 
         public User Load()
@@ -45,20 +43,22 @@ namespace TH_Bank
                 {
                     string[] variables = line.Split('|');
                     string id = variables[0];
-                    string pw = variables[1];
-                    string fn = variables[2];
-                    string ln = variables[3];
-                    string un = variables[4];
-                    var customer = new Customer(id, pw, fn, ln, un);
-
+                    string username = variables[1];
+                    string password = variables[2];
+                    string firstname = variables[3];
+                    string lastname = variables[4];
+                    var customer = new Customer(id, password, firstname, lastname, username);
+                    //{Id}|{UserName}|{PassWord}|{FirstName}|{LastName}|{UserType}|Blocked:{IsBlocked}";
                     return customer;
                 }
                 else if (line.Contains(userid) && line.Contains("Admin"))
                 {
                     string[] variables = line.Split('|');
                     string id = variables[0];
-                    string pw = variables[1];
-                    var admin = new Admin(id, pw, "hej");
+                    string password = variables[1];
+                    string username = variables[2]; 
+                    
+                    var admin = new Admin(id, username, password);
 
                     return admin;
                 }
@@ -96,7 +96,6 @@ namespace TH_Bank
                     allusers.Add(customer);
                 }
             }
-
             return allusers;
         }
 
@@ -152,7 +151,6 @@ namespace TH_Bank
                     return false;
                 }
             }
-
             return true;
         }
 
