@@ -24,7 +24,9 @@ namespace TH_Bank
             {
                 DrawMenuItem(item);
             }
+            
             DrawBorder();
+            MenuAdmin();
         }
 
         public override void ShowAccounts(ActiveUserSingleton activeUser, AccountDataHandler accountDataHandler)
@@ -39,14 +41,14 @@ namespace TH_Bank
             access = true;
             while (access)
             {
-                ShowMenu();
+                
                 int adminChoice = Choice(optionCount); 
                 switch (adminChoice)
                 {
 
                     case 1:
                         // Add new customer. 
-
+                        CreateUser(new UserDataHandler(), new UserFactory());
                         break;
 
                     case 2:
@@ -67,6 +69,58 @@ namespace TH_Bank
                         Close();
                         break;
                 }
+            }
+        }
+
+        public void CreateUser(UserDataHandler userData, UserFactory userFactory)
+        {
+            Console.WriteLine("What type of user do you want to create?");
+            Console.WriteLine("1. Customer");
+            Console.WriteLine("2. Admin");
+            int choice = Choice(2);
+
+            string firstName = "";
+            string lastName = "";
+            //string userChoice = "";
+            string passWord = "";
+            string userName = "";
+
+            switch(choice)
+            {
+                case 1:
+                    CreateCustomer();
+                    break;
+                case 2:
+                    CreateAdmin();
+                    break;
+                default:
+                    throw new Exception("Invalid menu choice");
+            }
+
+            Console.WriteLine($"You created a new User ({userData.Load(userName).UserType}): {userData.Load(userName).UserName}");
+
+            void CreateCustomer()
+            {
+                Console.WriteLine("Enter Customer First Name");
+                firstName = Console.ReadLine(); 
+                Console.WriteLine("Enter Customer Last Name");
+                lastName = Console.ReadLine();
+                Console.WriteLine("Enter a UserName for Customer");
+                userName = Console.ReadLine();
+                Console.WriteLine("Enter a Password for Customer");
+                passWord = Console.ReadLine();
+
+                userData.Save(userFactory.CreateUser("USR", passWord, userName, firstName, lastName, "Customer"));
+            }
+
+            void CreateAdmin()
+            {
+                Console.WriteLine("Enter a UserName for new Admin");
+                userName = Console.ReadLine();
+                Console.WriteLine("Enter a Password for new Admin");
+                passWord = Console.ReadLine();
+
+                userData.Save(userFactory.CreateUser("USR", passWord, userName, null, null, "Admin"));
             }
         }
     }
