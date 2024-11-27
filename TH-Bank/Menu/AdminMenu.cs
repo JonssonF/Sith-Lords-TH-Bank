@@ -53,7 +53,7 @@ namespace TH_Bank
 
                     case 2:
                         // Unblock user.
-
+                        UnblockUser(new UserDataHandler());
                         break;
 
                     case 3:
@@ -67,6 +67,9 @@ namespace TH_Bank
 
                     case 5:
                         Close();
+                        break;
+
+                    default:
                         break;
                 }
             }
@@ -110,7 +113,7 @@ namespace TH_Bank
                 Console.WriteLine("Enter a Password for Customer");
                 passWord = Console.ReadLine();
 
-                userData.Save(userFactory.CreateUser("USR", passWord, userName, firstName, lastName, "Customer"));
+                userData.Save(userFactory.CreateUser("USR", userName, passWord,firstName, lastName, "Customer"));
             }
 
             void CreateAdmin()
@@ -120,8 +123,32 @@ namespace TH_Bank
                 Console.WriteLine("Enter a Password for new Admin");
                 passWord = Console.ReadLine();
 
-                userData.Save(userFactory.CreateUser("USR", passWord, userName, null, null, "Admin"));
+                userData.Save(userFactory.CreateUser("USR", userName, passWord, null, null, "Admin"));
             }
+        }
+
+        public void UnblockUser(UserDataHandler userDataHandler)
+        {
+            List<User> allUsers = userDataHandler.LoadAll();
+            Console.WriteLine("Blocked Users:");
+            foreach(User user in allUsers)
+            {
+                if(user.ToString().Contains("Blocked:True"))
+                {
+                    Console.WriteLine($"{user.Id}: {user.UserName} ({user.UserType})");
+                }
+            }
+
+            Console.WriteLine("Which user do you want to unblock? Enter ID:");
+            string unblockId = Console.ReadLine();
+
+            var unblockMe = allUsers.Find(x => x.Id == unblockId);
+
+            unblockMe.IsBlocked = false;
+
+            userDataHandler.Save(unblockMe);
+
+            Console.WriteLine($"You have unblocked user {unblockMe.UserName}!");
         }
     }
 }

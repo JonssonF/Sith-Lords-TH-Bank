@@ -47,7 +47,7 @@ namespace TH_Bank
                     string password = variables[2];
                     string firstname = variables[3];
                     string lastname = variables[4];
-                    var customer = new Customer(id, password, firstname, lastname, username);
+                    var customer = new Customer(id, username, password, firstname, lastname);
                     //{Id}|{UserName}|{PassWord}|{FirstName}|{LastName}|{UserType}|Blocked:{IsBlocked}";
                     return customer;
                 }
@@ -83,12 +83,10 @@ namespace TH_Bank
                     string password = variables[2];
                     string firstname = variables[3];
                     string lastname = variables[4];
-                    // user type
-                    // blocked?
 
                     var customer = new Customer(id, username, password, firstname, lastname);
 
-                    if(line.Contains("True"))
+                    if(line.Contains("Blocked:True"))
                     { 
                         customer.IsBlocked = true;  
                     }
@@ -108,13 +106,31 @@ namespace TH_Bank
         {
             string[] openFile = File.ReadAllLines(FilePath);
 
-            if (!openFile.Contains(saveThis.UserName))
+            bool userExists = false;
+
+            foreach(string line in openFile)
+            {
+                if(line.Contains(saveThis.UserName))
+                {
+                    userExists = true;
+                }
+            }
+
+            if (!userExists)
             {
                 openFile = openFile.Append(saveThis.ToString()).ToArray();
             }
             else
             {
-                int overwrite = Array.IndexOf(openFile, saveThis.ToString());
+                int overwrite = -1;
+                foreach (string line in openFile)
+                {
+                    if (line.Contains(saveThis.UserName))
+                    {
+                        overwrite = Array.IndexOf(openFile, line);
+                    }
+                }
+                
                 openFile[overwrite] = saveThis.ToString();
             }
 
