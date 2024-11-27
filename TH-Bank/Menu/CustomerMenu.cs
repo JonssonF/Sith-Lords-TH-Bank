@@ -77,13 +77,17 @@ namespace TH_Bank
         }
         public override void ShowAccounts(User user, AccountDataHandler activeUser)
         {
+            Console.Clear();
 
             int width = 20;
-
-            Console.Clear();
+            int totalWidth = 60;
+            string text = $".:{user.UserName}'s Accounts:.";
+            int padding = (totalWidth - text.Length -4) / 2;
+            string centeredText = new string('.',padding) + text + new string('.',padding);
             List<Account> accountList = activeUser.LoadAll(user.Id);
 
-            Console.WriteLine($"           ..::{user.UserName}'s Accounts::..");
+            Console.WriteLine(centeredText);
+
             Console.WriteLine(new string('-', 60));
             Console.WriteLine($"{CenterText(".:Account Type:.", width)}" +$"{CenterText(".:Account Number:.", width)}" + $"{CenterText(".:Balance:.", width)}");
             Console.WriteLine(new string('-', 60));
@@ -93,7 +97,8 @@ namespace TH_Bank
                 Console.WriteLine($"{CenterText(acc.AccountType, width)}" + $"{CenterText(acc.AccountNumber.ToString(), width)}"+$"{CenterText(acc.Balance.ToString("C"), width)}");
             }
             Console.WriteLine(new string('-', 60));
-            Console.ReadKey();
+            Console.Write("Press any key to go back.");
+            Console.ReadLine();
             Console.Clear();
             ShowMenu();
         }
