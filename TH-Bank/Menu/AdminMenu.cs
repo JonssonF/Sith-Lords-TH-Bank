@@ -29,7 +29,7 @@ namespace TH_Bank
             MenuAdmin();
         }
 
-        public override void ShowAccounts(ActiveUserSingleton activeUser, AccountDataHandler accountDataHandler)
+        public override void ShowAccounts(User user, AccountDataHandler activeUser)
         {
             throw new NotImplementedException();
         }

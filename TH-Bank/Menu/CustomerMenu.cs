@@ -28,6 +28,7 @@ namespace TH_Bank
                 DrawMenuItem(item);
             }
             DrawBorder();
+            MenuCustomer();
         }
 
 
@@ -37,13 +38,13 @@ namespace TH_Bank
             access = true;
             while (access)
             {
-                ShowMenu();
                 int customerChoice = Choice(optionCount); 
                 switch (customerChoice)
                 {
 
                     case 1:
                         //ShowAccounts(); // Shows accounts & balance of current user.
+                        ShowAccounts(ActiveUserSingleton.GetInstance(),new AccountDataHandler());
                         break;
 
                     case 2:
@@ -73,14 +74,29 @@ namespace TH_Bank
                 }
             }
         }
-        public override void ShowAccounts(ActiveUserSingleton user, AccountDataHandler activeUser)
+        public override void ShowAccounts(User user, AccountDataHandler activeUser)
         {
-            List<Account> accountList = activeUser.LoadAll(user.UserName);
+
+            Console.Clear();
+
+            Console.WriteLine($"..::{user.UserName}'s Accounts::..{user.UserType}{user.Id}");
+
+            Console.WriteLine($"\n\n UserName:{user.UserName} User Type: {user.UserType} User ID: {user.Id} Password: {user.PassWord} \n\n");
+
+            activeUser.LoadAll(user.Id);
+            List<Account> accountList = new List<Account>();
+
 
             foreach (var acc in accountList)
             {
+                Console.WriteLine($"Account: {acc.AccountType} Account number: {acc.AccountNumber} Balance: {acc.Balance:C}");
                 Console.WriteLine(acc.ToString());
             }
+
+
+
+            Console.ReadKey();
+            ShowMenu();
         }
 
     }
