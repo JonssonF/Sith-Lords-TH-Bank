@@ -23,6 +23,7 @@ namespace TH_Bank
         public override void ShowMenu()
         {
             Console.Clear();
+            LogoText();
             DrawBorder();
             foreach (string item in _menu)
             {
@@ -97,7 +98,7 @@ namespace TH_Bank
             ShowMenu();
         }
 
-        public string CenterText(string text, int width)
+        public string CenterText(string text, int width) // A method to align the text when showing accounts.
         {
             int padding = (width - text.Length) / 2;
             string paddedText = text.PadLeft(padding + text.Length);
