@@ -1,4 +1,6 @@
 ﻿
+using System.Globalization;
+
 namespace TH_Bank
 {
     public class CustomerMenu : Menu
@@ -8,13 +10,12 @@ namespace TH_Bank
         {
             _menu = new string[] // Menu in array = easy to add options.
             {
-                "1. Show balance / accounts.",
+                "1. Show accounts / balance.",
                 "2. Show transactions.",
-                "3. Internal transfer.",
-                "4. External transfer.",
-                "5. Apply for loan.",
-                "6. Logout.",
-                "7. Exit program.",
+                "3. Transfer funds.",
+                "4. Apply for loan.",
+                "5. Logout.",
+                "6. Exit program.",
             };
             menuWidth = CalculateWidth(extraWidth: 10);
         }
@@ -40,37 +41,40 @@ namespace TH_Bank
             access = true;
             while (access)
             {
-                int customerChoice = Choice(optionCount); 
+                int customerChoice = Choice(optionCount);
                 switch (customerChoice)
                 {
 
                     case 1:
-                        ShowAccounts(ActiveUserSingleton.GetInstance(),new AccountDataHandler());
+                        ShowAccounts(ActiveUserSingleton.GetInstance(), new AccountDataHandler());
                         break;
 
                     case 2:
                         //Show transactions.
-                        // Logger.
                         break;
 
                     case 3:
-                        // Transfer between accounts.
+                        // Transfer funds.
                         break;
 
                     case 4:
-                        //Transfer between customers.
-                        break;
-
-                    case 5:
                         //Set up a new loan.
                         break;
 
-                    case 6:
+                    case 5:
                         Return(); //Log out.
                         break;
 
-                    case 7:
+                    case 6:
                         Close(); // Close application.
+                        break;
+
+                    case 7:
+
+                        break;
+
+                    case 8:
+
                         break;
                 }
             }
@@ -78,51 +82,70 @@ namespace TH_Bank
         public override void ShowAccounts(User user, AccountDataHandler activeUser)
         {
             Console.Clear();
-
             int width = 20;
-            int totalWidth = 60;
-            string text = $".:{user.UserName}'s Accounts:.";
-            int padding = (totalWidth - text.Length -4) / 2;
-            string centeredText = new string('.',padding) + text + new string('.',padding);
+            int center = 80; // Used for dividing lines, and to align column headers.
+            string text = $".:{user.UserName}'s Accounts:."; //Headline.
+            int padding = (center - text.Length) / 2;
+            string centeredText = new string('.', padding) + text + new string('.', padding);
             ConsoleColor textColor;
             List<Account> accountList = activeUser.LoadAll(user.Id);
+            CultureInfo currencyFormat;
 
-            Console.WriteLine(centeredText);
 
-            Console.WriteLine(new string('-', 60));
+            Console.WriteLine(centeredText);  // Headline for account show.
+            Console.WriteLine(new string('-', center));
             Console.WriteLine(
                 $"{CenterText(".:Account Type:.", width)}" +
-                $"{CenterText(".:Account Number:.", width)}" + 
-                $"{CenterText(".:Balance:.", width)}");
-            Console.WriteLine(new string('-', 60));
+                $"{CenterText(".:Account Number:.", width)}" +
+                $"{CenterText(".:Balance:.", width)}" +
+                $"{CenterText(".:Interest:.", width)}");
+            Console.WriteLine(new string('-', center));
 
             foreach (var acc in accountList)
             {
-                if(acc.Balance < 500)
+                if (acc.Balance < 500)
                 {
                     textColor = ConsoleColor.Red;
                 }
                 else
                 {
-                    textColor= ConsoleColor.Green;
+                    textColor = ConsoleColor.Green;
                 }
                 Console.ForegroundColor = textColor;
 
-                Console.WriteLine(
-                    $"{CenterText(acc.AccountType, width)}" +
-                    $"{CenterText(acc.AccountNumber.ToString(), width)}" +               
-                    $"{CenterText(acc.Balance.ToString("C"), width)}");
+                string currentCurrency = ""; // Variable that holds balance and current Currency.
 
+                if (acc.Currency == "SEK") 
+                {
+                    currentCurrency = acc.Balance.ToString("C", new CultureInfo("sv-SE"));
+                }
+                else if (acc.Currency == "USD")
+                {
+                    currentCurrency = acc.Balance.ToString("C", new CultureInfo("en-US"));
+                }
+                else
+                {
+                    currentCurrency = acc.Balance.ToString("C", CultureInfo.CurrentCulture);
+                }
+                
+                
+                Console.WriteLine(
+                    $"{CenterText(acc.AccountType, width)}" + // Type of Account.
+                    $"{CenterText(acc.AccountNumber.ToString(), width)}" + //Accountnumber.
+                    $"{CenterText(currentCurrency, width)}" + //Formatted Currency variable, from if statement. Shows balance and currency.
+                    $"{CenterText(acc.Interest.ToString("%"), width)}");
+
+                    //$"{CenterText(acc.Balance.ToString("C"), width)}" + // Balance.             /*Lägger denna här under tiden ifall "balance / currency variabeln inte ska användas.*/
                 Console.ResetColor();
             }
-            Console.WriteLine(new string('-', 60));
+            Console.WriteLine(new string('-', center));
             Console.Write("Press any key to go back.");
             Console.ReadLine();
             Console.Clear();
             ShowMenu();
         }
 
-        public string CenterText(string text, int width) // A method to align the text when showing accounts.
+        public string CenterText(string text, int width) // A method to align the text in columns when showing accounts.
         {
             int padding = (width - text.Length) / 2;
             string paddedText = text.PadLeft(padding + text.Length);
