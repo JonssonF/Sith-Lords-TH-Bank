@@ -2,7 +2,7 @@
 
 using System.Security;
 using System.Security.Cryptography.X509Certificates;
-using System.Security.SecureString;
+//using System.Security.SecureString;
 
 namespace TH_Bank
 {
@@ -136,31 +136,31 @@ namespace TH_Bank
             menu.ShowMenu();
         }
 
-        public SecureString GetPassword()
-        {
-            var pwd = new SecureString();
+        //public SecureString GetPassword()
+        //{
+        //    var pwd = new SecureString();
 
-            while (true)
-            {
-                Console.KeyInfo i = Console.ReadKey(true);
-                if(i.Key == ConsoleKey.Enter) 
-                {
-                    break;
-                }
-                else if (i.Key == ConsoleKey.Backspace)
-                {
-                    if(pwd.Length > 0) 
-                    {
-                        pwd.RemoveAt(pwd.Length - 1);
-                        Console.Write"\b \b");
-                    }
-                }
-                else if (i.KeyChar != '\0000') // if key press doesnt correspond to a printable character.
-                {
-                    pwd.Append(i.KeyChar);
-                    Console.Write("*");
-                }
-            }
-        }
+        //    while (true)
+        //    {
+        //        ConsoleKeyInfo i = Console.ReadKey(true);
+        //        if(i.Key == ConsoleKey.Enter) 
+        //        {
+        //            break;
+        //        }
+        //        else if (i.Key == ConsoleKey.Backspace)
+        //        {
+        //            if(pwd.Length > 0) 
+        //            {
+        //                pwd.RemoveAt(pwd.Length - 1);
+        //                Console.Write("\b \b");
+        //            }
+        //        }
+        //        else if (i.KeyChar != '\0000') // if key press doesnt correspond to a printable character.
+        //        {
+        //            pwd.Append(i.KeyChar);
+        //            Console.Write("*");
+        //        }
+        //    }
+        //}
     }
 }

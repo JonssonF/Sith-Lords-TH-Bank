@@ -23,6 +23,11 @@
             return _instance;
         }
 
+        public static void Reset()
+        {
+            _instance = null;
+        }
+
         public static User GetInstance()
         {
             return _instance;
