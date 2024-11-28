@@ -4,10 +4,10 @@ namespace TH_Bank
 {
     public class AccountFactory
     {
-        public Account CreateAccount(decimal balance, string currency, int accountNumber, string id)
+        public Account CreateAccount(decimal balance, string currency, int accountNumber, string id, string userInput)
         {
             var accountDataHandler = new AccountDataHandler();
-            var userInput = "";
+
             if (userInput == "Salaryaccount")
             {
                 Account salAccount = new SalaryAccount(balance, currency, accountNumber, id);                
