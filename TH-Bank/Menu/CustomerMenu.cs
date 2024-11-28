@@ -168,7 +168,7 @@ namespace TH_Bank
         {
             //ShowAccounts();   Ska det verkligen vara en ActiveUserSingleton som inparameter till ShowAccounts?
 
-            List<Account> accountList = activeUser.LoadAll(user.UserName);   //Behöver komma åt listan från ShowAccounts.
+            List<Account> accountList = activeUser.LoadAll(user.Id);   //Behöver komma åt listan från ShowAccounts.
                                                                              //Går det att göra på annat sätt?
             Console.WriteLine("Enter account to transfer from: ");
             optionCount = accountList.Count();

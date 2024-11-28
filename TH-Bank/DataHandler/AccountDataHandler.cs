@@ -59,7 +59,7 @@ namespace TH_Bank
                     decimal balance = decimal.Parse(variables[2]);
                     string currency = variables[3];
 
-                    accounts.Add(new SalaryAccount(balance, currency, accountnumber, ownerid));
+                    accounts.Add(new SalaryAccount(ownerid, accountnumber, balance, currency));
                 }
                 else if (line.Contains("SavingsAccount"))
                 {
@@ -69,8 +69,8 @@ namespace TH_Bank
                     int accountnumber = int.Parse(variables[1]);
                     decimal balance = decimal.Parse(variables[2]);
                     string currency = variables[3];
-
-                    accounts.Add(new SavingsAccount(balance, currency, accountnumber, ownerid));
+                    //$"{OwnerID}|{AccountNumber}|{Balance}|{Currency}|{AccountType}";
+                    accounts.Add(new SavingsAccount(ownerid, accountnumber, balance, currency));
                 }
             }
 
@@ -94,7 +94,7 @@ namespace TH_Bank
                     decimal balance = decimal.Parse(variables[2]);
                     string currency = variables[3];
 
-                    accounts.Add(new SalaryAccount(balance, currency, accountnumber, ownerid));
+                    accounts.Add(new SalaryAccount(ownerid, accountnumber, balance, currency));
                 }
                 else if (lines.Contains(userid) && lines.Contains("SavingsAccount"))
                 {
@@ -104,12 +104,8 @@ namespace TH_Bank
                     int accountnumber = int.Parse(variables[1]);
                     decimal balance = decimal.Parse(variables[2]);
                     string currency = variables[3];
-                    
-                    
-                    // decimal amount, string currency, int accountNumber, string ownerID
-                    // $"{OwnerID}|{AccountNumber}|{Balance}|{Currency}|{AccountType}"
 
-                    accounts.Add(new SavingsAccount(balance, currency, accountnumber, ownerid));
+                    accounts.Add(new SavingsAccount(ownerid, accountnumber, balance, currency));
                 }
             }
             return accounts;
