@@ -1,8 +1,11 @@
  # **TH-Bank - A school group-project.**
 
 **Project tool: Asana.**<br/>
-(https://app.asana.com/0/1208827563259026/1208803129932156)
+(https://app.asana.com/0/1208827563259026/1208803129932156)<br/>
 
+<br>**OOAD.**<br/>
+
+<br>**UML / Flowchart.**<br/>
 
 I ert GIT-repo ska följande finnas:
 
