@@ -5,7 +5,8 @@
 
 <br>**OOAD.**<br/>
 
-<br>**UML / Flowchart.**<br/>
+<br>**UML / Flowchart.** Made with draw.Io<br/>
+![image](https://github.com/user-attachments/assets/db3f4aba-2587-4146-9657-3789d3955ec3)
 
 I ert GIT-repo ska följande finnas:
 
