@@ -2,7 +2,6 @@
 
 using System.Security;
 using System.Security.Cryptography.X509Certificates;
-//using System.Security.SecureString;
 
 namespace TH_Bank
 {
@@ -83,7 +82,7 @@ namespace TH_Bank
             while (loginAttempts < maxAttempts)
             {
                 Console.WriteLine($"{userName} please type in your password.");
-                passWord = Console.ReadLine();
+                passWord = HidePassword();
 
 
                 if (userDataHandler.PasswordCheck(userName,passWord))
@@ -94,7 +93,6 @@ namespace TH_Bank
                     
                     LoadMenu(activeUser);
                     break;
-
                 }
                 else
                 {
@@ -135,32 +133,30 @@ namespace TH_Bank
 
             menu.ShowMenu();
         }
+        static string HidePassword()
+        {
+            string pass = string.Empty;
+            ConsoleKey key;
 
-        //public SecureString GetPassword()
-        //{
-        //    var pwd = new SecureString();
+            do
+            {
+                var keyInfo = Console.ReadKey(intercept: true);
+                key = keyInfo.Key;
 
-        //    while (true)
-        //    {
-        //        ConsoleKeyInfo i = Console.ReadKey(true);
-        //        if(i.Key == ConsoleKey.Enter) 
-        //        {
-        //            break;
-        //        }
-        //        else if (i.Key == ConsoleKey.Backspace)
-        //        {
-        //            if(pwd.Length > 0) 
-        //            {
-        //                pwd.RemoveAt(pwd.Length - 1);
-        //                Console.Write("\b \b");
-        //            }
-        //        }
-        //        else if (i.KeyChar != '\0000') // if key press doesnt correspond to a printable character.
-        //        {
-        //            pwd.Append(i.KeyChar);
-        //            Console.Write("*");
-        //        }
-        //    }
-        //}
+                if (key == ConsoleKey.Backspace && pass.Length > 0)
+                {
+                    Console.Write("\b \b");
+                    pass = pass[0..^1];
+                }
+                else if (!char.IsControl(keyInfo.KeyChar))
+                {
+                    Console.Write("*");
+                    pass += keyInfo.KeyChar;
+                }
+            } while (key != ConsoleKey.Enter); // Return when 'Enter' is pressed.
+
+            return pass;
+        }
+
     }
 }

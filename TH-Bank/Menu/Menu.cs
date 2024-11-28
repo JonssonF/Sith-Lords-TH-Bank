@@ -17,6 +17,7 @@
             Console.WriteLine("Taking you to home screen.");
             Thread.Sleep(2000);
             Console.Clear();
+            ActiveUserSingleton.Reset();
             Program.LogIn(new UserDataHandler());
             access = false;
             bool login = true;
