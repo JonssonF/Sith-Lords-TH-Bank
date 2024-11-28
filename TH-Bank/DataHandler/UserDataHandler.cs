@@ -55,8 +55,9 @@ namespace TH_Bank
                 {
                     string[] variables = line.Split('|');
                     string id = variables[0];
-                    string password = variables[1];
-                    string username = variables[2]; 
+                    string username = variables[1];
+                    string password = variables[2];
+                    
                     
                     var admin = new Admin(id, username, password);
 
