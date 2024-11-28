@@ -114,7 +114,7 @@ namespace TH_Bank
                 Console.WriteLine("Enter a Password for Customer");
                 passWord = Console.ReadLine();
 
-                userData.Save(userFactory.CreateUser("USR", userName, passWord,firstName, lastName, "Customer"));
+                userData.Save(userFactory.CreateUser(userName, passWord,firstName, lastName, "Customer"));
             }
 
             void CreateAdmin()
@@ -124,7 +124,7 @@ namespace TH_Bank
                 Console.WriteLine("Enter a Password for new Admin");
                 passWord = Console.ReadLine();
 
-                userData.Save(userFactory.CreateUser("USR", userName, passWord, null, null, "Admin"));
+                userData.Save(userFactory.CreateUser(userName, passWord, null, null, "Admin"));
             }
         }
 

@@ -10,6 +10,8 @@ namespace TH_Bank
     {
         static void Main(string[] args)
         {
+            // Test test
+
             CreateFiles();
 
             LogIn(new UserDataHandler());
@@ -41,6 +43,11 @@ namespace TH_Bank
             {
 
                 File.Create(FilePaths.TransactionPath);
+            }
+            if (!File.Exists(FilePaths.SystemPath))
+            {
+
+                File.Create(FilePaths.SystemPath);
             }
         }
 
