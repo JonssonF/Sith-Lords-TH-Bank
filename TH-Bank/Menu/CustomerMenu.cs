@@ -12,11 +12,12 @@ namespace TH_Bank
             {
                 "1. Show accounts / balance.",
                 "2. Show transactions.",
-                "3. Transfer funds.",
-                "4. Apply for loan.",
-                "5. Open new account.",
-                "6. Logout.",
-                "7. Exit program.",
+                "3. Internal transaction.",
+                "4. External transaction.",
+                "5. Apply for loan.",
+                "6. Open new account.",
+                "7. Logout.",
+                "8. Exit program.",
             };
             menuWidth = CalculateWidth(extraWidth: 10);
         }
@@ -49,38 +50,28 @@ namespace TH_Bank
                     case 1:
                         ShowAccounts(ActiveUserSingleton.GetInstance(), new AccountDataHandler());
                         break;
-
                     case 2:
                         //Show transactions.
                         break;
-
                     case 3:
-
                         // Transfer between accounts.
                         MakeInternalTransaction(ActiveUserSingleton.GetInstance(), new AccountDataHandler());
+                        break;
+                    case 4:
                         //Transfer between customers.
                         MakeExternalTransaction(ActiveUserSingleton.GetInstance(), new AccountDataHandler());
                         break;
-
-                    case 4:
+                    case 5:
                         // Lån alternativet.
                         break;
-
-                    case 5:
+                    case 6:
                         // Spot for open new account.
                         break;
-
-                    case 6:
+                    case 7:
                         Return(); //Log out.
                         break;
-
-                    case 7:
-                        Close(); // Close application.
-
-                        break;
-
                     case 8:
-
+                        Close(); // Close application.
                         break;
                 }
             }
@@ -97,6 +88,15 @@ namespace TH_Bank
             List<Account> accountList = activeUser.LoadAll(user.Id);
             CultureInfo currencyFormat;
 
+                if (accountList == null || accountList.Count == 0)
+                {
+                    
+                    textColor = ConsoleColor.Red;
+                    Console.WriteLine("\t\n\nYou dont have any accounts at the moment.");
+                    Thread.Sleep(1500);
+                    MenuCustomer();
+                    return;
+                }
 
             Console.WriteLine(centeredText);  // Headline for account show.
             Console.WriteLine(new string('-', center));
@@ -107,8 +107,10 @@ namespace TH_Bank
                 $"{CenterText(".:Interest:.", width)}");
             Console.WriteLine(new string('-', center));
 
+
             foreach (var acc in accountList)
             {
+
                 if (acc.Balance < 500)
                 {
                     textColor = ConsoleColor.Red;
@@ -121,7 +123,7 @@ namespace TH_Bank
 
                 string currentCurrency = ""; // Variable that holds balance and current Currency.
 
-                if (acc.Currency == "SEK") 
+                if (acc.Currency == "SEK")
                 {
                     currentCurrency = acc.Balance.ToString("C", new CultureInfo("sv-SE"));
                 }
@@ -133,15 +135,15 @@ namespace TH_Bank
                 {
                     currentCurrency = acc.Balance.ToString("C", CultureInfo.CurrentCulture);
                 }
-                
-                
+
+
                 Console.WriteLine(
                     $"{CenterText(acc.AccountType, width)}" + // Type of Account.
                     $"{CenterText(acc.AccountNumber.ToString(), width)}" + //Accountnumber.
                     $"{CenterText(currentCurrency, width)}" + //Formatted Currency variable, from if statement. Shows balance and currency.
                     $"{CenterText(acc.Interest.ToString("%"), width)}");
 
-                    //$"{CenterText(acc.Balance.ToString("C"), width)}" + // Balance.             /*Lägger denna här under tiden ifall "balance / currency variabeln inte ska användas.*/
+                //$"{CenterText(acc.Balance.ToString("C"), width)}" + // Balance.             /*Lägger denna här under tiden ifall "balance / currency variabeln inte ska användas.*/
                 Console.ResetColor();
             }
             Console.WriteLine(new string('-', center));
@@ -165,7 +167,7 @@ namespace TH_Bank
         public void MakeInternalTransaction(User user, AccountDataHandler activeUser)
         {
             //ShowAccounts();   Ska det verkligen vara en ActiveUserSingleton som inparameter till ShowAccounts?
-            
+
             List<Account> accountList = activeUser.LoadAll(user.UserName);   //Behöver komma åt listan från ShowAccounts.
                                                                              //Går det att göra på annat sätt?
             Console.WriteLine("Enter account to transfer from: ");
@@ -187,7 +189,7 @@ namespace TH_Bank
         {
 
         }
-        
+
 
 
     }
