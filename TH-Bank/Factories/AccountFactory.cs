@@ -4,11 +4,13 @@ namespace TH_Bank
 {
     public class AccountFactory
     {
+
         public Account CreateAccount(string ownerid, int accountnumber, decimal balance, string currency, string userchoice)
         {
             var accountDataHandler = new AccountDataHandler();
             
             if (userchoice == "Salaryaccount")
+
             {
                 Account salAccount = new SalaryAccount(ownerid, accountnumber, balance, currency);                
                 accountDataHandler.Save(salAccount);
