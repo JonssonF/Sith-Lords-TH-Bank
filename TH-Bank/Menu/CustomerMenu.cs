@@ -84,17 +84,36 @@ namespace TH_Bank
             string text = $".:{user.UserName}'s Accounts:.";
             int padding = (totalWidth - text.Length -4) / 2;
             string centeredText = new string('.',padding) + text + new string('.',padding);
+            ConsoleColor textColor;
             List<Account> accountList = activeUser.LoadAll(user.Id);
 
             Console.WriteLine(centeredText);
 
             Console.WriteLine(new string('-', 60));
-            Console.WriteLine($"{CenterText(".:Account Type:.", width)}" +$"{CenterText(".:Account Number:.", width)}" + $"{CenterText(".:Balance:.", width)}");
+            Console.WriteLine(
+                $"{CenterText(".:Account Type:.", width)}" +
+                $"{CenterText(".:Account Number:.", width)}" + 
+                $"{CenterText(".:Balance:.", width)}");
             Console.WriteLine(new string('-', 60));
 
             foreach (var acc in accountList)
             {
-                Console.WriteLine($"{CenterText(acc.AccountType, width)}" + $"{CenterText(acc.AccountNumber.ToString(), width)}"+$"{CenterText(acc.Balance.ToString("C"), width)}");
+                if(acc.Balance < 500)
+                {
+                    textColor = ConsoleColor.Red;
+                }
+                else
+                {
+                    textColor= ConsoleColor.Green;
+                }
+                Console.ForegroundColor = textColor;
+
+                Console.WriteLine(
+                    $"{CenterText(acc.AccountType, width)}" +
+                    $"{CenterText(acc.AccountNumber.ToString(), width)}" +               
+                    $"{CenterText(acc.Balance.ToString("C"), width)}");
+
+                Console.ResetColor();
             }
             Console.WriteLine(new string('-', 60));
             Console.Write("Press any key to go back.");
