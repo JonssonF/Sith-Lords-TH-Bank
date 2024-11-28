@@ -20,6 +20,7 @@ namespace TH_Bank
         public override void ShowMenu()
         {
             Console.Clear();
+            LogoText();
             DrawBorder();
             foreach (string item in _menu)
             {
