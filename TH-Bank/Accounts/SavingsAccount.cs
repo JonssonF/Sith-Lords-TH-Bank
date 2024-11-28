@@ -4,8 +4,8 @@
     {
         public override string AccountType { get; } = "SavingsAccount";
 
-        public SavingsAccount(decimal amount, string currency, int accountNumber, string ownerID)
-            : base(amount, currency, accountNumber, ownerID)
+        public SavingsAccount(string ownerID, int accountNumber, decimal balance, string currency)
+            : base(ownerID, accountNumber, balance, currency)
         {
             Interest = GetInterest();
         }

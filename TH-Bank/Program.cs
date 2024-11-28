@@ -9,7 +9,6 @@ namespace TH_Bank
     {
         static void Main(string[] args)
         {
-            // Test test
 
             CreateFiles();
 

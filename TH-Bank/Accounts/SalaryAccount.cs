@@ -3,8 +3,8 @@
     internal class SalaryAccount : Account
     {
         public override string AccountType { get; } = "SalaryAccount";
-        public SalaryAccount(decimal amount, string currency, int accountNumber, string ownerID)
-            : base(amount, currency, accountNumber, ownerID)
+        public SalaryAccount(string ownerID, int accountNumber, decimal balance, string currency)
+            : base(ownerID, accountNumber, balance, currency)
         {
             Interest = GetInterest();
         }
