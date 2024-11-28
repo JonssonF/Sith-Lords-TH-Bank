@@ -14,8 +14,9 @@ namespace TH_Bank
                 "2. Show transactions.",
                 "3. Transfer funds.",
                 "4. Apply for loan.",
-                "5. Logout.",
-                "6. Exit program.",
+                "5. Open new account.",
+                "6. Logout.",
+                "7. Exit program.",
             };
             menuWidth = CalculateWidth(extraWidth: 10);
         }
@@ -57,23 +58,24 @@ namespace TH_Bank
 
                         // Transfer between accounts.
                         MakeInternalTransaction(ActiveUserSingleton.GetInstance(), new AccountDataHandler());
+                        //Transfer between customers.
+                        MakeExternalTransaction(ActiveUserSingleton.GetInstance(), new AccountDataHandler());
                         break;
 
                     case 4:
-                        //Transfer between customers.
-                        MakeExternalTransaction(ActiveUserSingleton.GetInstance(), new AccountDataHandler());
-
+                        // Lån alternativet.
                         break;
 
                     case 5:
-                        Return(); //Log out.
+                        // Spot for open new account.
                         break;
 
                     case 6:
-                        Close(); // Close application.
+                        Return(); //Log out.
                         break;
 
                     case 7:
+                        Close(); // Close application.
 
                         break;
 
