@@ -49,13 +49,17 @@ namespace TH_Bank
 
                     case 1:
                         ShowAccounts(ActiveUserSingleton.GetInstance(), new AccountDataHandler());
+                        Console.Write("Press any key to go back.");
+                        Console.ReadLine();
+                        Console.Clear();
+                        ShowMenu();
                         break;
                     case 2:
                         //Show transactions.
                         break;
                     case 3:
                         // Transfer between accounts.
-                        MakeInternalTransaction(ActiveUserSingleton.GetInstance(), new AccountDataHandler());
+                        MakeTransaction(ActiveUserSingleton.GetInstance(), new AccountDataHandler());
                         break;
                     case 4:
                         //Transfer between customers.
@@ -164,28 +168,54 @@ namespace TH_Bank
             return paddedText;
         }
 
-        //Lät interna/externa transaktioner vara kvar i två separata metoder. Blev så brötigt med val av transaktionstyp
-        //inne i en enda metod. Misstycker ni fullständigt så gör jag om.
-        public void MakeInternalTransaction(User user, AccountDataHandler activeUser)
+        public void MakeTransaction(User user, AccountDataHandler activeUser)
         {
-            //ShowAccounts();   Ska det verkligen vara en ActiveUserSingleton som inparameter till ShowAccounts?
+            ShowAccounts(user, activeUser);
 
-            List<Account> accountList = activeUser.LoadAll(user.Id);   //Behöver komma åt listan från ShowAccounts.
-                                                                             //Går det att göra på annat sätt?
-            Console.WriteLine("Enter account to transfer from: ");
-            optionCount = accountList.Count();
-            int indexFromAccount = Choice(optionCount);
-            int fromAccount = accountList[indexFromAccount - 1].AccountNumber;
-            Console.WriteLine("Enter account to transfer to: ");
-            int indexToAccount = Choice(optionCount);
-            int toAccount = accountList[indexToAccount - 1].AccountNumber;
-            Console.WriteLine("Enter amount to transfer: ");
-            decimal.TryParse(Console.ReadLine(), out decimal amount);    //Finns annan felhanteringslösning här?
+            List<Account> userAccounts = activeUser.LoadAll(user.UserName);
+            //List<Account> allAccounts = new AccountDataHandler.LoadAll();
 
-            //Transaction transaction = new TransactionFactory().CreateTransaction(amount, fromAccount, toAccount, Id);
-            //Id? Är det verkligen en inparameter? Eller är det ett transaktionsid unikt för detta transaktionsobjektet? 
-            //Isf borde det väl genereras automatiskt i konstruktorn för transaktionsobjektet?
-            //transaction.TransferFunds();
+            Console.WriteLine("Enter account number to transfer from: ");
+            int fromAccount = int.Parse(Console.ReadLine());
+
+            decimal amount = 0;
+            int toAccount = 0;
+            bool validFromAccount = false;
+            bool validToAccount = false;
+
+            foreach (Account userAccount in userAccounts)
+            {
+                if (userAccount.AccountNumber == fromAccount)
+                {
+                    validFromAccount = true;
+                    Console.WriteLine("Enter account number to transfer to: \n" +
+                    "(Other customers account number available for external transaction)");
+                    toAccount = int.Parse(Console.ReadLine());
+                    //foreach (Account account in allAccounts)
+                    //{
+                    //    if (allAccounts.AccountNumber == toAccount)
+                    //    {
+                    //        validToAccount = true;
+                    //        Console.WriteLine("Enter amount to transfer: ");
+                    //        amount = decimal.Parse(Console.ReadLine());
+                    //    }
+                    //}
+                }
+            }
+            if (validFromAccount == false || validToAccount == false)
+            {
+                Console.WriteLine("Invalid account number.");
+            }
+            else
+            {
+                //Transaction transaction = new TransactionFactory().CreateTransaction(amount, fromAccount, toAccount, Id);
+                //transaction.TransferFunds();
+            }
+            Console.Write("Press any key to return to menu.");
+            Console.ReadLine();
+            Console.Clear();
+            ShowMenu();
+
         }
         public void MakeExternalTransaction(User user, AccountDataHandler activeUser)
         {
