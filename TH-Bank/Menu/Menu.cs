@@ -32,27 +32,7 @@
             access = false;
             Environment.Exit(0);
         }
-        internal int Choice(int max) // Method to only accept valid keypress.
-        {
-            bool isNumber;
-            int num = 0;
-            do
-            {
-                ConsoleKeyInfo key = Console.ReadKey(true);
-
-                // Checks if the choice is a number
-                // If it is, converts keypress
-                // into an int. 
-                isNumber = Char.IsAsciiDigit(key.KeyChar);
-                if (isNumber)
-                {
-                    num = Convert.ToInt32(key.KeyChar.ToString());
-                }
-
-            } while (!isNumber || num > max); // exits while loop only if number is not bigger
-                                              // than the max index of the active users accounts.
-            return num;
-        }
+        
 
         public void LogoText()
         {
