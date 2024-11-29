@@ -67,6 +67,7 @@ namespace TH_Bank
                         break;
                     case 5:
                         // Lån alternativet.
+                        Loan.ApplyForLoan(ActiveUserSingleton.GetInstance());
                         break;
                     case 6:
                         // Spot for open new account.
@@ -153,10 +154,7 @@ namespace TH_Bank
                 Console.ResetColor();
             }
             Console.WriteLine(new string('-', center));
-            Console.Write("Press any key to go back.");
-            Console.ReadLine();
-            Console.Clear();
-            ShowMenu();
+            
         }
 
 
@@ -237,7 +235,8 @@ namespace TH_Bank
             Console.WriteLine("Enter accounttype: ");
             string userchoice = Console.ReadLine();
 
-            Account account = accountFactory.CreateAccount(ownerid, accountnumber, balance, currency, userchoice);
+            //Account account = accountFactory.CreateAccount(ownerid, accountnumber, balance, currency, userchoice);
+
         }
     }
 }
