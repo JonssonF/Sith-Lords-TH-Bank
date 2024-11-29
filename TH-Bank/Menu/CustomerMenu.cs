@@ -206,7 +206,7 @@ namespace TH_Bank
             Console.WriteLine("Enter accounttype: ");
             string acType = Console.ReadLine();
 
-            Account account = accountFactory.CreateAccount(ab, currency, an, acOwner, acType);
+            //Account account = accountFactory.CreateAccount(ab, currency, an, acOwner, acType);
         }
 
 

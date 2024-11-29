@@ -1,19 +1,19 @@
-﻿namespace TH_Bank.DataHandler
+﻿namespace TH_Bank
 {
     public class LoanDataHandler : IDataHandler<Loan>
     {
         public string FilePath { get; set; }
 
-        //public void Delete(Transaction deleteThis)
-        //{
-        //    string[] openFile = File.ReadAllLines(FilePath);
-        //    int deleteRow = Array.IndexOf(openFile, deleteThis.ToString());
-        //    for (int i = deleteRow + 1; i < openFile.Length; i++)
-        //    {
-        //        openFile[i - 1] = openFile[i];
-        //    }
-        //    File.WriteAllLines(FilePath, openFile);
-        //}
+        public void Delete(Loan deleteThis)
+        {
+            string[] openFile = File.ReadAllLines(FilePath);
+            int deleteRow = Array.IndexOf(openFile, deleteThis.ToString());
+            for (int i = deleteRow + 1; i < openFile.Length; i++)
+            {
+                openFile[i - 1] = openFile[i];
+            }
+            File.WriteAllLines(FilePath, openFile);
+        }
 
         public Loan Load()
         {

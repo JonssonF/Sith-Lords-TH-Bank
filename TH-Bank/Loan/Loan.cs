@@ -1,4 +1,4 @@
-﻿namespace TH_Bank.Loan
+﻿namespace TH_Bank
 {
 
     public class Loan
@@ -13,7 +13,7 @@
         public DateTime LoanStart { get; set; }
         public string Id { get; set; }
 
-        public Loan(decimal amount, Account fromAccount, Account toAccount, string id)
+        public Loan(decimal amount, Account toAccount, string id)
         {
             Amount = amount;
             ToAccount = toAccount;
