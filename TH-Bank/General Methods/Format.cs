@@ -31,7 +31,7 @@ namespace TH_Bank
             return num;
         }
 
-        public static decimal NumberInput(bool money)
+        public static decimal AmountInput(bool money)
         {
             bool isNumber = false;
             string numberString = "";
