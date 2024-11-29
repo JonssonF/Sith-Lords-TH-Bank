@@ -1,5 +1,7 @@
 ﻿
 
+using System.Runtime.CompilerServices;
+
 namespace TH_Bank
 {
     public class Transaction
@@ -10,33 +12,41 @@ namespace TH_Bank
         private DateTime _transferDate;
 
         public decimal Amount { get; set; }
-        public Account FromAccount { get; set; }
-        public Account ToAccount { get; set; }
-        public DateTime TransferDate { get; set; }
+        public int FromAccount { get; set; }
+        public int ToAccount { get; set; }
         public string Id { get; set; }
 
-        public Transaction(decimal amount, Account fromAccount, Account toAccount, string id)
+        public string DateAndTime { get; set; }
+
+        public Transaction(string id, string? dateTime, decimal amount, int fromAccount, int toAccount)
         {
             Amount = amount;
             FromAccount = fromAccount;
             ToAccount = toAccount;
             Id = id;
-            TransferDate = DateTime.Now;
-        }
-        public bool TransferFunds() //Method for moneytransfer
-        {
-            if (FromAccount.Balance >= Amount)
-            {                
-                FromAccount.Balance -= Amount;
-                ToAccount.Balance += Amount;
-                return true;                                
-            }
-            else
+
+            if(dateTime == null)
             {
-                Console.WriteLine("Transfer not complete. Check account balance");
-                return false;
+                DateAndTime = DateTime.Now.ToString();
             }
+            
         }
+
+
+        //public bool TransferFunds() //Method for moneytransfer
+        //{
+        //    if (FromAccount.Balance >= Amount)
+        //    {                
+        //        FromAccount.Balance -= Amount;
+        //        ToAccount.Balance += Amount;
+        //        return true;                                
+        //    }
+        //    else
+        //    {
+        //        Console.WriteLine("Transfer not complete. Check account balance");
+        //        return false;
+        //    }
+        //}
 
         public void MakeTransaction(List<Account> accounts)
         {
@@ -66,7 +76,7 @@ namespace TH_Bank
         }
         public override string ToString()
         {
-            return $"{TransferDate}|{Amount}|{FromAccount.AccountNumber}|{ToAccount.AccountNumber}";
+            return $"{Id}|{DateAndTime}|{Amount}|{FromAccount}|{ToAccount}";
             //Add "Id" to ToString. Figure out a way to make this unique
         }
         
