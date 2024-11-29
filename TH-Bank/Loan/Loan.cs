@@ -3,6 +3,8 @@
 
     public class Loan
     {
+
+
         private decimal _amount;
         private int _fromAccount;
         private int _toAccount;
@@ -21,7 +23,6 @@
             LoanStart = DateTime.Now;
         }
 
-
         public static void ApplyForLoan(User user)
         {
             Console.Clear();
@@ -35,7 +36,6 @@
 
 
             Console.ReadKey();
-
 
         }
     }
