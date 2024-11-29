@@ -63,6 +63,7 @@ namespace TH_Bank
                         break;
                     case 5:
                         // Lån alternativet.
+                        Loan.ApplyForLoan(ActiveUserSingleton.GetInstance());
                         break;
                     case 6:
                         // Spot for open new account.

@@ -20,5 +20,19 @@
             Id = id;
             LoanStart = DateTime.Now;
         }
+
+
+        public static void ApplyForLoan(User user)
+        {
+            int center = 80; // Used for dividing lines, and to align column headers.
+            var loanMenu = new CustomerMenu();
+            Console.WriteLine(new string('-', center));
+            Console.WriteLine("Wich type of loan would you like to apply for?");
+
+            Console.ReadKey();
+            loanMenu.ShowAccounts(ActiveUserSingleton.GetInstance(), new AccountDataHandler());
+
+
+        }
     }
 }

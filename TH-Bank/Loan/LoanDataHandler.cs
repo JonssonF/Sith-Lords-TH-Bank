@@ -2,7 +2,7 @@
 {
     public class LoanDataHandler : IDataHandler<Loan>
     {
-        public string FilePath { get; set; }
+        public string FilePath { get; set; } = "Loans.txt";
 
         public void Delete(Loan deleteThis)
         {
@@ -14,6 +14,21 @@
             }
             File.WriteAllLines(FilePath, openFile);
         }
+        public void Save(Loan saveThis)
+        {
+            string[] openFile = File.ReadAllLines(FilePath);
+            if (!openFile.Contains(saveThis.Id))
+            {
+                openFile.Append(saveThis.ToString());
+            }
+            else
+            {
+                int overwrite = Array.IndexOf(openFile, saveThis.ToString());
+                openFile[overwrite] = saveThis.ToString();
+            }
+            File.WriteAllLines(FilePath, openFile);
+        }
+
 
         public Loan Load()
         {
@@ -33,21 +48,6 @@
         public List<Loan> LoadAll(string userid)
         {
             throw new NotImplementedException();
-        }
-
-        public void Save(Loan saveThis)
-        {
-            string[] openFile = File.ReadAllLines(FilePath);
-            if (!openFile.Contains(saveThis.Id))
-            {
-                openFile.Append(saveThis.ToString());
-            }
-            else
-            {
-                int overwrite = Array.IndexOf(openFile, saveThis.ToString());
-                openFile[overwrite] = saveThis.ToString();
-            }
-            File.WriteAllLines(FilePath, openFile);
         }
 
         public void SaveAll(List<Loan> saveList)
