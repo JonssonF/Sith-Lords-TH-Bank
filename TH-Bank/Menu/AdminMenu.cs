@@ -44,7 +44,7 @@ namespace TH_Bank
             while (access)
             {
                 
-                int adminChoice = Choice(optionCount); 
+                int adminChoice = Format.Choice(optionCount); 
                 switch (adminChoice)
                 {
 
@@ -82,7 +82,7 @@ namespace TH_Bank
             Console.WriteLine("What type of user do you want to create?");
             Console.WriteLine("1. Customer");
             Console.WriteLine("2. Admin");
-            int choice = Choice(2);
+            int choice = Format.Choice(2);
 
             string firstName = "";
             string lastName = "";

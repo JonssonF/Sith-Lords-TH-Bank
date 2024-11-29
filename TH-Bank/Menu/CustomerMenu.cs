@@ -43,7 +43,7 @@ namespace TH_Bank
             access = true;
             while (access)
             {
-                int customerChoice = Choice(optionCount);
+                int customerChoice = Format.Choice(optionCount);
                 switch (customerChoice)
                 {
 
