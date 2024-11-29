@@ -4,6 +4,11 @@
     {
         public string FilePath { get; set; }
 
+        public TransactionDataHandler()
+        {
+            FilePath = FilePaths.TransactionPath;
+        }
+
         public void Delete(Transaction deleteThis)
         {
             string[] openFile = File.ReadAllLines(FilePath);
@@ -27,12 +32,49 @@
 
         public List<Transaction> LoadAll()
         {
-            throw new NotImplementedException();
+            string[] openFile = File.ReadAllLines(FilePath);
+
+            var transactions = new List<Transaction>();
+
+            foreach (string line in openFile)
+            {
+
+                    string[] variables = line.Split('|');
+                    string id = variables[0];
+                    string dateTime = variables[1];
+                    decimal amount = Decimal.Parse(variables[2]);
+                    int fromAccountNumber = Int32.Parse(variables[3]);
+                    int toAccountNumber = Int32.Parse(variables[4]);
+
+                    transactions.Add(new Transaction(id, dateTime, amount, fromAccountNumber, toAccountNumber));
+
+            }
+
+            return transactions;
         }
 
         public List<Transaction> LoadAll(string userid)
         {
-            throw new NotImplementedException();
+            string[] openFile = File.ReadAllLines(FilePath);
+
+            var transactions = new List<Transaction>();
+
+            foreach (string line in openFile)
+            {
+                if(line.Contains(userid))
+                {
+                string[] variables = line.Split('|');
+                string id = variables[0];
+                string dateTime = variables[1];
+                decimal amount = Decimal.Parse(variables[2]);
+                int fromAccountNumber = Int32.Parse(variables[3]);
+                int toAccountNumber = Int32.Parse(variables[4]);
+
+                transactions.Add(new Transaction(id, dateTime, amount, fromAccountNumber, toAccountNumber));
+                }
+            }
+
+            return transactions;
         }
 
         public void Save(Transaction saveThis)
@@ -40,7 +82,7 @@
             string[] openFile = File.ReadAllLines(FilePath);
             if (!openFile.Contains(saveThis.Id))
             {
-                openFile.Append(saveThis.ToString());
+                openFile = openFile.Append(saveThis.ToString()).ToArray();
             }
             else
             {

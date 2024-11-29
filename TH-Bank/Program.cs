@@ -19,33 +19,38 @@ namespace TH_Bank
 
         public static void CreateFiles()
         {
+            string[] defaultusers =
+            {
+                "CUS00000000|UserName|Password|FirstName|LastName",
+                "ADM00000000|Admin|Password|"
+            };
+
+            string[] defaultsystem =
+            {
+                "CustomerIDCount|1",
+                "AdminIDCount|1",
+                "TransactionIDCount|1"
+            };
+
             if (!File.Exists(FilePaths.AccountPath))
             {
                 File.Create(FilePaths.AccountPath);
-
             }
-
             if (!File.Exists(FilePaths.UserPath))
             {
-
-                File.Create(FilePaths.UserPath);
+                File.AppendAllLines(FilePaths.UserPath, defaultusers);
             }
-
             if (!File.Exists(FilePaths.LogPath))
             {
                 File.Create(FilePaths.LogPath);
-
             }
-
             if (!File.Exists(FilePaths.TransactionPath))
             {
-
                 File.Create(FilePaths.TransactionPath);
             }
             if (!File.Exists(FilePaths.SystemPath))
             {
-
-                File.Create(FilePaths.SystemPath);
+                File.AppendAllLines(FilePaths.SystemPath, defaultsystem);
             }
         }
 

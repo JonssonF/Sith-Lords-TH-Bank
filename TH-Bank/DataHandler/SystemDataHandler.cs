@@ -6,6 +6,7 @@ namespace TH_Bank
         public string FilePath { get; set; }
         private int _customerIDCount;
         private int _adminIDCount;
+        private int _transactionIDCount;
         
 
         public SystemDataHandler()
@@ -25,6 +26,11 @@ namespace TH_Bank
                     string[] split = line.Split('|');
                     _adminIDCount = int.Parse(split[1]);
                 }
+                else if (line.Contains("TransactionIDCount"))
+                {
+                    string[] split = line.Split('|');
+                    _transactionIDCount = int.Parse(split[1]);
+                }
             }
         }
         public int GetCustomerIDCount()
@@ -34,6 +40,11 @@ namespace TH_Bank
         public int GetAdminIDCount()
         {
             return _adminIDCount;
+        }
+
+        public int GetTransactionIDCount()
+        {
+            return _transactionIDCount;
         }
 
         public void Save(string valueToChange, int saveThis)

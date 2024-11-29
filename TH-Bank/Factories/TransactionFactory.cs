@@ -2,9 +2,14 @@
 {
     public class TransactionFactory
     {
-        public Transaction CreateTransaction(decimal Amount, Account FromAccount, Account ToAccount, string Id)
+        public Transaction CreateTransaction(decimal Amount, int FromAccount, int ToAccount)
         {
-            Transaction transaction = new Transaction(Amount, FromAccount, ToAccount, Id);
+            var sysData = new SystemDataHandler();
+
+            string id = $"TRA{sysData.GetTransactionIDCount().ToString("D8")}";
+            sysData.Save("Transaction", sysData.GetTransactionIDCount() + 1);
+
+            Transaction transaction = new Transaction(id, null, Amount, FromAccount, ToAccount);
             var transactionDataHandler = new TransactionDataHandler();
             transactionDataHandler.Save(transaction);
             return transaction;
