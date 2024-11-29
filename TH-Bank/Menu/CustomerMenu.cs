@@ -49,6 +49,10 @@ namespace TH_Bank
 
                     case 1:
                         ShowAccounts(ActiveUserSingleton.GetInstance(), new AccountDataHandler());
+                        Console.Write("Press any key to go back.");
+                        Console.ReadLine();
+                        Console.Clear();
+                        ShowMenu();
                         break;
                     case 2:
                         //Show transactions.
@@ -149,10 +153,7 @@ namespace TH_Bank
                 Console.ResetColor();
             }
             Console.WriteLine(new string('-', center));
-            Console.Write("Press any key to go back.");
-            Console.ReadLine();
-            Console.Clear();
-            ShowMenu();
+            
         }
 
 
