@@ -47,6 +47,11 @@ namespace TH_Bank
 
                 File.Create(FilePaths.SystemPath);
             }
+            if (!File.Exists(FilePaths.LoanPath))
+            {
+
+                File.Create(FilePaths.LoanPath);
+            }
         }
 
         public static void LogIn(UserDataHandler userDataHandler)

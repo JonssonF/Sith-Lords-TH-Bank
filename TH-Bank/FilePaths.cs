@@ -9,6 +9,7 @@ namespace TH_Bank
         public static string LogPath { get { return "Logs.txt"; } }
         public static string TransactionPath { get { return "Transactions.txt";  } }
         public static string SystemPath { get { return "System.txt";  } }
+        public static string LoanPath { get { return "Loan.txt";  } }
 
     }
 }
