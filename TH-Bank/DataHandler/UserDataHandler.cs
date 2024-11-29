@@ -149,7 +149,9 @@ namespace TH_Bank
 
             foreach (string s in openFile)
             {
-                if (s.Contains(password) && s.Contains(username))
+                string[] check = s.Split('|');
+
+                if(username == check[1] && password == check[2])
                 {
                     return true;
                 }
@@ -177,7 +179,9 @@ namespace TH_Bank
 
             foreach (string s in openFile)
             {
-                if (s.Contains(username))
+                string[] check = s.Split('|');
+
+                if (username == check[1])
                 {
                     return true;
                 }

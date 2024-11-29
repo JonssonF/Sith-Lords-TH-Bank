@@ -54,7 +54,6 @@ namespace TH_Bank
             }
             if (!File.Exists(FilePaths.LoanPath))
             {
-
                 File.Create(FilePaths.LoanPath);
             }
         }
