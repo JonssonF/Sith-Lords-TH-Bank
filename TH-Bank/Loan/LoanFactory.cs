@@ -4,11 +4,11 @@
     {
         public class Loan
         {
-            //public Loan CreateTransaction(decimal Amount, Account FromAccount, Account ToAccount, string Id)
+            //public Loan NewLoan(decimal Amount, Account ToAccount, string Id)
             //{
-            //    Loan = new Loan (Amount, FromAccount, ToAccount, Id);
-            //    var transactionDataHandler = new TransactionDataHandler();
-            //    transactionDataHandler.Save(transaction);
+            //    Loan = new Loan (Amount, ToAccount, Id);
+            //    var loanDataHandler = new LoanDataHandler();
+            //    loanDataHandler.Save(loan);
             //    return transaction;
             //}
         }
