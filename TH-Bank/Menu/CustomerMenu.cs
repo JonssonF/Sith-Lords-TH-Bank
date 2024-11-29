@@ -86,18 +86,19 @@ namespace TH_Bank
             int padding = (center - text.Length) / 2;
             string centeredText = new string('.', padding) + text + new string('.', padding);
             ConsoleColor textColor;
-            List<Account> accountList = activeUser.LoadAll(user.Id);
             CultureInfo currencyFormat;
+            List<Account> allAccounts = activeUser.LoadAll(user.Id);
+            List<Account> accountList = allAccounts.Where(acc => acc.OwnerID == user.Id).ToList(); // LINQ Method to filter away accounts that isn't current users.
 
-                if (accountList == null || accountList.Count == 0)
-                {
-                    
-                    textColor = ConsoleColor.Red;
-                    Console.WriteLine("\t\n\nYou dont have any accounts at the moment.");
-                    Thread.Sleep(1500);
-                    MenuCustomer();
-                    return;
-                }
+            if (accountList == null || accountList.Count == 0)
+            {
+
+                textColor = ConsoleColor.Red;
+                Console.WriteLine($"Username: {user.UserName} have no registered accounts at the moment.");
+                Thread.Sleep(2000);
+                ShowMenu();
+                return;
+            }
 
             Console.WriteLine(centeredText);  // Headline for account show.
             Console.WriteLine(new string('-', center));
