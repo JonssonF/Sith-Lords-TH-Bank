@@ -197,20 +197,17 @@ namespace TH_Bank
 
             AccountFactory acc1 = new AccountFactory();
             Console.WriteLine("Enter account balance: ");
-            decimal ab = Decimal.Parse(Console.ReadLine());
+            decimal balance = Decimal.Parse(Console.ReadLine());
             Console.WriteLine("Enter currency: ");
             string currency = Console.ReadLine();
             Console.WriteLine("Enter accountnumber: ");
-            int an = Int32.Parse(Console.ReadLine());
+            int accountnumber = Int32.Parse(Console.ReadLine());
             Console.WriteLine("Enter account owner: ");
-            string acOwner = Console.ReadLine();
+            string ownerid = Console.ReadLine();
             Console.WriteLine("Enter accounttype: ");
-            string acType = Console.ReadLine();
+            string userchoice = Console.ReadLine();
 
-            Account account = accountFactory.CreateAccount(ab, currency, an, acOwner, acType);
+            Account account = accountFactory.CreateAccount(ownerid, accountnumber, balance, currency, userchoice);
         }
-
-
-
     }
 }
