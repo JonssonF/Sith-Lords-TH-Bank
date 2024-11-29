@@ -60,7 +60,8 @@ namespace TH_Bank
         }
 
 
-        // 
+        // This method is triggered every time the timer triggers.
+        // Connected to timer.Elapsed.
         public void OnTimedEvent(object sender, System.Timers.ElapsedEventArgs e)
         {
             ExecuteTransactions();
