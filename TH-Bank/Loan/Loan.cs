@@ -4,7 +4,6 @@
     public class Loan
     {
 
-
         private decimal _amount;
         private int _fromAccount;
         private int _toAccount;
