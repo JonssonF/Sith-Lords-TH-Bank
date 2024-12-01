@@ -2,10 +2,17 @@
 {
     internal class MortgageLoan : Loan
     {
-        public MortgageLoan(decimal amount, Account toAccount, string id) : base(amount, toAccount, id)
+        public List<Account> accounts;
+        public override string LoanType { get; } = "Mortgage";
+
+        public MortgageLoan(string id, decimal amount, double interest) : base(id, amount, interest)
         {
+            accounts = new List<Account>();
+        }
 
-
+        public override string ToString()
+        {
+            return $"{Id}|{LoanType}|{Amount}|{Interest}|{LoanStart}";
         }
     }
 }

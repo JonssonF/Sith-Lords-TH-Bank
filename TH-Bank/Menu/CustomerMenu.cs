@@ -48,7 +48,7 @@ namespace TH_Bank
                 {
 
                     case 1:
-                        ShowAccounts(ActiveUserSingleton.GetInstance(), new AccountDataHandler());
+                        ShowAccounts(ActiveUserSingleton.GetInstance(), new AccountDataHandler(), new LoanDataHandler());
                         Console.Write("Press any key to go back.");
                         Console.ReadLine();
                         Console.Clear();
@@ -66,8 +66,7 @@ namespace TH_Bank
                         MakeExternalTransaction(ActiveUserSingleton.GetInstance(), new AccountDataHandler());
                         break;
                     case 5:
-                        // Lån alternativet.
-                        Loan.ApplyForLoan(ActiveUserSingleton.GetInstance());
+                        ApplyForLoan(new LoanDataHandler(), new LoanFactory());
                         break;
                     case 6:
                         // Spot for open new account.
@@ -94,7 +93,14 @@ namespace TH_Bank
             CultureInfo currencyFormat;
             List<Account> allAccounts = activeUser.LoadAll(user.Id);
             List<Account> accountList = allAccounts.Where(acc => acc.OwnerID == user.Id).ToList(); // LINQ Method to filter away accounts that isn't current users.
+            /*-------------------------------------------------------------------------------------------------*/
+            /*-------------------------------------------------------------------------------------------------*/
+            /*-------------------------------------------------------------------------------------------------*/
+            
 
+            /*-------------------------------------------------------------------------------------------------*/
+            /*-------------------------------------------------------------------------------------------------*/
+            /*-------------------------------------------------------------------------------------------------*/
             if (accountList == null || accountList.Count == 0)
             {
 
@@ -235,8 +241,37 @@ namespace TH_Bank
             Console.WriteLine("Enter accounttype: ");
             string userchoice = Console.ReadLine();
 
-            //Account account = accountFactory.CreateAccount(ownerid, accountnumber, balance, currency, userchoice);
+            Account account = accountFactory.CreateAccount(ownerid, accountnumber, balance, currency, userchoice);
 
+        }
+
+        public static void ApplyForLoan(LoanDataHandler loanData, LoanFactory loanFactory)
+        {
+            Console.Clear();
+            int center = 80; // Used for dividing lines, and to align column headers.
+            Console.WriteLine(new string('-', center));
+            Console.WriteLine("Wich type of loan would you like to apply for?");
+            Console.WriteLine("1. Car-loan.");
+            Console.WriteLine("2. Mortgage.");
+            int userChoice = Format.Choice(2);
+
+            switch (userChoice)
+            {
+                case 1:
+                    string userLoan = "Carloan";
+
+
+
+                    break;
+
+
+
+
+                case 2:
+
+                    break;
+            }
+            Console.ReadKey();
         }
     }
 }

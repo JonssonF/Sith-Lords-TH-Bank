@@ -7,6 +7,7 @@ namespace TH_Bank
         private int _customerIDCount;
         private int _adminIDCount;
         private int _transactionIDCount;
+        private int _loanIDCount;
         
 
         public SystemDataHandler()
@@ -30,6 +31,11 @@ namespace TH_Bank
                 {
                     string[] split = line.Split('|');
                     _transactionIDCount = int.Parse(split[1]);
+                }
+                else if (line.Contains("LoanIDCount"))
+                {
+                    string[] split = line.Split('|');
+                    _loanIDCount = int.Parse(split[1]);
                 }
             }
         }

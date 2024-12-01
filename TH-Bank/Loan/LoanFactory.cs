@@ -2,12 +2,32 @@
 {
     public class LoanFactory
     {
-        public Loan NewLoan(decimal Amount, Account ToAccount, string Id)
+
+
+        public Loan NewLoan(string id, decimal amount, double interest,string userChoice)
         {
-            Loan loan = new Loan(Amount, ToAccount, Id);
             var loanDataHandler = new LoanDataHandler();
-            loanDataHandler.Save(loan);
-            return loan;
+
+            if(userChoice == "Carloan")
+            {
+                Loan carLoan = new CarLoan(id, amount, interest);
+                loanDataHandler.Save(carLoan);
+                return carLoan;
+            }
+            else if (userChoice == "Mortgage")
+            {
+                Loan mortLoan = new MortgageLoan(id, amount, interest);
+                loanDataHandler.Save(mortLoan);
+                return mortLoan;
+            }
+            else
+            {
+                throw new Exception("Invalid account-type");
+            }
+
+            
         }
+
+
     }
 }

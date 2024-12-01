@@ -2,7 +2,39 @@
 {
     public class LoanDataHandler : IDataHandler<Loan>
     {
-        public string FilePath { get; set; } = "Loans.txt";
+        public string FilePath { get; set; }
+
+        public LoanDataHandler()
+        {
+            FilePath = FilePaths.LoanPath;
+        }
+
+        public Loan Load()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Loan Load(string id)
+        {
+            var allLoans = new List<Loan>();
+
+            foreach(var loan in allLoans)
+            {
+                Console.WriteLine(loan);
+            }
+            //return allLoans;
+            throw new NotImplementedException();
+        }
+
+        public List<Loan> LoadAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Loan> LoadAll(string userid)
+        {
+            throw new NotImplementedException();
+        }
 
         public void Delete(Loan deleteThis)
         {
@@ -14,6 +46,7 @@
             }
             File.WriteAllLines(FilePath, openFile);
         }
+
         public void Save(Loan saveThis)
         {
             string[] openFile = File.ReadAllLines(FilePath);
@@ -27,27 +60,6 @@
                 openFile[overwrite] = saveThis.ToString();
             }
             File.WriteAllLines(FilePath, openFile);
-        }
-
-
-        public Loan Load()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Loan Load(string id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<Loan> LoadAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<Loan> LoadAll(string userid)
-        {
-            throw new NotImplementedException();
         }
 
         public void SaveAll(List<Loan> saveList)
