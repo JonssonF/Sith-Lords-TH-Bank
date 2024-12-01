@@ -5,20 +5,20 @@ namespace TH_Bank
     public class AccountFactory
     {
 
-        public Account CreateAccount(string ownerid, int accountnumber, decimal balance, string currency, string userchoice)
+        public Account CreateAccount(string ownerid, int accountnumber, string currency, string userchoice)
         {
             var accountDataHandler = new AccountDataHandler();
             
             if (userchoice == "Salaryaccount")
 
             {
-                Account salAccount = new SalaryAccount(ownerid, accountnumber, balance, currency);                
+                Account salAccount = new SalaryAccount(ownerid, accountnumber, currency);                
                 accountDataHandler.Save(salAccount);
                 return salAccount;
             }
             else if (userchoice == "Savingsaccount")
             {
-                Account saveAccount = new SavingsAccount(ownerid, accountnumber, balance, currency);
+                Account saveAccount = new SavingsAccount(ownerid, accountnumber, currency);
                 accountDataHandler.Save(saveAccount);
                 return saveAccount;
             }

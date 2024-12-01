@@ -224,8 +224,6 @@ namespace TH_Bank
             List<Account> accountList = activeUser.LoadAll(user.UserName);
 
             AccountFactory acc1 = new AccountFactory();
-            Console.WriteLine("Enter account balance: ");
-            decimal balance = Decimal.Parse(Console.ReadLine());
             Console.WriteLine("Enter currency: ");
             string currency = Console.ReadLine();
             Console.WriteLine("Enter accountnumber: ");
@@ -235,7 +233,7 @@ namespace TH_Bank
             Console.WriteLine("Enter accounttype: ");
             string userchoice = Console.ReadLine();
 
-            //Account account = accountFactory.CreateAccount(ownerid, accountnumber, balance, currency, userchoice);
+            Account account = accountFactory.CreateAccount(ownerid, accountnumber, currency, userchoice);
 
         }
     }
