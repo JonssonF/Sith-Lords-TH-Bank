@@ -226,14 +226,12 @@ namespace TH_Bank
             AccountFactory acc1 = new AccountFactory();
             Console.WriteLine("Enter currency: ");
             string currency = Console.ReadLine();
-            Console.WriteLine("Enter accountnumber: ");
-            int accountnumber = Int32.Parse(Console.ReadLine());
             Console.WriteLine("Enter account owner: ");
             string ownerid = Console.ReadLine();
             Console.WriteLine("Enter accounttype: ");
             string userchoice = Console.ReadLine();
 
-            Account account = accountFactory.CreateAccount(ownerid, accountnumber, currency, userchoice);
+            Account account = accountFactory.CreateAccount(ownerid, currency, userchoice);
 
         }
     }
