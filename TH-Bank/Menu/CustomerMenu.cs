@@ -166,53 +166,68 @@ namespace TH_Bank
             return paddedText;
         }
 
-        public void MakeTransaction(User user, AccountDataHandler activeUser)
+        public void MakeTransaction(User user, AccountDataHandler adh)
         {
-            ShowAccounts(user, activeUser);
+            ShowAccounts(user, adh);
 
-            List<Account> userAccounts = activeUser.LoadAll(user.UserName);
-            //List<Account> allAccounts = new AccountDataHandler.LoadAll();
+            List<Account> userAccounts = adh.LoadAll(user.Id);
+            List<Account> allAccounts = adh.LoadAll();
 
-            Console.WriteLine("Enter account number to transfer from: ");
-            int fromAccount = int.Parse(Console.ReadLine());
-
-            decimal amount = 0;
-            int toAccount = 0;
-            bool validFromAccount = false;
-            bool validToAccount = false;
-
-            foreach (Account userAccount in userAccounts)
+            Account[] accountArray = userAccounts.ToArray();
+            optionCount = userAccounts.Count;
+            
+            Console.WriteLine($"Enter account to transfer from (1 - {optionCount}): ");
+            int fromAccount;
+            if (optionCount <= 9)
             {
-                if (userAccount.AccountNumber == fromAccount)
-                {
-                    validFromAccount = true;
-                    Console.WriteLine("Enter account number to transfer to: \n" +
-                    "(Other customers account number available for external transaction)");
-                    toAccount = int.Parse(Console.ReadLine());
-                    //foreach (Account account in allAccounts)
-                    //{
-                    //    if (allAccounts.AccountNumber == toAccount)
-                    //    {
-                    //        validToAccount = true;
-                    //        Console.WriteLine("Enter amount to transfer: ");
-                    //        amount = decimal.Parse(Console.ReadLine());
-                    //    }
-                    //}
-                }
-            }
-            if (validFromAccount == false || validToAccount == false)
-            {
-                Console.WriteLine("Invalid account number.");
+                fromAccount = Format.Choice(optionCount);
             }
             else
             {
-                //Transaction transaction = new TransactionFactory().CreateTransaction(amount, fromAccount, toAccount, Id);
-                //transaction.TransferFunds();
+                while (!int.TryParse(Console.ReadLine(), out fromAccount) || fromAccount > optionCount)
+                {
+                    Console.WriteLine($"Invalid choice.\nEnter account to transfer from (1 - {optionCount}): ");
+                }
             }
-            Console.Write("Press any key to return to menu.");
-            Console.ReadLine();
-            Console.Clear();
-            ShowMenu();
+
+            decimal amount;
+            int toAccount;
+            bool validFromAccount = false;
+            bool validToAccount = false;
+
+            //foreach (Account userAccount in userAccounts)
+            //{
+            //    if (userAccount.AccountNumber == fromAccount)
+            //    {
+            //        validFromAccount = true;
+            //        Console.WriteLine("Enter account number to transfer to: \n" +
+            //        "(Other customers account number available for external transaction)");
+            //        toAccount = int.Parse(Console.ReadLine());
+            //        foreach (Account account in allAccounts)
+            //        {
+            //            if (account.AccountNumber == toAccount)
+            //            {
+            //                validToAccount = true;
+            //                Console.WriteLine("Enter amount to transfer: ");
+            //                amount = decimal.Parse(Console.ReadLine());
+            //            }
+            //        }
+            //    }
+            //    else { }
+            //}
+            //if (validFromAccount == false || validToAccount == false)
+            //{
+            //    Console.WriteLine("Invalid account number.");
+            //}
+            //else
+            //{
+            //    //Transaction transaction = new TransactionFactory().CreateTransaction(amount, fromAccount, toAccount, Id);
+            //    //transaction.TransferFunds();
+            //}
+            //Console.Write("Press any key to return to menu.");
+            //Console.ReadLine();
+            //Console.Clear();
+            //ShowMenu();
 
         }
         public void MakeExternalTransaction(User user, AccountDataHandler activeUser)
