@@ -81,6 +81,7 @@ namespace TH_Bank
             return number;
         }
 
+
         public static int IntegerInput(int numberOfDigits)
         {
             bool isNumber = false;
@@ -120,5 +121,15 @@ namespace TH_Bank
         }
 
        
+
+        private static Random randaccount = new Random();
+        public static int UniqueAccountNo(string account)
+        {
+            string choice = account == "Salaryaccount" ? "11" : "22";
+            int rndAcc = randaccount.Next(1000, 10000);
+            string accountNumber = choice + rndAcc.ToString();
+            return int.Parse(accountNumber);
+        }
+
     }
 }
