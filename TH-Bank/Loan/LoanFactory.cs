@@ -8,24 +8,24 @@
         {
             var loanDataHandler = new LoanDataHandler();
 
+            Loan loan = null;
+
             if(userChoice == "Carloan")
             {
-                Loan carLoan = new CarLoan(id, amount, interest);
-                loanDataHandler.Save(carLoan);
-                return carLoan;
+                loan = new CarLoan(id, amount, interest);
+                loanDataHandler.Save(loan);
             }
             else if (userChoice == "Mortgage")
             {
-                Loan mortLoan = new MortgageLoan(id, amount, interest);
-                loanDataHandler.Save(mortLoan);
-                return mortLoan;
+                loan = new MortgageLoan(id, amount, interest);
+                loanDataHandler.Save(loan);
             }
             else
             {
-                throw new Exception("Invalid account-type");
+                throw new Exception("Invalid loan-type");
             }
 
-            
+            return loan;
         }
 
 

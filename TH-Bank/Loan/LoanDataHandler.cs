@@ -16,14 +16,30 @@
 
         public Loan Load(string id)
         {
-            var allLoans = new List<Loan>();
+            string[] openFile = File.ReadAllLines(FilePath);
 
-            foreach(var loan in allLoans)
+            foreach (string line in openFile)
             {
-                Console.WriteLine(loan);
+                if (line.Contains(id) && line.Contains("Carloan"))
+                {
+                    string[] variables = line.Split('|');
+                    string userId = variables[0];
+                    decimal amount = Decimal.Parse(variables[1]);
+                    double interest = Double.Parse(variables[2]);
+                    var carLoan = new CarLoan(userId, amount, interest);
+                    return carLoan;
+                }
+                else if (line.Contains(id) && line.Contains("Mortgage"))
+                {
+                    string[] variables = line.Split('|');
+                    string userId = variables[0];
+                    decimal amount = Decimal.Parse(variables[1]);
+                    double interest = Double.Parse(variables[2]);
+                    var mortgageLoan = new MortgageLoan(userId, amount, interest);
+                    return mortgageLoan;
+                }
             }
-            //return allLoans;
-            throw new NotImplementedException();
+            throw new Exception("Invalid loan type.");
         }
 
         public List<Loan> LoadAll()
@@ -49,14 +65,14 @@
 
         public void Save(Loan saveThis)
         {
-            string[] openFile = File.ReadAllLines(FilePath);
-            if (!openFile.Contains(saveThis.Id))
+            List<string> openFile = File.ReadAllLines(FilePath).ToList();
+            if (!openFile.Contains(saveThis.ToString()))
             {
-                openFile.Append(saveThis.ToString());
+                openFile.Add(saveThis.ToString());
             }
             else
             {
-                int overwrite = Array.IndexOf(openFile, saveThis.ToString());
+                int overwrite = openFile.IndexOf(saveThis.ToString());
                 openFile[overwrite] = saveThis.ToString();
             }
             File.WriteAllLines(FilePath, openFile);
