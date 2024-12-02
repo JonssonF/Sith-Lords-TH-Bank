@@ -89,14 +89,13 @@ namespace TH_Bank
         {
             Console.Clear();
             int width = 20;
-            int center = 80; // Used for dividing lines, and to align column headers.
+            int center = 86; // Used for dividing lines, and to align column headers.
             string text = $".:{user.UserName}'s Accounts:."; //Headline.
             int padding = (center - text.Length) / 2;
             string centeredText = new string('.', padding) + text + new string('.', padding);
             ConsoleColor textColor;
             CultureInfo currencyFormat;
-            List<Account> allAccounts = activeUser.LoadAll(user.Id);
-            List<Account> accountList = allAccounts.Where(acc => acc.OwnerID == user.Id).ToList(); // LINQ Method to filter away accounts that isn't current users.
+            List<Account> accountList = activeUser.LoadAll(user.Id);
             
             if (accountList == null || accountList.Count == 0)
             {
@@ -113,13 +112,14 @@ namespace TH_Bank
             Console.WriteLine(centeredText);  // Headline for account show.
             Console.WriteLine(new string('-', center));
             Console.WriteLine(
+                $"{"Nr:."}" +
                 $"{CenterText(".:Account Type:.", width)}" +
                 $"{CenterText(".:Account Number:.", width)}" +
                 $"{CenterText(".:Balance:.", width)}" +
                 $"{CenterText(".:Interest:.", width)}");
             Console.WriteLine(new string('-', center));
 
-
+            int nr = 1;
             foreach (var acc in accountList)
             {
 
@@ -147,15 +147,24 @@ namespace TH_Bank
                 {
                     currentCurrency = acc.Balance.ToString("C", CultureInfo.CurrentCulture);
                 }
+                
                 Console.WriteLine(
-                    $"{CenterText(acc.AccountType, width)}" + // Type of Account.
+                    $"{" "}{nr}{"."}{CenterText(acc.AccountType, width)}" + // Type of Account.
                     $"{CenterText(acc.AccountNumber.ToString(), width)}" + //Accountnumber.
                     $"{CenterText(currentCurrency, width)}" + //Formatted Currency variable, from if statement. Shows balance and currency.
-                    $"{CenterText(acc.Interest.ToString("%"), width)}");
-
+                    $"{CenterText(acc.GetInterest().ToString("P"), width)}");
+                nr++;
                 //$"{CenterText(acc.Balance.ToString("C"), width)}" + // Balance.             /*Lägger denna här under tiden ifall "balance / currency variabeln inte ska användas.*/
                 Console.ResetColor();
             }
+        }
+        public string CenterText(string text, int width) // A method to align the text in columns when showing accounts.
+        {
+            
+            int padding = (width - text.Length) / 2;
+            string paddedText = text.PadLeft(padding + text.Length);
+            paddedText = paddedText.PadRight(width);
+            return paddedText;
         }
 
         public void ShowLoans(User user, LoanDataHandler loanUser)
@@ -172,6 +181,7 @@ namespace TH_Bank
             Console.WriteLine(centeredText);  // Headline for account show.
             Console.WriteLine(new string('-', center));
             Console.WriteLine(
+                $"{"Nr:."}"+
                 $"{CenterText(".:Loan Type:.", width)}" +
                 $"{CenterText(".:Amount:.", width)}" +
                 $"{CenterText(".:Interest:.", width)}" +
@@ -184,24 +194,19 @@ namespace TH_Bank
             }
             else
             {
+                int nr = 1;
                 foreach (var loan in allLoans)
                 {
                     Console.WriteLine(
-                        $"{CenterText(loan.LoanType, width)}" +
+                        $"{" "}{nr}{"."}{CenterText(loan.LoanType, width)}" +
                         $"{CenterText(loan.Amount.ToString("C"), width)}" +
-                        $"{CenterText(loan.Interest.ToString("%"), width)}" +
+                        $"{CenterText(loan.Interest.ToString("P"), width)}" +
                         $"{CenterText(loan.LoanStart.ToString("yyyy-MM-dd"), width)}");
+                nr++;
                 }
             }
 
             Console.WriteLine(new string('-', center));
-        }
-        public string CenterText(string text, int width) // A method to align the text in columns when showing accounts.
-        {
-            int padding = (width - text.Length) / 2;
-            string paddedText = text.PadLeft(padding + text.Length);
-            paddedText = paddedText.PadRight(width);
-            return paddedText;
         }
 
         public void MakeTransaction(User user, AccountDataHandler adh)
@@ -341,7 +346,7 @@ namespace TH_Bank
             decimal maxValue = 0;
             string currentLoan = "";
             List<Account> accounts = activeUser.LoadAll(user.Id);
-
+            
             foreach (var acc in accounts) // Counts total value of users accounts.
             {
                 maxValue += acc.Balance;
@@ -369,18 +374,17 @@ namespace TH_Bank
                     throw new Exception("Invalid menu choice");
             }
 
-
             void CarLoan()
             {
                 currentLoan = "Car - Loan";
-                interest = 6;
+                interest = 0.06;
                 while (loanBool)
                 {
                     Console.Clear();
                     Console.WriteLine(new string('-', 80));
                     Console.WriteLine($"Should you wish to apply for a Car-loan.\n" +
                         $"You are eligible for a loan of this amount: {maxLoan.ToString("C")}\n" +
-                        $"With a interest rate of {interest}%.\n\n");
+                        $"With a interest rate of {interest.ToString("P")}.\n\n");
                     Console.WriteLine("Would you like to continue?");
                     Console.WriteLine("[1] - Yes.");
                     Console.WriteLine("[2] - No.");
@@ -391,7 +395,7 @@ namespace TH_Bank
                         case 1:
                             Console.Clear();
                             Console.WriteLine(new string('-', 80));
-                            Console.WriteLine($"..::[ {currentLoan} ]::..::[ Max Amount: {maxLoan.ToString("C")} ]::..::[ Interest: {interest} % ]::..");
+                            Console.WriteLine($"..::[ {currentLoan} ]::..::[ Max Amount: {maxLoan.ToString("C")} ]::..::[ Interest: {interest.ToString("P")} ]::..");
                             Console.WriteLine(new string('-', 80));
                             Console.Write("How much would you like to loan: ");
                             if (!decimal.TryParse(Console.ReadLine(), out amount))
@@ -419,7 +423,7 @@ namespace TH_Bank
                                 Console.WriteLine($"Congratulations {user.UserName} on your new loan.\n" +
                                     $"Loan type: [ {currentLoan} ]\n" +
                                     $"Loan amount: [ {amount.ToString("C")}]\n" +
-                                    $"Interest rate: [ {interest} % ]\n" +
+                                    $"Interest rate: [ {interest.ToString("P")} ]\n" +
                                     $"Approved: [ {loanTimeStamp} ]");
                                 Console.WriteLine(new string('-', 80));
                                 Console.WriteLine("Press any key to get to the main menu.");
@@ -439,14 +443,14 @@ namespace TH_Bank
             {
 
                 currentLoan = "Mortgage - Loan";
-                interest = 4;
+                interest = 0.04;
                 while (loanBool)
                 {
                     Console.Clear();
                     Console.WriteLine(new string('-', 80));
                     Console.WriteLine($"Should you wish to apply for a mortgage.\n\n" +
                         $"You are eligible for a loan of this amount: {maxLoan.ToString("C")}\n" +
-                        $"With a interest rate of {interest} %.\n\n");
+                        $"With a interest rate of {interest.ToString("P")}.\n\n");
                     Console.WriteLine("Would you like to continue?");
                     Console.WriteLine("[1] - Yes.");
                     Console.WriteLine("[2] - No.");
@@ -456,7 +460,7 @@ namespace TH_Bank
                     {
                         case 1:
                             Console.Clear();
-                            Console.WriteLine($"..::[ {currentLoan} ]::..::[ Max Amount: {maxLoan.ToString("C")} ]::..::[ Interest: {interest} % ]::..");
+                            Console.WriteLine($"..::[ {currentLoan} ]::..::[ Max Amount: {maxLoan.ToString("C")} ]::..::[ Interest: {interest.ToString("P")} ]::..");
                             Console.WriteLine(new string('-', 80));
                             Console.Write("How much would you like to loan: ");
                             if (!decimal.TryParse(Console.ReadLine(), out amount))
@@ -485,7 +489,7 @@ namespace TH_Bank
                                 Console.WriteLine($"Congratulations {user.UserName} on your new loan.\n" +
                                     $"Loan type: [ {currentLoan} ]\n" +
                                     $"Loan amount: [ {amount.ToString("C")}]\n" +
-                                    $"Interest rate: [ {interest} % ]\n" +
+                                    $"Interest rate: [ {interest.ToString("P")} ]\n" +
                                     $"Approved: [ {loanTimeStamp} ]");
                                 Console.WriteLine(new string('-', 80));
                                 Console.WriteLine("Press any key to get to the main menu.");
