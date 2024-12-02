@@ -1,41 +1,32 @@
 ﻿namespace TH_Bank
 {
 
-    public class Loan
+    public abstract class Loan
     {
 
         private decimal _amount;
-        private int _fromAccount;
         private int _toAccount;
-        private DateTime _transferDate;
+        private DateTime _loanStart;
+        private string _Id;
+        private double _interest;
 
-        public decimal Amount { get; set; }
-        public Account ToAccount { get; set; }
-        public DateTime LoanStart { get; set; }
         public string Id { get; set; }
+        //public Account ToAccount { get; set; }
+        public decimal Amount { get; set; }
+        public double Interest { get; set; }
+        public DateTime LoanStart { get; set; }
+        public abstract string LoanType { get; }
 
-        public Loan(decimal amount, Account toAccount, string id)
+
+        public Loan(string id, decimal amount, double interest)
         {
             Amount = amount;
-            ToAccount = toAccount;
             Id = id;
+            Interest = interest;
             LoanStart = DateTime.Now;
         }
+        
+        public abstract string ToString();
 
-        public static void ApplyForLoan(User user)
-        {
-            Console.Clear();
-            Console.WriteLine($".:{user.UserName}'s Accounts:.");
-            var loanMenu = new CustomerMenu();
-            loanMenu.ShowAccounts(ActiveUserSingleton.GetInstance(), new AccountDataHandler());
-            int center = 80; // Used for dividing lines, and to align column headers.
-            Console.WriteLine(new string('-', center));
-            Console.WriteLine("Wich type of loan would you like to apply for?");
-
-
-
-            Console.ReadKey();
-
-        }
     }
 }

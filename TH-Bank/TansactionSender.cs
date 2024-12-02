@@ -49,6 +49,7 @@ namespace TH_Bank
         //{
         //    var accountHandler = new AccountDataHandler();
 
+
         //    foreach (Transaction t in PendingTransactions)
         //    {
         //        t.FromAccount.Balance -= t.Amount;
@@ -58,7 +59,6 @@ namespace TH_Bank
         //    }
         //    PendingTransactions.Clear();
         //}
-
 
         //// This method is triggered every time the timer triggers.
         //// Connected to timer.Elapsed.

@@ -3,11 +3,18 @@
     internal class CarLoan : Loan
     {
 
-        public CarLoan(decimal amount, Account toAccount, string id) : base(amount, toAccount, id)
+        public List<Loan> loans;
+        public override string LoanType { get; } = "CarLoan";
+
+        public CarLoan(string id, decimal amount, double interest) : base(id, amount, interest)
         {
-
-
-
+            loans = new List<Loan>();
         }
+
+        public override string ToString()
+        {
+            return $"{Id}|{LoanType}|{Amount}|{Interest}|{LoanStart}";
+        }
+
     }
 }
