@@ -9,6 +9,7 @@
         public Currency()
         {
             ExchangeRates = new Dictionary<string, double>();
+            UpdateRates();
         }
 
         public override string ToString()
@@ -17,7 +18,7 @@
             foreach (var rate in ExchangeRates)
             {
 
-                rates += $"{rate.Key}:{rate.Value.ToString()}\n";
+                rates += $"{rate.Key}|{rate.Value.ToString()}\n";
             }
 
             return $"{NameShort}\n{Name}\n{rates}\n//End{Name}//\n";

@@ -1,28 +1,39 @@
 ﻿namespace TH_Bank
 {
-    public class ExchangeCurrency
+    public static class ExchangeCurrency
     {
-        public string FromCurrency { get; set; }
-        public string ToCurrency { get; set; }
-        public double Rate { get; private set; }
+        // Static containers with current available currencies,
+        // and exchange rates for each currency.
+        public static Currency[] currencies = { new SEK() };
+        public static Dictionary<string, Dictionary<string,double>> AllCurrentRates;
+        public static Dictionary<string,double> ThisCurrencyRates { get; set; }
 
-        // When creating a new instance, in paramaters are Currencys short names (eg. "SEK", "USD")
-        public ExchangeCurrency(string from, string to)
+        public static double ConversionRate { get; set; }
+
+       // Loads eventual changes from file.
+        private static void LoadRates(ExchangeDataHandler ex)
         {
-            FromCurrency = from;
-            ToCurrency = to;
-
-        }
-
-        private void LoadRates()
-        {
-
+            foreach(Currency c in currencies)
+            {
+                AllCurrentRates[c.Name] = ex.LoadRates(c.Name);
+            }
         }
 
         // This method is called to return converted amount
-        public decimal Exchange(decimal amount)
+        public static decimal Exchange(decimal amount, string fromCurrency, string toCurrency)
         {
-            return amount * (decimal)Rate;
+            LoadRates(new ExchangeDataHandler());
+            ThisCurrencyRates = AllCurrentRates[fromCurrency];
+
+            double rate = ThisCurrencyRates[toCurrency];
+            return amount * (decimal)rate;
+        }
+
+        public static void AddCurrency(Currency c, ExchangeDataHandler ex)
+        {
+            currencies = currencies.Append(c).ToArray();
+            ex.Save(c);
+
         }
     }
 }

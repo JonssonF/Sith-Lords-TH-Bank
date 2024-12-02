@@ -51,10 +51,10 @@ namespace TH_Bank
 
             foreach (Transaction t in PendingTransactions)
             {
-                t.FromAccount.Balance -= t.Amount;
-                t.ToAccount.Balance += t.Amount;
-                accountHandler.Save(t.FromAccount);
-                accountHandler.Save(t.ToAccount);
+                //t.FromAccount.Balance -= t.Amount;
+                //t.ToAccount.Balance += t.Amount;
+                //accountHandler.Save(t.FromAccount);
+                //accountHandler.Save(t.ToAccount);
             }
             PendingTransactions.Clear();
         }
