@@ -261,16 +261,14 @@ namespace TH_Bank
             List<Account> accountList = activeUser.LoadAll(user.UserName);
 
             AccountFactory acc1 = new AccountFactory();
-            Console.WriteLine("Enter account balance: ");
-            decimal balance = Decimal.Parse(Console.ReadLine());
             Console.WriteLine("Enter currency: ");
+            decimal balance = 0;
             string currency = Console.ReadLine();
-            Console.WriteLine("Enter accountnumber: ");
-            int accountnumber = Int32.Parse(Console.ReadLine());
             Console.WriteLine("Enter account owner: ");
             string ownerid = Console.ReadLine();
             Console.WriteLine("Enter accounttype: ");
             string userchoice = Console.ReadLine();
+
 
             Account account = accountFactory.CreateAccount(ownerid, accountnumber, balance, currency, userchoice);
 
@@ -476,6 +474,7 @@ namespace TH_Bank
                     Console.Clear();
                 }
             }
+
 
         }
     }

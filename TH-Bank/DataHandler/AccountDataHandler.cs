@@ -59,7 +59,7 @@ namespace TH_Bank
                     decimal balance = decimal.Parse(variables[2]);
                     string currency = variables[3];
 
-                    accounts.Add(new SalaryAccount(ownerid, accountnumber, balance, currency));
+                    accounts.Add(new SalaryAccount(ownerid, balance, accountnumber, currency));
                 }
                 else if (line.Contains("SavingsAccount"))
                 {
@@ -70,7 +70,7 @@ namespace TH_Bank
                     decimal balance = decimal.Parse(variables[2]);
                     string currency = variables[3];
                     //$"{OwnerID}|{AccountNumber}|{Balance}|{Currency}|{AccountType}";
-                    accounts.Add(new SavingsAccount(ownerid, accountnumber, balance, currency));
+                    accounts.Add(new SavingsAccount(ownerid,balance, accountnumber, currency));
                 }
             }
 
@@ -94,7 +94,7 @@ namespace TH_Bank
                     decimal balance = decimal.Parse(variables[2]);
                     string currency = variables[3];
 
-                    accounts.Add(new SalaryAccount(ownerid, accountnumber, balance, currency));
+                    accounts.Add(new SalaryAccount(ownerid, balance, accountnumber, currency));
                 }
                 else if (lines.Contains(userid) && lines.Contains("SavingsAccount"))
                 {
@@ -105,7 +105,7 @@ namespace TH_Bank
                     decimal balance = decimal.Parse(variables[2]);
                     string currency = variables[3];
 
-                    accounts.Add(new SavingsAccount(ownerid, accountnumber, balance, currency));
+                    accounts.Add(new SavingsAccount(ownerid, balance, accountnumber, currency));
                 }
             }
             return accounts;
