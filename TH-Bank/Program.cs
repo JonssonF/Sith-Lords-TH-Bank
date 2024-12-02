@@ -9,7 +9,6 @@ namespace TH_Bank
     {
         static void Main(string[] args)
         {
-
             CreateFiles();
 
             LogIn(new UserDataHandler());
@@ -83,8 +82,13 @@ namespace TH_Bank
                 // is user blocked?
                 if (!userDataHandler.BlockCheck(userName))
                 {
-                    Console.WriteLine("You have been denied access. Contact you local office" +
-                        "at office hours (9:30 AM - 10 AM on Wednesdays");
+                    Console.Clear();
+                    Console.WriteLine("You have been denied access.\nContact us" +
+                        " between office hours (9:30 AM - 10 AM on Wednesdays.");
+                    Console.Write("Press any key to return...");
+                    Console.ReadKey();
+                    Console.Clear();
+                    LogIn(new UserDataHandler());
                 }
 
                 if(userDataHandler.BlockCheck(userName) && userDataHandler.Exists(userName))
@@ -118,10 +122,17 @@ namespace TH_Bank
 
                 if(loginAttempts == maxAttempts)
                 {
+                    Console.Clear();
+                    Console.WriteLine("You have been denied access.\nContact us" +
+                        " between office hours (9:30 AM - 10 AM on Wednesdays.");
                     User blockme = userDataHandler.Load(userName);
                     blockme.IsBlocked = true;
                     userDataHandler.Save(blockme);
-                    
+                    Console.Write("Press any key to return...");
+                    Console.ReadKey();
+                    Console.Clear();
+                    LogIn(new UserDataHandler());
+
                 }
                 
             }
