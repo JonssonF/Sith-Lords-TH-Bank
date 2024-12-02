@@ -20,7 +20,7 @@ namespace TH_Bank
         public List<Record> Log {get; set; }
 
 
-        public Account(string ownerID, int accountNumber, string currency)
+        public Account(string ownerID, decimal balance, int accountNumber, string currency)
         {
             Log = new List<Record>();
             Balance = 0;

@@ -225,13 +225,14 @@ namespace TH_Bank
 
             AccountFactory acc1 = new AccountFactory();
             Console.WriteLine("Enter currency: ");
+            decimal balance = 0;
             string currency = Console.ReadLine();
             Console.WriteLine("Enter account owner: ");
             string ownerid = Console.ReadLine();
             Console.WriteLine("Enter accounttype: ");
             string userchoice = Console.ReadLine();
 
-            Account account = accountFactory.CreateAccount(ownerid, currency, userchoice);
+            Account account = accountFactory.CreateAccount(ownerid,balance, currency, userchoice);
 
         }
     }
