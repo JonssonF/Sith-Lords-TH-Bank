@@ -4,10 +4,9 @@
     {
         // Static containers with current available currencies,
         // and exchange rates for each currency.
-        public static Currency[] currencies = { new SEK() };
+        public static Currency[] currencies = { new SEK(), new USD(), new EUR() }; 
         public static Dictionary<string, Dictionary<string,double>> AllCurrentRates;
         public static Dictionary<string,double> ThisCurrencyRates { get; set; }
-
         public static double ConversionRate { get; set; }
 
        // Loads eventual changes from file.
@@ -33,7 +32,6 @@
         {
             currencies = currencies.Append(c).ToArray();
             ex.Save(c);
-
         }
     }
 }

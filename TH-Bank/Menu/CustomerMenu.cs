@@ -4,8 +4,7 @@ using System.Globalization;
 namespace TH_Bank
 {
     public class CustomerMenu : Menu
-    {
-        
+    { 
         public CustomerMenu()
         {
             _menu = new string[] // Menu in array = easy to add options.

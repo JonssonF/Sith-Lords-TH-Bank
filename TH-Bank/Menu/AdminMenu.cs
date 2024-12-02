@@ -1,5 +1,7 @@
 ﻿
 
+using System.Runtime.Serialization;
+
 namespace TH_Bank
 {
     public class AdminMenu : Menu
@@ -60,7 +62,7 @@ namespace TH_Bank
 
                     case 3:
                         // Change currency exchange rate.
-
+                        UpdateExchangeRates();
                         break;
 
                     case 4:
@@ -151,6 +153,37 @@ namespace TH_Bank
             userDataHandler.Save(unblockMe);
 
             Console.WriteLine($"You have unblocked user {unblockMe.UserName}!");
+        }
+
+        public void UpdateExchangeRates()
+        {
+            Console.WriteLine("Chooce a currency:");
+            int loop = 0;
+            foreach (Currency c in ExchangeCurrency.currencies)
+            {
+                Console.WriteLine($"{loop}: {c.Name}");
+                loop++;
+            }
+            int choice = Format.Choice(ExchangeCurrency.currencies.Length);
+            var xdh = new ExchangeDataHandler();
+            Currency chosen = ExchangeCurrency.currencies[choice];
+            Console.WriteLine("Choose rate to edit:");
+            List<string> keys = new List<string>();
+            List<double> values = new List<double>();
+            foreach (var item in chosen.ExchangeRates)
+            {
+                Console.WriteLine($"{item.Key}: {item.Value}");
+                keys.Add(item.Key);
+                
+            }
+            choice = Format.Choice(chosen.ExchangeRates.Count);
+
+            Console.WriteLine($"Enter new rate for {chosen.NameShort} -> {keys[choice]} (current: {chosen.ExchangeRates[keys[choice]]})");
+
+            chosen.ExchangeRates[keys[choice]] = Double.Parse(Console.ReadLine());
+            Console.WriteLine($"New rate for {chosen.NameShort} -> {keys[choice]}: {chosen.ExchangeRates[keys[choice]]} ");
+            xdh.Save(chosen);
+
         }
     }
 }
