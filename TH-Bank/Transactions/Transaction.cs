@@ -12,13 +12,13 @@ namespace TH_Bank
         private DateTime _transferDate;
 
         public decimal Amount { get; set; }
-        public int FromAccount { get; set; }
-        public int ToAccount { get; set; }
+        public Account FromAccount { get; set; }
+        public Account ToAccount { get; set; }
         public string Id { get; set; }
 
         public string DateAndTime { get; set; }
 
-        public Transaction(string id, string? dateTime, decimal amount, int fromAccount, int toAccount)
+        public Transaction(string id, string? dateTime, decimal amount, Account fromAccount, Account toAccount)
         {
             Amount = amount;
             FromAccount = fromAccount;

@@ -10,8 +10,7 @@
             sysData.Save("Transaction", sysData.GetTransactionIDCount() + 1);
 
             Transaction transaction = new Transaction(id, null, Amount, FromAccount, ToAccount);
-            var transactionDataHandler = new TransactionDataHandler();
-            transactionDataHandler.Save(transaction);
+            
             return transaction;
         }
     }

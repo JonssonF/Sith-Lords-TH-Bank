@@ -274,7 +274,8 @@ namespace TH_Bank
             if (proceed == 1)
             {
                 Transaction transaction = new TransactionFactory().CreateTransaction(amount, fromAccount, toAccount);
-                //transaction.TransferFunds();
+                TransactionSender transactionSender = TransactionSender.GetInstance();
+                transactionSender.AddPendingTransaction(transaction);
                 Console.Clear();
                 ShowAccounts(user, adh);
                 Console.WriteLine("Transaction complete.");
