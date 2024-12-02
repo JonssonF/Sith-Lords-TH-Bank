@@ -15,6 +15,39 @@ namespace TH_Bank
             throw new NotImplementedException();
         }
 
+        public DateTime LoadLastReview()
+        {
+            string[] openFile = File.ReadAllLines(FilePath);
+
+            foreach(string line in openFile)
+            {
+                if(line.Contains("LastReview"))
+                {
+                    string[] digits = line.Split('|');
+
+                    int year = Int32.Parse(digits[1]);
+                    int month = Int32.Parse(digits[2]);
+                    int day = Int32.Parse(digits[3]);
+                    int hour = Int32.Parse(digits[4]);
+                    int minute = Int32.Parse(digits[5]);
+                    int second = Int32.Parse(digits[6]);
+                    var datetime = new DateTime(year, month, day, hour, minute, second);
+                    return datetime;
+                }
+            }
+            return DateTime.Now;
+            
+        }
+
+        public void SaveReviewTime(DateTime dt)
+        {
+            var openFile = File.ReadAllLines(FilePath);
+            string format = $"LastReview|{dt.Year}|{dt.Month}|{dt.Day}|{dt.Hour}|{dt.Minute}|{dt.Second}";
+            openFile[openFile.Length - 1] = format;
+
+            File.WriteAllLines(FilePath, openFile);
+            
+        }
         public Currency Load()
         {
             throw new NotImplementedException();
