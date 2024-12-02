@@ -217,8 +217,8 @@ namespace TH_Bank
             List<Account> allAccounts = adh.LoadAll();
             Account[] accountArray = userAccounts.ToArray();
             optionCount = userAccounts.Count;
-            int fromAccount = 0;
-            int toAccount = 0;
+            Account fromAccount = null;
+            Account toAccount = null;
             bool validToAccount = false;
 
             switch (transChoice)
@@ -236,20 +236,20 @@ namespace TH_Bank
                     }
                     else
                     {
-                        fromAccount = accountArray[accChoiceFrom -1].AccountNumber;
-                        toAccount = accountArray[accChoiceTo -1].AccountNumber;
+                        fromAccount = accountArray[accChoiceFrom - 1];
+                        toAccount = accountArray[accChoiceTo - 1];
                     }
                     break;
                 case 2:
                     Console.WriteLine("[2] Transaction to external account");
                     int accChoice = ValidOwnAccount("from");
-                    fromAccount = accountArray[accChoice -1].AccountNumber;
+                    fromAccount = accountArray[accChoice -1];
                     Console.WriteLine("Enter recieving account number: ");
-                    toAccount = Format.IntegerInput(6);
+                    toAccount = adh.Load(Format.IntegerInput(6).ToString());
 
                     foreach (Account account in allAccounts)
                     {
-                        if (toAccount == account.AccountNumber)
+                        if (toAccount.AccountNumber == account.AccountNumber)
                         {
                             validToAccount = true;
                             Console.WriteLine($"Reciever: ");  //Fundera på åtkomst till reciever
@@ -268,7 +268,7 @@ namespace TH_Bank
             decimal amount = Format.DecimalInput();
             //Lägg till "if amount > Balance"... Balance verkar inte finnas för tillfället.
 
-            Console.WriteLine($"{amount} *currency?* will be tranferred from account {fromAccount} to account {toAccount}." +
+            Console.WriteLine($"{amount} *currency?* will be tranferred from account {fromAccount.AccountNumber} to account {toAccount.AccountNumber}." +
                 $"\nDo you wish to continue? \n1. Yes\n2. No");
             int proceed = Format.Choice(2);
             if (proceed == 1)
