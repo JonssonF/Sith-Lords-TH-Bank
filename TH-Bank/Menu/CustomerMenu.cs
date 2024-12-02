@@ -323,7 +323,9 @@ namespace TH_Bank
             string userchoice = Console.ReadLine();
 
 
-            //Account account = accountFactory.CreateAccount(ownerid, accountnumber, balance, currency, userchoice);
+
+            Account account = accountFactory.CreateAccount(ownerid, balance, currency, userchoice);
+
 
         }
 
