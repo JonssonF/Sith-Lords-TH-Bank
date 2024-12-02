@@ -10,14 +10,14 @@ namespace TH_Bank
             int accountNumber = Format.UniqueAccountNo(userchoice);
             var accountDataHandler = new AccountDataHandler();
             
-            if (userchoice == "Salaryaccount")//To.Upper
+            if (userchoice == "1")
 
             {
                 Account salAccount = new SalaryAccount(ownerid, balance, accountNumber, currency);                
                 accountDataHandler.Save(salAccount);
                 return salAccount;
             }
-            else if (userchoice == "Savingsaccount")//To.Upper
+            else if (userchoice == "2")
             {
                 Account saveAccount = new SavingsAccount(ownerid, balance, accountNumber, currency);
                 accountDataHandler.Save(saveAccount);
