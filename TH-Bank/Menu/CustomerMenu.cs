@@ -323,8 +323,6 @@ namespace TH_Bank
             Console.WriteLine("Enter currency: ");
             decimal balance = 0;
             string currency = Console.ReadLine();
-            Console.WriteLine("Enter account owner: ");
-            string ownerid = Console.ReadLine();
             Console.WriteLine("Enter accounttype: ");
             Console.WriteLine("[1] Salaryaccount ");
             Console.WriteLine("[2] Savingsaccount ");
