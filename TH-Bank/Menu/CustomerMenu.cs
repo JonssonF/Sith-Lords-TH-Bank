@@ -176,18 +176,23 @@ namespace TH_Bank
                 $"{CenterText(".:Interest:.", width)}" +
                 $"{CenterText(".:Loan Start:.", width)}");
             Console.WriteLine(new string('-', center));
-            /*--------------------------------FELSÖKNING!-----------------------------------------*/
 
-
-            /*-------------------------------------------------------------------------------------*/
-            foreach (var loan in allLoans)
+            if (allLoans.Count == 0)
             {
-                Console.WriteLine(
-                    $"{CenterText(loan.LoanType, width)}" + 
-                    $"{CenterText(loan.Amount.ToString("C"), width)}" + 
-                    $"{CenterText(loan.Interest.ToString("%"), width)}" + 
-                    $"{CenterText(loan.LoanStart.ToString("yyyy-MM-dd"), width)}");
+                Console.WriteLine($"{user.UserName} currently has no loans with us. ");
             }
+            else
+            {
+                foreach (var loan in allLoans)
+                {
+                    Console.WriteLine(
+                        $"{CenterText(loan.LoanType, width)}" +
+                        $"{CenterText(loan.Amount.ToString("C"), width)}" +
+                        $"{CenterText(loan.Interest.ToString("%"), width)}" +
+                        $"{CenterText(loan.LoanStart.ToString("yyyy-MM-dd"), width)}");
+                }
+            }
+
             Console.WriteLine(new string('-', center));
         }
         public string CenterText(string text, int width) // A method to align the text in columns when showing accounts.
