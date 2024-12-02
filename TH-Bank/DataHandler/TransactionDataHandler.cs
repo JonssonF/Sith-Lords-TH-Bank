@@ -35,6 +35,7 @@
             string[] openFile = File.ReadAllLines(FilePath);
 
             var transactions = new List<Transaction>();
+            var accountDataHandler = new AccountDataHandler();
 
             foreach (string line in openFile)
             {
@@ -43,10 +44,13 @@
                     string id = variables[0];
                     string dateTime = variables[1];
                     decimal amount = Decimal.Parse(variables[2]);
-                    int fromAccountNumber = Int32.Parse(variables[3]);
-                    int toAccountNumber = Int32.Parse(variables[4]);
+                    string fromAccountNumber = variables[3];
+                    string toAccountNumber = variables[4];
 
-                    transactions.Add(new Transaction(id, dateTime, amount, fromAccountNumber, toAccountNumber));
+                Account fromAccount = accountDataHandler.Load(fromAccountNumber);
+                Account toAccount = accountDataHandler.Load(toAccountNumber);
+
+                    transactions.Add(new Transaction(id, dateTime, amount, fromAccount, toAccount));
 
             }
 
@@ -58,6 +62,7 @@
             string[] openFile = File.ReadAllLines(FilePath);
 
             var transactions = new List<Transaction>();
+            var accountDataHandler = new AccountDataHandler();
 
             foreach (string line in openFile)
             {
@@ -67,10 +72,14 @@
                 string id = variables[0];
                 string dateTime = variables[1];
                 decimal amount = Decimal.Parse(variables[2]);
-                int fromAccountNumber = Int32.Parse(variables[3]);
-                int toAccountNumber = Int32.Parse(variables[4]);
+                string fromAccountNumber = variables[3];
+                string toAccountNumber = variables[4];
 
-                transactions.Add(new Transaction(id, dateTime, amount, fromAccountNumber, toAccountNumber));
+                Account fromAccount = accountDataHandler.Load(fromAccountNumber);
+                Account toAccount = accountDataHandler.Load(toAccountNumber);
+
+                transactions.Add(new Transaction(id, dateTime, amount, fromAccount, toAccount));
+
                 }
             }
 

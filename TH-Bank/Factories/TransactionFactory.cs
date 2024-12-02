@@ -2,7 +2,7 @@
 {
     public class TransactionFactory
     {
-        public Transaction CreateTransaction(decimal Amount, int FromAccount, int ToAccount)
+        public Transaction CreateTransaction(decimal Amount, Account FromAccount, Account ToAccount)
         {
             var sysData = new SystemDataHandler();
 
