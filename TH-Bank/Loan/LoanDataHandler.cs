@@ -18,14 +18,17 @@
         {
             string[] openFile = File.ReadAllLines(FilePath);
 
+
             foreach (string line in openFile)
             {
-                if (line.Contains(id) && line.Contains("Carloan"))
+                if (line.Contains(id) && line.Contains("CarLoan"))
                 {
                     string[] variables = line.Split('|');
                     string userId = variables[0];
-                    decimal amount = Decimal.Parse(variables[1]);
-                    double interest = Double.Parse(variables[2]);
+                    string name = variables[1];
+                    decimal amount = Decimal.Parse(variables[2]);
+                    double interest = Double.Parse(variables[3]);
+                    string loanStart = variables[4];
                     var carLoan = new CarLoan(userId, amount, interest);
                     return carLoan;
                 }
@@ -33,23 +36,56 @@
                 {
                     string[] variables = line.Split('|');
                     string userId = variables[0];
-                    decimal amount = Decimal.Parse(variables[1]);
-                    double interest = Double.Parse(variables[2]);
+                    string name = variables[1];
+                    decimal amount = Decimal.Parse(variables[2]);
+                    double interest = Double.Parse(variables[3]);
+                    string loanStart = variables[4];
                     var mortgageLoan = new MortgageLoan(userId, amount, interest);
                     return mortgageLoan;
                 }
             }
-            throw new Exception("Invalid loan type.");
+            throw new NotImplementedException("Är detta fel i Load string ID?");
+
         }
 
         public List<Loan> LoadAll()
         {
+            
             throw new NotImplementedException();
         }
 
         public List<Loan> LoadAll(string userid)
         {
-            throw new NotImplementedException();
+            string[] openFile = File.ReadAllLines(FilePath);
+
+            var allLoans = new List<Loan>();
+
+            foreach (string line in openFile)
+            {
+                if (line.Contains(userid) && line.Contains("CarLoan"))
+                {
+                    string[] variables = line.Split('|');
+                    string userId = variables[0];
+                    string name = variables[1];
+                    decimal amount = Decimal.Parse(variables[2]);
+                    double interest = Double.Parse(variables[3]);
+                    string loanStart = variables[4];
+                    var loan = new CarLoan(userId, amount, interest);
+                    allLoans.Add(loan);
+                }
+                else if (line.Contains(userid) && line.Contains("Mortgage"))
+                {
+                    string[] variables = line.Split('|');
+                    string userId = variables[0];
+                    string name = variables[1];
+                    decimal amount = Decimal.Parse(variables[2]);
+                    double interest = Double.Parse(variables[3]);
+                    string loanStart = variables[4];
+                    var loan = new MortgageLoan(userId, amount, interest);
+                    allLoans.Add(loan);
+                }
+            }
+            return allLoans;
         }
 
         public void Delete(Loan deleteThis)

@@ -10,7 +10,7 @@
 
             Loan loan = null;
 
-            if(userChoice == "Carloan")
+            if(userChoice == "CarLoan")
             {
                 loan = new CarLoan(id, amount, interest);
                 loanDataHandler.Save(loan);

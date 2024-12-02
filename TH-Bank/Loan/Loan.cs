@@ -6,7 +6,7 @@
 
         private decimal _amount;
         private int _toAccount;
-        private DateTime _transferDate;
+        private DateTime _loanStart;
         private string _Id;
         private double _interest;
 

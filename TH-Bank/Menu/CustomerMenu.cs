@@ -5,7 +5,7 @@ namespace TH_Bank
 {
     public class CustomerMenu : Menu
     {
-
+        
         public CustomerMenu()
         {
             _menu = new string[] // Menu in array = easy to add options.
@@ -48,8 +48,9 @@ namespace TH_Bank
                 {
 
                     case 1:
-                        ShowAccounts(ActiveUserSingleton.GetInstance(), new AccountDataHandler());
-                        Console.Write("Press any key to go back.");
+                        ShowAccounts(ActiveUserSingleton.GetInstance(), new AccountDataHandler()); 
+                        ShowLoans(ActiveUserSingleton.GetInstance(), new LoanDataHandler());
+                        Console.Write("Press any key to go back. . .");
                         Console.ReadLine();
                         Console.Clear();
                         ShowMenu();
@@ -95,19 +96,14 @@ namespace TH_Bank
             CultureInfo currencyFormat;
             List<Account> allAccounts = activeUser.LoadAll(user.Id);
             List<Account> accountList = allAccounts.Where(acc => acc.OwnerID == user.Id).ToList(); // LINQ Method to filter away accounts that isn't current users.
-            /*-------------------------------------------------------------------------------------------------*/
-            /*-------------------------------------------------------------------------------------------------*/
-            /*-------------------------------------------------------------------------------------------------*/
-
-
-            /*-------------------------------------------------------------------------------------------------*/
-            /*-------------------------------------------------------------------------------------------------*/
-            /*-------------------------------------------------------------------------------------------------*/
+            
             if (accountList == null || accountList.Count == 0)
             {
 
                 textColor = ConsoleColor.Red;
+                Console.ForegroundColor = textColor;
                 Console.WriteLine($"Username: {user.UserName} have no registered accounts at the moment.");
+                Console.ResetColor();
                 Thread.Sleep(2000);
                 ShowMenu();
                 return;
@@ -159,11 +155,41 @@ namespace TH_Bank
                 //$"{CenterText(acc.Balance.ToString("C"), width)}" + // Balance.             /*Lägger denna här under tiden ifall "balance / currency variabeln inte ska användas.*/
                 Console.ResetColor();
             }
-            Console.WriteLine(new string('-', center));
-
         }
 
+        public void ShowLoans(User user, LoanDataHandler loanUser)
+        {
+            int width = 20;
+            int center = 80; // Used for dividing lines, and to align column headers.
+            string text = $".:{user.UserName}'s Loans:."; //Headline.
+            int padding = (center - text.Length) / 2;
+            string centeredText = new string('.', padding) + text + new string('.', padding);
+            Console.WriteLine(new string('-', center));
+            List<Loan> allLoans = loanUser.LoadAll(user.Id);
+            List<Loan> loanList = allLoans.Where(loan => loan.Id == user.Id).ToList(); // LINQ Method to filter away accounts that isn't current users.
 
+            Console.WriteLine(centeredText);  // Headline for account show.
+            Console.WriteLine(new string('-', center));
+            Console.WriteLine(
+                $"{CenterText(".:Loan Type:.", width)}" +
+                $"{CenterText(".:Amount:.", width)}" +
+                $"{CenterText(".:Interest:.", width)}" +
+                $"{CenterText(".:Loan Start:.", width)}");
+            Console.WriteLine(new string('-', center));
+            /*--------------------------------FELSÖKNING!-----------------------------------------*/
+
+
+            /*-------------------------------------------------------------------------------------*/
+            foreach (var loan in allLoans)
+            {
+                Console.WriteLine(
+                    $"{CenterText(loan.LoanType, width)}" + 
+                    $"{CenterText(loan.Amount.ToString("C"), width)}" + 
+                    $"{CenterText(loan.Interest.ToString("%"), width)}" + 
+                    $"{CenterText(loan.LoanStart.ToString("yyyy-MM-dd"), width)}");
+            }
+            Console.WriteLine(new string('-', center));
+        }
         public string CenterText(string text, int width) // A method to align the text in columns when showing accounts.
         {
             int padding = (width - text.Length) / 2;
@@ -293,8 +319,8 @@ namespace TH_Bank
                 {
                     Console.Clear();
                     Console.WriteLine(new string('-', 80));
-                    Console.WriteLine($"Should you wish to apply for a Car-loan,\n" +
-                        $"you are eligible for a loan of this amount: {maxLoan.ToString("C")}\n" +
+                    Console.WriteLine($"Should you wish to apply for a Car-loan.\n" +
+                        $"You are eligible for a loan of this amount: {maxLoan.ToString("C")}\n" +
                         $"With a interest rate of {interest}%.\n\n");
                     Console.WriteLine("Would you like to continue?");
                     Console.WriteLine("[1] - Yes.");
@@ -329,7 +355,7 @@ namespace TH_Bank
                                 Process();
                                 loanBool = false;
                                 DateTime loanTimeStamp = DateTime.Now;
-                                loanData.Save(loanFactory.NewLoan(id, amount, interest, "Carloan"));
+                                loanData.Save(loanFactory.NewLoan(id, amount, interest, "CarLoan"));
                                 Console.WriteLine(new string('-', 80));
                                 Console.WriteLine($"Congratulations {user.UserName} on your new loan.\n" +
                                     $"Loan type: [ {currentLoan} ]\n" +
@@ -389,7 +415,6 @@ namespace TH_Bank
                                 Console.WriteLine("Press any key to try again.");
                                 amount = 0;
                                 Console.ReadKey();
-                                return;
                             }
                             else
                             {

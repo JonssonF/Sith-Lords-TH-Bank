@@ -2,12 +2,12 @@
 {
     internal class MortgageLoan : Loan
     {
-        public List<Account> accounts;
+        public List<Loan> loans;
         public override string LoanType { get; } = "Mortgage";
 
         public MortgageLoan(string id, decimal amount, double interest) : base(id, amount, interest)
         {
-            accounts = new List<Account>();
+            loans = new List<Loan>();
         }
 
         public override string ToString()
