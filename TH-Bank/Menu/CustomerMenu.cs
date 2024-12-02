@@ -321,11 +321,24 @@ namespace TH_Bank
             Console.WriteLine("Enter account owner: ");
             string ownerid = Console.ReadLine();
             Console.WriteLine("Enter accounttype: ");
+            Console.WriteLine("[1] Salaryaccount ");
+            Console.WriteLine("[2] Savingsaccount ");
             string userchoice = Console.ReadLine();
+            Account account = accountFactory.CreateAccount(user.Id, balance, currency, userchoice);
+            switch (userchoice)
+            {
+                case "1":
+                    Console.WriteLine("You created a new Salaryaccount");
+                    return;
 
+                case "2":
+                    Console.WriteLine("You created a new Savingsaccount");
+                    return;
 
-
-            Account account = accountFactory.CreateAccount(ownerid, balance, currency, userchoice);
+                default:
+                    Console.WriteLine("Please enter 1 or 2.");
+                    return;
+            }
 
 
         }
