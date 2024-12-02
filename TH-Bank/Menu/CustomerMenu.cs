@@ -57,7 +57,6 @@ namespace TH_Bank
                         //Show transactions.
                         break;
                     case 3:
-                        // Transfer between accounts.
                         MakeTransaction(ActiveUserSingleton.GetInstance(), new AccountDataHandler());
                         break;
                         break;
@@ -225,10 +224,22 @@ namespace TH_Bank
             Console.WriteLine("Enter amount to transfer: ");
             decimal amount = Format.DecimalInput();
             //Lägg till "if amount > Balance"... Balance verkar inte finnas för tillfället.
-            Transaction transaction = new TransactionFactory().CreateTransaction(amount, fromAccount, toAccount);
-            //transaction.TransferFunds();
-            Console.Clear();
-            Console.WriteLine("Transaction complete.");
+
+            Console.WriteLine($"{amount} *currency?* will be tranferred from account {fromAccount} to account {toAccount}." +
+                $"\nDo you wish to continue? \n1. Yes\n2. No");
+            int proceed = Format.Choice(2);
+            if (proceed == 1)
+            {
+                Transaction transaction = new TransactionFactory().CreateTransaction(amount, fromAccount, toAccount);
+                //transaction.TransferFunds();
+                Console.Clear();
+                ShowAccounts(user, adh);
+                Console.WriteLine("Transaction complete.");
+            }
+            else if (proceed == 2)
+            {
+                Console.WriteLine("Transaction aborted.");
+            }
             Console.Write("Press any key to return to menu.");
             Console.ReadLine();
             Console.Clear();
