@@ -9,6 +9,25 @@ namespace TH_Bank
     {
         static void Main(string[] args)
         {
+            // TEST CURRENCY
+
+            Currency sek = new SEK();
+
+            Console.WriteLine($"Created a new Currency: {sek.Name}");
+
+            foreach(var test in sek.ExchangeRates)
+            {
+                Console.WriteLine($"1 {sek.NameShort} is equal to {test.Value} {test.Key}!");
+
+            }
+
+            var ex = new ExchangeDataHandler();
+            sek.ExchangeRates["USD"] = 1.4;
+            ex.Save(sek);
+            Console.WriteLine(sek.ExchangeRates["USD"]);
+
+            // END TEST
+
             CreateFiles();
 
             LogIn(new UserDataHandler());
@@ -29,6 +48,25 @@ namespace TH_Bank
                 "CustomerIDCount|1",
                 "AdminIDCount|1",
                 "TransactionIDCount|1"
+            };
+
+            string[] defaultcurrencies =
+            {
+                "SEK",
+                "Swedish Krona",
+                "USD|0.1",
+                "EUR|0.09",
+                "//ENDSwedish Krona//",
+                "USD",
+                "US Dollar",
+                "SEK|10.0",
+                "EUR|0.95",
+                "//ENDUS Dollar//",
+                "EUR",
+                "European Euro",
+                "SEK|10.1",
+                "USD|1.05",
+                "//ENDEuropean Euro//"
             };
 
             if (!File.Exists(FilePaths.AccountPath))
@@ -53,8 +91,11 @@ namespace TH_Bank
             }
             if (!File.Exists(FilePaths.LoanPath))
             {
-
                 File.Create(FilePaths.LoanPath);
+            }
+            if(!File.Exists(FilePaths.CurrencyPath))
+            {
+                File.AppendAllLines(FilePaths.CurrencyPath, defaultcurrencies);
             }
         }
 
