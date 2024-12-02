@@ -36,10 +36,10 @@ namespace TH_Bank
         //public bool TransferFunds() //Method for moneytransfer
         //{
         //    if (FromAccount.Balance >= Amount)
-        //    {                
+        //    {
         //        FromAccount.Balance -= Amount;
         //        ToAccount.Balance += Amount;
-        //        return true;                                
+        //        return true;
         //    }
         //    else
         //    {

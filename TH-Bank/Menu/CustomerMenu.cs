@@ -1,4 +1,4 @@
-﻿
+
 using System.Globalization;
 
 namespace TH_Bank
@@ -12,12 +12,11 @@ namespace TH_Bank
             {
                 "1. Show accounts / balance.",
                 "2. Show transactions.",
-                "3. Internal transaction.",
-                "4. External transaction.",
-                "5. Apply for loan.",
-                "6. Open new account.",
-                "7. Logout.",
-                "8. Exit program.",
+                "3. Perform transaction.",
+                "4. Apply for loan.",
+                "5. Open new account.",
+                "6. Logout.",
+                "7. Exit program.",
             };
             menuWidth = CalculateWidth(extraWidth: 10);
         }
@@ -59,26 +58,28 @@ namespace TH_Bank
                         //Show transactions.
                         break;
                     case 3:
-                        // Transfer between accounts.
                         MakeTransaction(ActiveUserSingleton.GetInstance(), new AccountDataHandler());
                         break;
-                    case 4:
-                        //Transfer between customers.
-                        MakeExternalTransaction(ActiveUserSingleton.GetInstance(), new AccountDataHandler());
                         break;
+
+                    case 4:
+                        // Lån alternativet.
+                        Loan.ApplyForLoan(ActiveUserSingleton.GetInstance());
+
                     case 5:
                         ApplyForLoan(ActiveUserSingleton.GetInstance(), new LoanDataHandler(), new LoanFactory(), new AccountDataHandler());
                         Console.Clear();
                         ShowMenu();
+
                         break;
-                    case 6:
+                    case 5:
                         // Spot for open new account.
                         CreateNewAccount(ActiveUserSingleton.GetInstance(), new AccountFactory(), new AccountDataHandler());
                         break;
-                    case 7:
+                    case 6:
                         Return(); //Log out.
                         break;
-                    case 8:
+                    case 7:
                         Close(); // Close application.
                         break;
                 }
@@ -203,58 +204,110 @@ namespace TH_Bank
             return paddedText;
         }
 
-        public void MakeTransaction(User user, AccountDataHandler activeUser)
+        public void MakeTransaction(User user, AccountDataHandler adh)
         {
-            ShowAccounts(user, activeUser);
+            ShowAccounts(user, adh);
+            Console.WriteLine("1. Transaction between own accounts");
+            Console.WriteLine("2. Transaction to external account");
+            int transChoice = Format.Choice(2);
+            Console.Clear();
+            ShowAccounts(user, adh);
 
-            List<Account> userAccounts = activeUser.LoadAll(user.UserName);
-            //List<Account> allAccounts = new AccountDataHandler.LoadAll();
-
-            Console.WriteLine("Enter account number to transfer from: ");
-            int fromAccount = int.Parse(Console.ReadLine());
-
-            decimal amount = 0;
+            List<Account> userAccounts = adh.LoadAll(user.Id);
+            List<Account> allAccounts = adh.LoadAll();
+            Account[] accountArray = userAccounts.ToArray();
+            optionCount = userAccounts.Count;
+            int fromAccount = 0;
             int toAccount = 0;
-            bool validFromAccount = false;
             bool validToAccount = false;
 
-            foreach (Account userAccount in userAccounts)
+            switch (transChoice)
             {
-                if (userAccount.AccountNumber == fromAccount)
-                {
-                    validFromAccount = true;
-                    Console.WriteLine("Enter account number to transfer to: \n" +
-                    "(Other customers account number available for external transaction)");
-                    toAccount = int.Parse(Console.ReadLine());
-                    //foreach (Account account in allAccounts)
-                    //{
-                    //    if (allAccounts.AccountNumber == toAccount)
-                    //    {
-                    //        validToAccount = true;
-                    //        Console.WriteLine("Enter amount to transfer: ");
-                    //        amount = decimal.Parse(Console.ReadLine());
-                    //    }
-                    //}
-                }
+                case 1:
+                    Console.WriteLine("1. Transaction between own accounts");
+                    int accChoiceFrom = ValidOwnAccount("from");
+                    int accChoiceTo = ValidOwnAccount("to");
+                    if (accChoiceTo == accChoiceFrom)
+                    {
+                        Console.WriteLine("To and from account are the same. Transaction aborted." +
+                            "\nPress any key to return to menu.");
+                        Console.ReadKey();
+                        ShowMenu();
+                    }
+                    else
+                    {
+                        fromAccount = accountArray[accChoiceFrom -1].AccountNumber;
+                        toAccount = accountArray[accChoiceTo -1].AccountNumber;
+                    }
+                    break;
+                case 2:
+                    Console.WriteLine("2. Transaction to external account");
+                    int accChoice = ValidOwnAccount("from");
+                    fromAccount = accountArray[accChoice -1].AccountNumber;
+                    Console.WriteLine("Enter recieving account number: ");
+                    toAccount = Format.IntegerInput(6);
+
+                    foreach (Account account in allAccounts)
+                    {
+                        if (toAccount == account.AccountNumber)
+                        {
+                            validToAccount = true;
+                            Console.WriteLine($"Reciever: ");  //Fundera på åtkomst till reciever
+                        }
+                    }
+                    if (validToAccount == false)
+                    {
+                        Console.WriteLine("Invalid account number. Transaction aborted." +
+                            "\nPress any key to return to menu.");
+                        Console.ReadKey();
+                        ShowMenu();
+                    }
+                    break;
             }
-            if (validFromAccount == false || validToAccount == false)
+            Console.WriteLine("Enter amount to transfer: ");
+            decimal amount = Format.DecimalInput();
+            //Lägg till "if amount > Balance"... Balance verkar inte finnas för tillfället.
+
+            Console.WriteLine($"{amount} *currency?* will be tranferred from account {fromAccount} to account {toAccount}." +
+                $"\nDo you wish to continue? \n1. Yes\n2. No");
+            int proceed = Format.Choice(2);
+            if (proceed == 1)
             {
-                Console.WriteLine("Invalid account number.");
-            }
-            else
-            {
-                //Transaction transaction = new TransactionFactory().CreateTransaction(amount, fromAccount, toAccount, Id);
+                Transaction transaction = new TransactionFactory().CreateTransaction(amount, fromAccount, toAccount);
                 //transaction.TransferFunds();
+                Console.Clear();
+                ShowAccounts(user, adh);
+                Console.WriteLine("Transaction complete.");
+            }
+            else if (proceed == 2)
+            {
+                Console.WriteLine("Transaction aborted.");
             }
             Console.Write("Press any key to return to menu.");
             Console.ReadLine();
             Console.Clear();
             ShowMenu();
-
         }
-        public void MakeExternalTransaction(User user, AccountDataHandler activeUser)
-        {
 
+        public int ValidOwnAccount(string toOrFrom)
+        {
+            int ownAccount = 0;
+            do
+            {
+                Console.WriteLine($"Enter account to transfer {toOrFrom} (1 - {optionCount}): ");
+
+                if (optionCount <= 9)
+                {
+                    ownAccount = Format.Choice(optionCount);
+                    Console.WriteLine(ownAccount);
+                }
+                else if (optionCount >= 10)
+                {
+                    ownAccount = Format.IntegerInput(2);
+                }
+            }
+            while (ownAccount > optionCount);
+            return ownAccount;
         }
         public void CreateNewAccount(User user, AccountFactory accountFactory, AccountDataHandler activeUser)
         {
