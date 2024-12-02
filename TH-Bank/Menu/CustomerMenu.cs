@@ -60,7 +60,6 @@ namespace TH_Bank
                     case 3:
                         MakeTransaction(ActiveUserSingleton.GetInstance(), new AccountDataHandler());
                         break;
-                        break;
 
                     case 4:
                         // Lån alternativet.
@@ -250,14 +249,18 @@ namespace TH_Bank
                     int accChoice = ValidOwnAccount("from");
                     fromAccount = accountArray[accChoice -1];
                     Console.WriteLine("Enter recieving account number: ");
-                    toAccount = adh.Load(Format.IntegerInput(6).ToString());
+                    int toAccountInt = Format.IntegerInput(6);
 
                     foreach (Account account in allAccounts)
                     {
-                        if (toAccount.AccountNumber == account.AccountNumber)
+                        if (account.AccountNumber == toAccountInt)
                         {
+                            toAccount = account;   //Kolla att denna kodrad är ok när transaktionen väl funkar
                             validToAccount = true;
-                            Console.WriteLine($"Reciever: ");  //Fundera på åtkomst till reciever
+                            string ownerID = toAccount.OwnerID;
+                            UserDataHandler udh = new UserDataHandler();
+                            Customer owner = (Customer)udh.Load(ownerID);
+                            Console.WriteLine($"Reciever: {owner.FirstName} {owner.LastName}");
                         }
                     }
                     if (validToAccount == false)
@@ -280,7 +283,7 @@ namespace TH_Bank
             }
             else
             {
-                Console.WriteLine($"{amount} *currency?* will be tranferred from account {fromAccount.AccountNumber} to account {toAccount.AccountNumber}." +
+                Console.WriteLine($"{amount} {fromAccount.Currency} will be tranferred from account {fromAccount.AccountNumber} to account {toAccount.AccountNumber}." +
                 $"\nDo you wish to continue? \n1. Yes\n2. No");
                 int proceed = Format.Choice(2);
                 if (proceed == 1)
