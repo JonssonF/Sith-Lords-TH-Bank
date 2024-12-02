@@ -3,7 +3,7 @@
 
 namespace TH_Bank
 {
-    public class UserDataHandler : IDataHandler<User>
+    public class UserDataHandler : IAggregateDataHandler<User>
     {
         public string FilePath { get; set; }
         public UserDataHandler()
@@ -26,11 +26,6 @@ namespace TH_Bank
 
             File.WriteAllLines(FilePath, openFile);
 
-        }
-
-        public User Load()
-        {
-            throw new NotImplementedException();
         }
 
         public User Load(string userid)
@@ -96,11 +91,6 @@ namespace TH_Bank
                 }
             }
             return allusers;
-        }
-
-        public List<User> LoadAll(string userid)
-        {
-            throw new NotImplementedException();
         }
 
         public void Save(User saveThis)

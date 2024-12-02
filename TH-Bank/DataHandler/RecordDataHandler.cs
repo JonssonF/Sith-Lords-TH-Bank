@@ -1,6 +1,6 @@
 ﻿namespace TH_Bank
 {
-    public class RecordDataHandler : IDataHandler<Record>
+    public class RecordDataHandler : IMyDataHandler<Record>, IAggregateDataHandler<Record>
     {
         public string FilePath { get; set; }
 
@@ -21,11 +21,6 @@
             }
 
             File.WriteAllLines(FilePath, openFile);
-        }
-
-        public Record Load()
-        {
-            throw new NotImplementedException();
         }
 
         public Record Load(string id)

@@ -1,6 +1,6 @@
 ﻿namespace TH_Bank
 {
-    public class TransactionDataHandler : IDataHandler<Transaction>
+    public class TransactionDataHandler : IMyDataHandler<Transaction>, IAggregateDataHandler<Transaction>
     {
         public string FilePath { get; set; }
 
