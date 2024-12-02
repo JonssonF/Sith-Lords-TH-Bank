@@ -4,7 +4,7 @@
     {
         public string FilePath { get; set; }
 
-        public TransactionDataHandler()
+         public TransactionDataHandler()
         {
             FilePath = FilePaths.TransactionPath;
         }
