@@ -9,25 +9,6 @@ namespace TH_Bank
     {
         static void Main(string[] args)
         {
-            // TEST CURRENCY
-
-            Currency sek = new SEK();
-
-            Console.WriteLine($"Created a new Currency: {sek.Name}");
-
-            foreach(var test in sek.ExchangeRates)
-            {
-                Console.WriteLine($"1 {sek.NameShort} is equal to {test.Value} {test.Key}!");
-
-            }
-
-            var ex = new ExchangeDataHandler();
-            sek.ExchangeRates["USD"] = 1.4;
-            ex.Save(sek);
-            Console.WriteLine(sek.ExchangeRates["USD"]);
-
-            // END TEST
-
             CreateFiles();
 
             LogIn(new UserDataHandler());

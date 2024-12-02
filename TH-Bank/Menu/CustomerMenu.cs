@@ -64,7 +64,7 @@ namespace TH_Bank
 
                     case 4:
                         // Lån alternativet.
-                        Loan.ApplyForLoan(ActiveUserSingleton.GetInstance());
+                        //Loan.ApplyForLoan(ActiveUserSingleton.GetInstance());
 
                     case 5:
                         ApplyForLoan(ActiveUserSingleton.GetInstance(), new LoanDataHandler(), new LoanFactory(), new AccountDataHandler());
@@ -72,14 +72,14 @@ namespace TH_Bank
                         ShowMenu();
 
                         break;
-                    case 5:
+                    case 6:
                         // Spot for open new account.
                         CreateNewAccount(ActiveUserSingleton.GetInstance(), new AccountFactory(), new AccountDataHandler());
                         break;
-                    case 6:
+                    case 7:
                         Return(); //Log out.
                         break;
-                    case 7:
+                    case 8:
                         Close(); // Close application.
                         break;
                 }
@@ -207,8 +207,8 @@ namespace TH_Bank
         public void MakeTransaction(User user, AccountDataHandler adh)
         {
             ShowAccounts(user, adh);
-            Console.WriteLine("1. Transaction between own accounts");
-            Console.WriteLine("2. Transaction to external account");
+            Console.WriteLine("[1] Transaction between own accounts");
+            Console.WriteLine("[2] Transaction to external account");
             int transChoice = Format.Choice(2);
             Console.Clear();
             ShowAccounts(user, adh);
@@ -224,7 +224,7 @@ namespace TH_Bank
             switch (transChoice)
             {
                 case 1:
-                    Console.WriteLine("1. Transaction between own accounts");
+                    Console.WriteLine("[1] Transaction between own accounts");
                     int accChoiceFrom = ValidOwnAccount("from");
                     int accChoiceTo = ValidOwnAccount("to");
                     if (accChoiceTo == accChoiceFrom)
@@ -241,7 +241,7 @@ namespace TH_Bank
                     }
                     break;
                 case 2:
-                    Console.WriteLine("2. Transaction to external account");
+                    Console.WriteLine("[2] Transaction to external account");
                     int accChoice = ValidOwnAccount("from");
                     fromAccount = accountArray[accChoice -1].AccountNumber;
                     Console.WriteLine("Enter recieving account number: ");
@@ -323,7 +323,7 @@ namespace TH_Bank
             string userchoice = Console.ReadLine();
 
 
-            Account account = accountFactory.CreateAccount(ownerid, accountnumber, balance, currency, userchoice);
+            //Account account = accountFactory.CreateAccount(ownerid, accountnumber, balance, currency, userchoice);
 
         }
 

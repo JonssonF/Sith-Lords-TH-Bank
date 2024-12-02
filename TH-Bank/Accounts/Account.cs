@@ -23,7 +23,7 @@ namespace TH_Bank
         public Account(string ownerID, decimal balance, int accountNumber, string currency)
         {
             Log = new List<Record>();
-            Balance = 0;
+            Balance = balance;
             Currency = currency;
             AccountNumber = accountNumber;
             OwnerID = ownerID;
