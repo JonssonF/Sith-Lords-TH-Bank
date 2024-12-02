@@ -9,6 +9,8 @@
         public static Dictionary<string,double> ThisCurrencyRates { get; set; }
         public static double ConversionRate { get; set; }
 
+        private static DateTime LastReview { get; set; }
+
        // Loads eventual changes from file.
         private static void LoadRates(ExchangeDataHandler ex)
         {
@@ -16,6 +18,22 @@
             {
                 AllCurrentRates[c.Name] = ex.LoadRates(c.Name);
             }
+
+            LastReview = ex.LoadLastReview();
+        }
+
+        public static void Review(DateTime dt)
+        {
+            LastReview = dt;
+            var ex = new ExchangeDataHandler();
+            ex.SaveReviewTime(dt);
+        }
+
+        public static DateTime GetLastReview()
+        {
+            var ex = new ExchangeDataHandler();
+            LastReview = ex.LoadLastReview();
+            return LastReview;
         }
 
         // This method is called to return converted amount

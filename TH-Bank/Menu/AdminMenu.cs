@@ -23,7 +23,18 @@ namespace TH_Bank
         {
             Console.Clear();
             LogoText();
+            if (TimeToReview())
+            {
+                Console.Beep();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("\n -- WARNING! Currency exchange rates must be reviewed immediately! --\n");
+                Console.ForegroundColor = ConsoleColor.Gray;
+                UpdateExchangeRates();
+            }
             DrawBorder();
+
+            
+
             foreach (string item in _menu)
             {
                 DrawMenuItem(item);
@@ -157,7 +168,7 @@ namespace TH_Bank
 
         public void UpdateExchangeRates()
         {
-            Console.WriteLine("Chooce a currency:");
+            Console.WriteLine("Chooce a currency to edit:");
             int loop = 0;
             foreach (Currency c in ExchangeCurrency.currencies)
             {
@@ -183,7 +194,25 @@ namespace TH_Bank
             chosen.ExchangeRates[keys[choice]] = Double.Parse(Console.ReadLine());
             Console.WriteLine($"New rate for {chosen.NameShort} -> {keys[choice]}: {chosen.ExchangeRates[keys[choice]]} ");
             xdh.Save(chosen);
+            ExchangeCurrency.Review(DateTime.Now);
+        }
 
+        public bool TimeToReview()
+        {
+            DateTime now = DateTime.Now;
+
+            DateTime lastReview = ExchangeCurrency.GetLastReview();
+
+            TimeSpan interval = now - lastReview;
+
+            if(interval.TotalHours > 24)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
