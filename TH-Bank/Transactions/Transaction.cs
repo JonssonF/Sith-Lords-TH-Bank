@@ -76,7 +76,7 @@ namespace TH_Bank
         }
         public override string ToString()
         {
-            return $"{Id}|{DateAndTime}|{Amount}|{FromAccount}|{ToAccount}";
+            return $"{Id}|{DateAndTime}|{Amount}|{FromAccount.AccountNumber}|{ToAccount.AccountNumber}";
             //Add "Id" to ToString. Figure out a way to make this unique
         }
         

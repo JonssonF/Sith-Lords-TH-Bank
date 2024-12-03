@@ -50,7 +50,7 @@ namespace TH_Bank
             foreach (string line in openFile)
             {
 
-                if (line.Contains("SalaryAccount"))
+                if (line.Contains("SalaryAccount") && line.Length > 19)
                 {
                     string[] variables = line.Split('|');
 
@@ -61,7 +61,7 @@ namespace TH_Bank
 
                     accounts.Add(new SalaryAccount(ownerid, balance, accountnumber, currency));
                 }
-                else if (line.Contains("SavingsAccount"))
+                else if (line.Contains("SavingsAccount") && line.Length > 19)
                 {
                     string[] variables = line.Split('|');
 
