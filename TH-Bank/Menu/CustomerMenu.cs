@@ -348,9 +348,6 @@ namespace TH_Bank
                     currency = "USD";
                     break;
 
-                default:
-                    Console.WriteLine("Please enter 1 or 2.");
-                    break;
             }
             Console.WriteLine("Enter accounttype: ");
             Console.WriteLine("[1] Salaryaccount ");
@@ -370,9 +367,6 @@ namespace TH_Bank
                     Console.WriteLine("You created a new Savingsaccount.");
                     break;
 
-                default:
-                    Console.WriteLine("Please enter 1 or 2.");
-                    break;
             }
             Account account = accountFactory.CreateAccount(user.Id, balance, currency, userchoice);
             Console.ReadLine();
