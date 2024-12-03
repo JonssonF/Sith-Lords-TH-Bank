@@ -134,11 +134,11 @@ namespace TH_Bank
 
                 string currentCurrency = ""; // Variable that holds balance and current Currency.
 
-                if (acc.Currency == "1")
+                if (acc.Currency == "SEK")
                 {
                     currentCurrency = acc.Balance.ToString("C", new CultureInfo("sv-SE"));
                 }
-                else if (acc.Currency == "2")
+                else if (acc.Currency == "USD")
                 {
                     currentCurrency = acc.Balance.ToString("C", new CultureInfo("en-US"));
                 }
@@ -323,27 +323,49 @@ namespace TH_Bank
             Console.WriteLine("Enter currency: ");
             Console.WriteLine("[1] SEK - Swedish kronor ");
             Console.WriteLine("[2] USD - US Dollar ");            
-            string currency = Console.ReadLine();
-
-            Console.WriteLine("Enter accounttype: ");
-            Console.WriteLine("[1] Salaryaccount ");
-            Console.WriteLine("[2] Savingsaccount ");
-            string userchoice = Console.ReadLine();
-            Account account = accountFactory.CreateAccount(user.Id, balance, currency, userchoice);
-            switch (userchoice)
+            int currencyChoice = Format.Choice(2);
+            string currency = "";
+            switch (currencyChoice)
             {
-                case "1":
-                    Console.WriteLine("You created a new Salaryaccount");
-                    return;
+                case 1:
+                    currency = "SEK";
+                    break;
 
-                case "2":
-                    Console.WriteLine("You created a new Savingsaccount");
-                    return;
+                case 2:
+                    currency = "USD";
+                    break;
 
                 default:
                     Console.WriteLine("Please enter 1 or 2.");
-                    return;
+                    break;
             }
+            Console.WriteLine("Enter accounttype: ");
+            Console.WriteLine("[1] Salaryaccount ");
+            Console.WriteLine("[2] Savingsaccount ");
+            int accountChoice = Format.Choice(2);
+            string userchoice = "";
+
+            switch (accountChoice)
+            {
+                case 1:
+                    userchoice = "Salaryaccount";
+                    Console.WriteLine("You created a new Salaryaccount.");
+                    break;
+
+                case 2:
+                    userchoice = "Savingsaccount";
+                    Console.WriteLine("You created a new Savingsaccount.");
+                    break;
+
+                default:
+                    Console.WriteLine("Please enter 1 or 2.");
+                    break;
+            }
+            Account account = accountFactory.CreateAccount(user.Id, balance, currency, userchoice);
+            Console.ReadLine();
+            ShowMenu();
+
+            
 
         }
 
