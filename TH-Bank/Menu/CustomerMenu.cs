@@ -134,11 +134,11 @@ namespace TH_Bank
 
                 string currentCurrency = ""; // Variable that holds balance and current Currency.
 
-                if (acc.Currency == "SEK")
+                if (acc.Currency == "1")
                 {
                     currentCurrency = acc.Balance.ToString("C", new CultureInfo("sv-SE"));
                 }
-                else if (acc.Currency == "USD")
+                else if (acc.Currency == "2")
                 {
                     currentCurrency = acc.Balance.ToString("C", new CultureInfo("en-US"));
                 }
@@ -317,11 +317,14 @@ namespace TH_Bank
         public void CreateNewAccount(User user, AccountFactory accountFactory, AccountDataHandler activeUser)
         {
             List<Account> accountList = activeUser.LoadAll(user.UserName);
+            decimal balance = 0;
 
             AccountFactory acc1 = new AccountFactory();
             Console.WriteLine("Enter currency: ");
-            decimal balance = 0;
+            Console.WriteLine("[1] SEK - Swedish kronor ");
+            Console.WriteLine("[2] USD - US Dollar ");            
             string currency = Console.ReadLine();
+
             Console.WriteLine("Enter accounttype: ");
             Console.WriteLine("[1] Salaryaccount ");
             Console.WriteLine("[2] Savingsaccount ");
@@ -341,7 +344,6 @@ namespace TH_Bank
                     Console.WriteLine("Please enter 1 or 2.");
                     return;
             }
-
 
         }
 
