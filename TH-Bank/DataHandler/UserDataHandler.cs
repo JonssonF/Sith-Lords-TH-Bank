@@ -179,7 +179,12 @@ namespace TH_Bank
             {
                 if (s.Contains(username))
                 {
-                    return true;
+                    string[] usrcheck = s.Split('|');
+
+                    if (usrcheck[1] == username)
+                    {
+                        return true;
+                    }
                 }
             }
             return false;

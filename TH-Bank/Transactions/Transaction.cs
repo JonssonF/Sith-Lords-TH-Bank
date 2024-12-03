@@ -22,7 +22,7 @@ namespace TH_Bank
         {
             Amount = amount;
             FromAccount = fromAccount;
-            ToAccount = toAccount;
+            ToAccount = toAccount; 
             Id = id;
 
             if(dateTime == null)
