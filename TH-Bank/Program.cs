@@ -20,8 +20,8 @@ namespace TH_Bank
         {
             string[] defaultusers =
             {
-                "CUS00000000|UserName|Password|FirstName|LastName",
-                "ADM00000000|Admin|Password|"
+                "CUS00000000|UserName|Password|FirstName|LastName|Customer",
+                "ADM00000000|Admin|Password|Admin"
             };
 
             string[] defaultsystem =
@@ -29,6 +29,11 @@ namespace TH_Bank
                 "CustomerIDCount|1",
                 "AdminIDCount|1",
                 "TransactionIDCount|1"
+            };
+
+            string[] defaultAccounts =
+            {
+
             };
 
             string[] defaultcurrencies =
