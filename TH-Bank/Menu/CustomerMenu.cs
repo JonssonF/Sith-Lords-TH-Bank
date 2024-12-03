@@ -411,10 +411,12 @@ namespace TH_Bank
             maxLoan = maxValue * 5; // Counts max loan value.
 
             Console.WriteLine(new string('-', 80));
-            Console.WriteLine($"Wich type of loan would you like to apply for {user.UserName}?");
-            Console.WriteLine("1. Car-loan.");
-            Console.WriteLine("2. Mortgage.\n");
-            Console.WriteLine("\n3. Return to main menu.");
+            Console.WriteLine(new string('-', 80));
+            Console.WriteLine($"Wich type of loan would you like to apply for {user.UserName}?\n");
+            Console.WriteLine("[1] Car-loan.");
+            Console.WriteLine("[2] Housing-mortgage-loan.");
+            Console.WriteLine("[3] Return to main menu.");
+            Console.Write("Choose option:");
             int userChoice = Format.Choice(3);
 
             switch (userChoice)
@@ -440,9 +442,11 @@ namespace TH_Bank
                 {
                     Console.Clear();
                     Console.WriteLine(new string('-', 80));
+                    Console.WriteLine(new string('-', 80));
                     Console.WriteLine($"Should you wish to apply for a Car-loan.\n" +
                         $"You are eligible for a loan of this amount: {maxLoan.ToString("C")}\n" +
                         $"With a interest rate of {interest.ToString("P")}.\n\n");
+                    Console.WriteLine(new string('-', 80));
                     Console.WriteLine("Would you like to continue?");
                     Console.WriteLine("[1] - Yes.");
                     Console.WriteLine("[2] - No.");
@@ -501,15 +505,17 @@ namespace TH_Bank
             {
                 var ldh = new LoanDataHandler();
                 double interest = ldh.GetInterest("MortgageLoan");
-                currentLoan = "Mortgage - Loan";
+                currentLoan = "Housing - Mortgage - Loan";
 
                 while (loanBool)
                 {
                     Console.Clear();
                     Console.WriteLine(new string('-', 80));
+                    Console.WriteLine(new string('-', 80));
                     Console.WriteLine($"Should you wish to apply for a mortgage.\n\n" +
                         $"You are eligible for a loan of this amount: {maxLoan.ToString("C")}\n" +
                         $"With a interest rate of {interest.ToString("P")}.\n\n");
+                    Console.WriteLine(new string('-', 80));
                     Console.WriteLine("Would you like to continue?");
                     Console.WriteLine("[1] - Yes.");
                     Console.WriteLine("[2] - No.");
