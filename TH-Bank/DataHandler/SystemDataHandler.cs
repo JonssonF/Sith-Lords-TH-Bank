@@ -1,4 +1,6 @@
-﻿namespace TH_Bank
+
+namespace TH_Bank
+
 {
     public class SystemDataHandler
     {
