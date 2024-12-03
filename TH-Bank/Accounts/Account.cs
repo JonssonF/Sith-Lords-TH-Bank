@@ -16,7 +16,7 @@ namespace TH_Bank
         public string Currency { get; set; }
         public int AccountNumber { get; set; }
         public string OwnerID { get; set; }
-        public decimal Interest { get; set; }
+        public double Interest { get; set; }
         public List<Record> Log {get; set; }
 
 
@@ -27,6 +27,8 @@ namespace TH_Bank
             Currency = currency;
             AccountNumber = accountNumber;
             OwnerID = ownerID;
+            var adh = new AccountDataHandler();
+            Interest = adh.GetInterest(AccountType);
         }
 
         public override string ToString()
@@ -34,7 +36,7 @@ namespace TH_Bank
             return $"{OwnerID}|{AccountNumber}|{Balance}|{Currency}|{AccountType}";
         }
 
-        public abstract decimal GetInterest();
+       
 
     }
 }
