@@ -329,13 +329,19 @@ namespace TH_Bank
         }
         public void CreateNewAccount(User user, AccountFactory accountFactory, AccountDataHandler activeUser)
         {
+            Console.Clear();
+            Console.WriteLine(new string('-', 80));
+            Console.WriteLine(new string('-', 80));
+
             List<Account> accountList = activeUser.LoadAll(user.UserName);
             decimal balance = 0;
 
             AccountFactory acc1 = new AccountFactory();
-            Console.WriteLine("Enter currency: ");
-            Console.WriteLine("[1] SEK - Swedish kronor ");
-            Console.WriteLine("[2] USD - US Dollar ");            
+            Console.WriteLine("In which currency would you like your account to be denominated?");
+            Console.WriteLine("\n[1] SEK - Swedish kronor. ");
+            Console.WriteLine("[2] USD - US Dollar. ");
+            Console.WriteLine("[3] EUR - EU Euro. ");
+            Console.Write("Enter currency: ");
             int currencyChoice = Format.Choice(2);
             string currency = "";
             switch (currencyChoice)
@@ -347,9 +353,15 @@ namespace TH_Bank
                 case 2:
                     currency = "USD";
                     break;
+                case 3:
+                    currency = "EUR";
+                    break;
 
+                default:
+                    Console.WriteLine("Please enter 1 or 3.");
+                    break;
             }
-            Console.WriteLine("Enter accounttype: ");
+            Console.Write("Enter account type: ");
             Console.WriteLine("[1] Salaryaccount ");
             Console.WriteLine("[2] Savingsaccount ");
             int accountChoice = Format.Choice(2);
@@ -359,21 +371,20 @@ namespace TH_Bank
             {
                 case 1:
                     userchoice = "Salaryaccount";
-                    Console.WriteLine("You created a new Salaryaccount.");
                     break;
 
                 case 2:
                     userchoice = "Savingsaccount";
-                    Console.WriteLine("You created a new Savingsaccount.");
                     break;
-
+                default:
+                    Console.WriteLine("Please enter 1 or 2.");
+                    break;
             }
+            Console.WriteLine($"You have succesfully created a new account.\n" +
+                $"[Account type: {userchoice} with currency: {currency}.]");
             Account account = accountFactory.CreateAccount(user.Id, balance, currency, userchoice);
             Console.ReadLine();
             ShowMenu();
-
-            
-
         }
 
         public void ApplyForLoan(User user, LoanDataHandler loanData, LoanFactory loanFactory, AccountDataHandler activeUser)
