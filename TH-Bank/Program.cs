@@ -35,18 +35,18 @@ namespace TH_Bank
             {
                 "SEK",
                 "Swedish Krona",
-                "USD|0.1",
-                "EUR|0.09",
+                "USD|0,1",
+                "EUR|0,09",
                 "//ENDSwedish Krona//",
                 "USD",
                 "US Dollar",
-                "SEK|10.0",
-                "EUR|0.95",
+                "SEK|10,0",
+                "EUR|0,95",
                 "//ENDUS Dollar//",
                 "EUR",
                 "European Euro",
-                "SEK|10.1",
-                "USD|1.05",
+                "SEK|10,1",
+                "USD|1,05",
                 "//ENDEuropean Euro//"
             };
 
@@ -91,6 +91,8 @@ namespace TH_Bank
 
             while (!userValidation)
             {
+                
+                
                 Console.WriteLine("Welcome to TH-Bank.");
                 Console.WriteLine("Please enter your username: ");
                 userName = Console.ReadLine();

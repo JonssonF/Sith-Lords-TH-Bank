@@ -4,8 +4,7 @@ using System.Globalization;
 namespace TH_Bank
 {
     public class CustomerMenu : Menu
-    {
-        
+    { 
         public CustomerMenu()
         {
             _menu = new string[] // Menu in array = easy to add options.
@@ -62,24 +61,24 @@ namespace TH_Bank
                         break;
 
                     case 4:
-                        // Lån alternativet.
-                        //Loan.ApplyForLoan(ActiveUserSingleton.GetInstance());
-
-                    case 5:
                         ApplyForLoan(ActiveUserSingleton.GetInstance(), new LoanDataHandler(), new LoanFactory(), new AccountDataHandler());
                         Console.Clear();
                         ShowMenu();
-
+                        break;
+                    case 5:
+                        CreateNewAccount(ActiveUserSingleton.GetInstance(), new AccountFactory(), new AccountDataHandler());
+                        Thread.Sleep(2500);
+                        Console.Clear();
+                        ShowMenu();
                         break;
                     case 6:
-                        // Spot for open new account.
-                        CreateNewAccount(ActiveUserSingleton.GetInstance(), new AccountFactory(), new AccountDataHandler());
-                        break;
-                    case 7:
                         Return(); //Log out.
                         break;
-                    case 8:
+                    case 7:
                         Close(); // Close application.
+                        break;
+
+                    case 8:
                         break;
                 }
             }
@@ -169,7 +168,7 @@ namespace TH_Bank
         public void ShowLoans(User user, LoanDataHandler loanUser)
         {
             int width = 20;
-            int center = 80; // Used for dividing lines, and to align column headers.
+            int center = 86; // Used for dividing lines, and to align column headers.
             string text = $".:{user.UserName}'s Loans:."; //Headline.
             int padding = (center - text.Length) / 2;
             string centeredText = new string('.', padding) + text + new string('.', padding);
@@ -331,33 +330,55 @@ namespace TH_Bank
         public void CreateNewAccount(User user, AccountFactory accountFactory, AccountDataHandler activeUser)
         {
             List<Account> accountList = activeUser.LoadAll(user.UserName);
+            decimal balance = 0;
 
             AccountFactory acc1 = new AccountFactory();
             Console.WriteLine("Enter currency: ");
-            decimal balance = 0;
-            string currency = Console.ReadLine();
-            Console.WriteLine("Enter account owner: ");
-            string ownerid = Console.ReadLine();
-            Console.WriteLine("Enter accounttype: ");
-            Console.WriteLine("[1] Salaryaccount ");
-            Console.WriteLine("[2] Savingsaccount ");
-            string userchoice = Console.ReadLine();
-            Account account = accountFactory.CreateAccount(user.Id, balance, currency, userchoice);
-            switch (userchoice)
+            Console.WriteLine("[1] SEK - Swedish kronor ");
+            Console.WriteLine("[2] USD - US Dollar ");            
+            int currencyChoice = Format.Choice(2);
+            string currency = "";
+            switch (currencyChoice)
             {
-                case "1":
-                    Console.WriteLine("You created a new Salaryaccount");
-                    return;
+                case 1:
+                    currency = "SEK";
+                    break;
 
-                case "2":
-                    Console.WriteLine("You created a new Savingsaccount");
-                    return;
+                case 2:
+                    currency = "USD";
+                    break;
 
                 default:
                     Console.WriteLine("Please enter 1 or 2.");
-                    return;
+                    break;
             }
+            Console.WriteLine("Enter accounttype: ");
+            Console.WriteLine("[1] Salaryaccount ");
+            Console.WriteLine("[2] Savingsaccount ");
+            int accountChoice = Format.Choice(2);
+            string userchoice = "";
 
+            switch (accountChoice)
+            {
+                case 1:
+                    userchoice = "Salaryaccount";
+                    Console.WriteLine("You created a new Salaryaccount.");
+                    break;
+
+                case 2:
+                    userchoice = "Savingsaccount";
+                    Console.WriteLine("You created a new Savingsaccount.");
+                    break;
+
+                default:
+                    Console.WriteLine("Please enter 1 or 2.");
+                    break;
+            }
+            Account account = accountFactory.CreateAccount(user.Id, balance, currency, userchoice);
+            Console.ReadLine();
+            ShowMenu();
+
+            
 
         }
 
