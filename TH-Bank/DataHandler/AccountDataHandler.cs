@@ -36,7 +36,7 @@ namespace TH_Bank
             throw new NotImplementedException();
         }
 
-        public Account Load( accountNumber)
+        public Account Load(string accountNumber)
         {
             throw new NotImplementedException();
         }
