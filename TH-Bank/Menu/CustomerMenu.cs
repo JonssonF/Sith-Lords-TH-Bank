@@ -4,7 +4,7 @@ using System.Globalization;
 namespace TH_Bank
 {
     public class CustomerMenu : Menu
-    { 
+    {
         public CustomerMenu()
         {
             _menu = new string[] // Menu in array = easy to add options.
@@ -46,7 +46,7 @@ namespace TH_Bank
                 {
 
                     case 1:
-                        ShowAccounts(ActiveUserSingleton.GetInstance(), new AccountDataHandler()); 
+                        ShowAccounts(ActiveUserSingleton.GetInstance(), new AccountDataHandler());
                         ShowLoans(ActiveUserSingleton.GetInstance(), new LoanDataHandler());
                         Console.Write("Press any key to go back. . .");
                         Console.ReadLine();
@@ -94,7 +94,7 @@ namespace TH_Bank
             ConsoleColor textColor;
             CultureInfo currencyFormat;
             List<Account> accountList = activeUser.LoadAll(user.Id);
-            
+
             if (accountList == null || accountList.Count == 0)
             {
 
@@ -120,45 +120,44 @@ namespace TH_Bank
             int nr = 1;
             foreach (var acc in accountList)
             {
-
-                if (acc.Balance < 500)
-                {
-                    textColor = ConsoleColor.Red;
-                }
-                else
-                {
-                    textColor = ConsoleColor.Green;
-                }
-                Console.ForegroundColor = textColor;
-
+                textColor = ConsoleColor.White;
                 string currentCurrency = ""; // Variable that holds balance and current Currency.
 
                 if (acc.Currency == "SEK")
                 {
-                    currentCurrency = acc.Balance.ToString("C", new CultureInfo("sv-SE"));
+                    textColor = ConsoleColor.Green;
+                    currentCurrency = acc.Balance.ToString("C", new CultureInfo("sv-SE")); //Displays balance as swedish krona.
                 }
                 else if (acc.Currency == "USD")
                 {
-                    currentCurrency = acc.Balance.ToString("C", new CultureInfo("en-US"));
+                    textColor = ConsoleColor.DarkMagenta;
+                    currentCurrency = acc.Balance.ToString("C", new CultureInfo("en-US")); //Displays balance as US dollar.
+                }
+                else if (acc.Currency == "EUR")
+                {
+                    textColor = ConsoleColor.DarkCyan;
+                    Console.OutputEncoding = System.Text.Encoding.UTF8;
+                    currentCurrency = acc.Balance.ToString("C", new CultureInfo("en-IE")); //Displays balance as euro.
                 }
                 else
                 {
                     currentCurrency = acc.Balance.ToString("C", CultureInfo.CurrentCulture);
+                    textColor = ConsoleColor.White;
                 }
-                
+                Console.ForegroundColor = textColor;
+
                 Console.WriteLine(
                     $"{" "}{nr}{"."}{CenterText(acc.AccountType, width)}" + // Type of Account.
                     $"{CenterText(acc.AccountNumber.ToString(), width)}" + //Accountnumber.
                     $"{CenterText(currentCurrency, width)}" + //Formatted Currency variable, from if statement. Shows balance and currency.
                     $"{CenterText(acc.Interest.ToString("P"), width)}");
                 nr++;
-                //$"{CenterText(acc.Balance.ToString("C"), width)}" + // Balance.             /*Lägger denna här under tiden ifall "balance / currency variabeln inte ska användas.*/
-                Console.ResetColor();
+                Console.ResetColor();      // Lägga till Kolumn för VALUTA. // Lägg till vart pengarna ska hamna efter lån.
             }
         }
         public string CenterText(string text, int width) // A method to align the text in columns when showing accounts.
         {
-            
+
             int padding = (width - text.Length) / 2;
             string paddedText = text.PadLeft(padding + text.Length);
             paddedText = paddedText.PadRight(width);
@@ -167,6 +166,7 @@ namespace TH_Bank
 
         public void ShowLoans(User user, LoanDataHandler loanUser)
         {
+            ConsoleColor textColor;
             int width = 20;
             int center = 86; // Used for dividing lines, and to align column headers.
             string text = $".:{user.UserName}'s Loans:."; //Headline.
@@ -174,12 +174,12 @@ namespace TH_Bank
             string centeredText = new string('.', padding) + text + new string('.', padding);
             Console.WriteLine(new string('-', center));
             List<Loan> allLoans = loanUser.LoadAll(user.Id);
-            List<Loan> loanList = allLoans.Where(loan => loan.OwnerId == user.Id).ToList(); // LINQ Method to filter away accounts that isn't current users.
+            //List<Loan> loanList = allLoans.Where(loan => loan.OwnerId == user.Id).ToList(); // LINQ Method to filter away accounts that isn't current users.
 
             Console.WriteLine(centeredText);  // Headline for account show.
             Console.WriteLine(new string('-', center));
             Console.WriteLine(
-                $"{"Nr:."}"+
+                $"{"Nr:."}" +
                 $"{CenterText(".:Loan Type:.", width)}" +
                 $"{CenterText(".:Amount:.", width)}" +
                 $"{CenterText(".:Interest:.", width)}" +
@@ -195,15 +195,29 @@ namespace TH_Bank
                 int nr = 1;
                 foreach (var loan in allLoans)
                 {
+                    if (loan.LoanType == "Carloan")
+                    {
+                        textColor = ConsoleColor.Yellow;
+                    }
+                    else if (loan.LoanType == "Mortgage")
+                    {
+                        textColor = ConsoleColor.Red;
+                    }
+                    else
+                    {
+                        textColor = ConsoleColor.White;
+                    }
+                    Console.ForegroundColor = textColor;
                     Console.WriteLine(
-                        $"{" "}{nr}{"."}{CenterText(loan.LoanType, width)}" +
-                        $"{CenterText(loan.Amount.ToString("C"), width)}" +
-                        $"{CenterText(loan.Interest.ToString("P"), width)}" +
-                        $"{CenterText(loan.LoanStart.ToString("yyyy-MM-dd"), width)}");
-                nr++;
+                    $"{" "}{nr}{"."}{CenterText(loan.LoanType, width)}" +
+                    $"{CenterText(loan.Amount.ToString("C"), width)}" +
+                    $"{CenterText(loan.Interest.ToString("P"), width)}" +
+                    $"{CenterText(loan.LoanStart.ToString("yyyy-MM-dd"), width)}");
+                    nr++;
                 }
             }
 
+            Console.ResetColor();
             Console.WriteLine(new string('-', center));
         }
 
@@ -246,7 +260,7 @@ namespace TH_Bank
                 case 2:
                     Console.WriteLine("\n[2] Transaction to external account");
                     int accChoice = ValidOwnAccount("from");
-                    fromAccount = accountArray[accChoice -1];
+                    fromAccount = accountArray[accChoice - 1];
                     Console.WriteLine("Enter recieving account number: ");
                     int toAccountInt = Format.IntegerInput(6);
 
@@ -306,7 +320,7 @@ namespace TH_Bank
                 ShowMenu();
             }
 
-            
+
         }
 
         public int ValidOwnAccount(string toOrFrom)
@@ -376,12 +390,12 @@ namespace TH_Bank
                 case 1:
 
                     userchoice = "SalaryAccount";
-                    
+
                     break;
 
                 case 2:
                     userchoice = "SavingsAccount";
-                    
+
                     break;
                 default:
                     Console.WriteLine("Please enter 1 or 2.");
@@ -404,7 +418,7 @@ namespace TH_Bank
             decimal maxValue = 0;
             string currentLoan = "";
             List<Account> accounts = activeUser.LoadAll(user.Id);
-            
+
             foreach (var acc in accounts) // Counts total value of users accounts.
             {
                 maxValue += acc.Balance;
