@@ -150,7 +150,7 @@ namespace TH_Bank
                     $"{" "}{nr}{"."}{CenterText(acc.AccountType, width)}" + // Type of Account.
                     $"{CenterText(acc.AccountNumber.ToString(), width)}" + //Accountnumber.
                     $"{CenterText(currentCurrency, width)}" + //Formatted Currency variable, from if statement. Shows balance and currency.
-                    $"{CenterText(acc.GetInterest().ToString("P"), width)}");
+                    $"{CenterText(acc.Interest.ToString("P"), width)}");
                 nr++;
                 //$"{CenterText(acc.Balance.ToString("C"), width)}" + // Balance.             /*Lägger denna här under tiden ifall "balance / currency variabeln inte ska användas.*/
                 Console.ResetColor();
@@ -174,7 +174,7 @@ namespace TH_Bank
             string centeredText = new string('.', padding) + text + new string('.', padding);
             Console.WriteLine(new string('-', center));
             List<Loan> allLoans = loanUser.LoadAll(user.Id);
-            List<Loan> loanList = allLoans.Where(loan => loan.Id == user.Id).ToList(); // LINQ Method to filter away accounts that isn't current users.
+            List<Loan> loanList = allLoans.Where(loan => loan.OwnerId == user.Id).ToList(); // LINQ Method to filter away accounts that isn't current users.
 
             Console.WriteLine(centeredText);  // Headline for account show.
             Console.WriteLine(new string('-', center));
@@ -350,7 +350,7 @@ namespace TH_Bank
 
             }
             Console.WriteLine("Enter accounttype: ");
-            Console.WriteLine("[1] Salaryaccount ");
+            Console.WriteLine("[1] Salary account ");
             Console.WriteLine("[2] Savingsaccount ");
             int accountChoice = Format.Choice(2);
             string userchoice = "";
@@ -358,12 +358,12 @@ namespace TH_Bank
             switch (accountChoice)
             {
                 case 1:
-                    userchoice = "Salaryaccount";
-                    Console.WriteLine("You created a new Salaryaccount.");
+                    userchoice = "SalaryAccount";
+                    Console.WriteLine("You created a new Salary account.");
                     break;
 
                 case 2:
-                    userchoice = "Savingsaccount";
+                    userchoice = "SavingsAccount";
                     Console.WriteLine("You created a new Savingsaccount.");
                     break;
 
@@ -382,7 +382,6 @@ namespace TH_Bank
             bool loanBool = true;
             string id = user.Id;
             decimal amount = 0;
-            double interest = 0;
             decimal maxLoan = 0;
             decimal maxValue = 0;
             string currentLoan = "";
@@ -417,8 +416,9 @@ namespace TH_Bank
 
             void CarLoan()
             {
+                var ldh = new LoanDataHandler();
+                double interest = ldh.GetInterest("CarLoan");
                 currentLoan = "Car - Loan";
-                interest = 0.06;
                 while (loanBool)
                 {
                     Console.Clear();
@@ -459,7 +459,7 @@ namespace TH_Bank
                                 Process();
                                 loanBool = false;
                                 DateTime loanTimeStamp = DateTime.Now;
-                                loanData.Save(loanFactory.NewLoan(id, amount, interest, "CarLoan"));
+                                loanData.Save(loanFactory.NewLoan(id, amount, "CarLoan"));
                                 Console.WriteLine(new string('-', 80));
                                 Console.WriteLine($"Congratulations {user.UserName} on your new loan.\n" +
                                     $"Loan type: [ {currentLoan} ]\n" +
@@ -482,9 +482,10 @@ namespace TH_Bank
 
             void Mortgage()
             {
-
+                var ldh = new LoanDataHandler();
+                double interest = ldh.GetInterest("MortgageLoan");
                 currentLoan = "Mortgage - Loan";
-                interest = 0.04;
+
                 while (loanBool)
                 {
                     Console.Clear();
@@ -525,7 +526,7 @@ namespace TH_Bank
                                 Process();
                                 loanBool = false;
                                 DateTime loanTimeStamp = DateTime.Now;
-                                loanData.Save(loanFactory.NewLoan(id, amount, interest, "Mortgage"));
+                                loanData.Save(loanFactory.NewLoan(id, amount, "MortgageLoan"));
                                 Console.WriteLine(new string('-', 80));
                                 Console.WriteLine($"Congratulations {user.UserName} on your new loan.\n" +
                                     $"Loan type: [ {currentLoan} ]\n" +

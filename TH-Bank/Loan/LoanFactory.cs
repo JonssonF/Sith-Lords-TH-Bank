@@ -4,7 +4,7 @@
     {
 
 
-        public Loan NewLoan(string id, decimal amount, double interest,string userChoice)
+        public Loan NewLoan(string id, decimal amount,string userChoice)
         {
             var loanDataHandler = new LoanDataHandler();
 
@@ -12,12 +12,12 @@
 
             if(userChoice == "CarLoan")
             {
-                loan = new CarLoan(id, amount, interest);
+                loan = new CarLoan(id, amount);
                 loanDataHandler.Save(loan);
             }
-            else if (userChoice == "Mortgage")
+            else if (userChoice == "MortgageLoan")
             {
-                loan = new MortgageLoan(id, amount, interest);
+                loan = new MortgageLoan(id, amount);
                 loanDataHandler.Save(loan);
             }
             else
