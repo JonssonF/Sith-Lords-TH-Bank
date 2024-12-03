@@ -169,25 +169,27 @@ namespace TH_Bank
         public void UpdateExchangeRates()
         {
             Console.WriteLine("Chooce a currency to edit:");
-            int loop = 0;
+            int loop = 1;
             foreach (Currency c in ExchangeCurrency.currencies)
             {
-                Console.WriteLine($"{loop}: {c.Name}");
+                Console.WriteLine($"{loop}: {c.Name} ({c.NameShort})");
                 loop++;
             }
-            int choice = Format.Choice(ExchangeCurrency.currencies.Length);
+            loop = 1;
+            int choice = Format.Choice(ExchangeCurrency.currencies.Length) - 1;
             var xdh = new ExchangeDataHandler();
             Currency chosen = ExchangeCurrency.currencies[choice];
-            Console.WriteLine("Choose rate to edit:");
+            Console.WriteLine($"Choose rate to edit for {chosen.NameShort}:");
             List<string> keys = new List<string>();
             List<double> values = new List<double>();
             foreach (var item in chosen.ExchangeRates)
             {
-                Console.WriteLine($"{item.Key}: {item.Value}");
+                Console.WriteLine($"{loop}. {item.Key}: {item.Value}");
                 keys.Add(item.Key);
+                loop++;
                 
             }
-            choice = Format.Choice(chosen.ExchangeRates.Count);
+            choice = Format.Choice(chosen.ExchangeRates.Count) - 1;
 
             Console.WriteLine($"Enter new rate for {chosen.NameShort} -> {keys[choice]} (current: {chosen.ExchangeRates[keys[choice]]})");
 
