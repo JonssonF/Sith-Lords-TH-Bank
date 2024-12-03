@@ -18,13 +18,13 @@ namespace TH_Bank
 
         public static void CreateFiles()
         {
-            string[] defaultusers =
+            string[] defaultUsers =
             {
                 "CUS00000000|UserName|Password|FirstName|LastName|Customer",
                 "ADM00000000|Admin|Password|Admin"
             };
 
-            string[] defaultsystem =
+            string[] defaultSystem =
             {
                 "CustomerIDCount|1",
                 "AdminIDCount|1",
@@ -33,10 +33,16 @@ namespace TH_Bank
 
             string[] defaultAccounts =
             {
-
+               " ///INTERESTRATES///",
+                "SalaryAccount|0,0",
+                "SavingsAccount|0,1",
+                "///ENDINTERESTRATES///",
+                "OwnerID/Accountnumber/Balance/Currency/AccountType",
+                "CUS00000000|112003|5000|SEK|SalaryAccount",
+                "CUS00000000|223030|60000|SEK|SavingsAccount"
             };
 
-            string[] defaultcurrencies =
+            string[] defaultCurrencies =
             {
                 "SEK",
                 "Swedish Krona",
@@ -55,17 +61,24 @@ namespace TH_Bank
                 "//ENDEuropean Euro//"
             };
 
+            string[] defaultLoans = 
+                {
+                    "///INTERESTRATES///",
+                    "CarLoan|0,08",
+                    "MortgageLoan|0,05",
+                    "///ENDINTERESTRATES///",
+                    "CUS00000000|CarLoan|125000|0,1|2024-12-03 11:56:14",
+                };
+
+
+
             if (!File.Exists(FilePaths.AccountPath))
             {
-                File.Create(FilePaths.AccountPath);
+                File.AppendAllLines(FilePaths.AccountPath, defaultAccounts);
             }
             if (!File.Exists(FilePaths.UserPath))
             {
-                File.AppendAllLines(FilePaths.UserPath, defaultusers);
-            }
-            if (!File.Exists(FilePaths.LogPath))
-            {
-                File.Create(FilePaths.LogPath);
+                File.AppendAllLines(FilePaths.UserPath, defaultUsers);
             }
             if (!File.Exists(FilePaths.TransactionPath))
             {
@@ -73,15 +86,15 @@ namespace TH_Bank
             }
             if (!File.Exists(FilePaths.SystemPath))
             {
-                File.AppendAllLines(FilePaths.SystemPath, defaultsystem);
+                File.AppendAllLines(FilePaths.SystemPath, defaultSystem);
             }
             if (!File.Exists(FilePaths.LoanPath))
             {
-                File.Create(FilePaths.LoanPath);
+                File.AppendAllLines(FilePaths.LoanPath, defaultLoans);
             }
             if(!File.Exists(FilePaths.CurrencyPath))
             {
-                File.AppendAllLines(FilePaths.CurrencyPath, defaultcurrencies);
+                File.AppendAllLines(FilePaths.CurrencyPath, defaultCurrencies);
             }
         }
 
