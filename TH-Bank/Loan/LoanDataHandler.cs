@@ -29,7 +29,7 @@
                     decimal amount = Decimal.Parse(variables[2]);
                     double interest = Double.Parse(variables[3]);
                     string loanStart = variables[4];
-                    var carLoan = new CarLoan(userId, amount, interest);
+                    var carLoan = new CarLoan(userId, amount);
                     return carLoan;
                 }
                 else if (line.Contains(id) && line.Contains("Mortgage"))
@@ -40,7 +40,7 @@
                     decimal amount = Decimal.Parse(variables[2]);
                     double interest = Double.Parse(variables[3]);
                     string loanStart = variables[4];
-                    var mortgageLoan = new MortgageLoan(userId, amount, interest);
+                    var mortgageLoan = new MortgageLoan(userId, amount);
                     return mortgageLoan;
                 }
             }
@@ -70,7 +70,7 @@
                     decimal amount = Decimal.Parse(variables[2]);
                     double interest = Double.Parse(variables[3]);
                     string loanStart = variables[4];
-                    var loan = new CarLoan(userId, amount, interest);
+                    var loan = new CarLoan(userId, amount);
                     allLoans.Add(loan);
                 }
                 else if (line.Contains(userid) && line.Contains("Mortgage"))
@@ -81,7 +81,7 @@
                     decimal amount = Decimal.Parse(variables[2]);
                     double interest = Double.Parse(variables[3]);
                     string loanStart = variables[4];
-                    var loan = new MortgageLoan(userId, amount, interest);
+                    var loan = new MortgageLoan(userId, amount);
                     allLoans.Add(loan);
                 }
             }
@@ -119,6 +119,24 @@
             throw new NotImplementedException();
         }
 
+        public double GetInterest(string loanType)
+        {
+            string[] openFile = File.ReadAllLines(FilePath);
 
+            int startindex = Array.IndexOf(openFile, "///INTERESTRATES///");
+            int endindex = Array.IndexOf(openFile, "///ENDINTERESTRATES///");
+
+            for (int i = startindex; i < endindex; i++)
+            {
+                if (openFile[i].Contains(loanType))
+                {
+                    string[] split = openFile[i].Split('|');
+
+                    return double.Parse(split[1]);
+                }
+            }
+
+            throw new Exception("Loan Type not found among interest rates!");
+        }
     }
 }
