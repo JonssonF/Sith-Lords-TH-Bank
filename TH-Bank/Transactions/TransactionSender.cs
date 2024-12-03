@@ -1,4 +1,6 @@
-﻿namespace TH_Bank
+﻿using System.Transactions;
+
+namespace TH_Bank
 {
     public sealed class TransactionSender
     {
@@ -29,28 +31,27 @@
             timer.AutoReset = true;
             //Start timer.
             timer.Start();
-
-
-
         }
 
         public void AddPendingTransaction(Transaction transaction)
         {
             var accountHandler = new AccountDataHandler(); 
 
-            PendingTransactions.Add(transaction);
+            
             transaction.FromAccount.Balance -= transaction.Amount;
             accountHandler.Save(transaction.FromAccount);
+            
+            PendingTransactions.Add(transaction);
         }
 
         public void ExecuteTransactions()
         {
             var accountHandler = new AccountDataHandler();
 
-            foreach (Transaction t in PendingTransactions)
+            foreach (Transaction transaction in PendingTransactions)
             {
-                t.ToAccount.Balance += t.Amount;
-                accountHandler.Save(t.ToAccount);
+                transaction.ToAccount.Balance += ExchangeCurrency.Exchange(transaction.Amount, transaction.FromAccount.Currency, transaction.ToAccount.Currency);
+                accountHandler.Save(transaction.ToAccount);
             }
             PendingTransactions.Clear();
         }

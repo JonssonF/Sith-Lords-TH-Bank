@@ -290,6 +290,8 @@ namespace TH_Bank
                     Transaction transaction = new TransactionFactory().CreateTransaction(amount, fromAccount, toAccount);
                     TransactionSender transactionSender = TransactionSender.GetInstance();
                     transactionSender.AddPendingTransaction(transaction);
+                    var tdh = new TransactionDataHandler();
+                    tdh.Save(transaction);
                     Console.Clear();
                     ShowAccounts(user, adh);
                     Console.WriteLine("\nTransaction complete.");
