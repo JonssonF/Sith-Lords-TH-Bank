@@ -339,57 +339,56 @@ namespace TH_Bank
             decimal balance = 0;
 
             AccountFactory acc1 = new AccountFactory();
-            Console.WriteLine("In which currency would you like your account to be denominated?");
-            Console.WriteLine("\n[1] SEK - Swedish kronor. ");
+            Console.WriteLine("In which currency would you like your account to be denominated?\n");
+            Console.WriteLine("[1] SEK - Swedish kronor. ");
             Console.WriteLine("[2] USD - US Dollar. ");
             Console.WriteLine("[3] EUR - EU Euro. ");
             Console.Write("Enter currency: ");
-            int currencyChoice = Format.Choice(2);
+            int currencyChoice = Format.Choice(3);
             string currency = "";
             switch (currencyChoice)
             {
                 case 1:
                     currency = "SEK";
                     break;
-
                 case 2:
                     currency = "USD";
                     break;
                 case 3:
                     currency = "EUR";
                     break;
-
                 default:
                     Console.WriteLine("Please enter 1 or 3.");
                     break;
             }
-
-            Console.Write("Enter account type: ");
+            Console.WriteLine(" ");
+            Console.WriteLine(new string('-', 80));
+            Console.WriteLine("What type of bank account would you like to open?\n");
             Console.WriteLine("[1] Salaryaccount ");
-
             Console.WriteLine("[2] Savingsaccount ");
+            Console.Write("\nEnter account type: ");
             int accountChoice = Format.Choice(2);
             string userchoice = "";
 
             switch (accountChoice)
             {
                 case 1:
-
                     userchoice = "SalaryAccount";
-                    
                     break;
-
                 case 2:
                     userchoice = "SavingsAccount";
-                    
                     break;
                 default:
                     Console.WriteLine("Please enter 1 or 2.");
                     break;
             }
+            Console.WriteLine(" ");
+            Console.WriteLine(new string('-', 80));
+            Console.WriteLine(new string('-', 80));
             Console.WriteLine($"You have succesfully created a new account.\n" +
                 $"[Account type: {userchoice} with currency: {currency}.]");
             Account account = accountFactory.CreateAccount(user.Id, balance, currency, userchoice);
+            Console.WriteLine("\nPress any key to continue to main menu. . .");
             Console.ReadLine();
             ShowMenu();
         }
