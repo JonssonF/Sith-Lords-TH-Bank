@@ -150,7 +150,7 @@ namespace TH_Bank
                     $"{" "}{nr}{"."}{CenterText(acc.AccountType, width)}" + // Type of Account.
                     $"{CenterText(acc.AccountNumber.ToString(), width)}" + //Accountnumber.
                     $"{CenterText(currentCurrency, width)}" + //Formatted Currency variable, from if statement. Shows balance and currency.
-                    $"{CenterText(acc.GetInterest().ToString("P"), width)}");
+                    $"{CenterText(acc.Interest.ToString("P"), width)}");
                 nr++;
                 //$"{CenterText(acc.Balance.ToString("C"), width)}" + // Balance.             /*Lägger denna här under tiden ifall "balance / currency variabeln inte ska användas.*/
                 Console.ResetColor();
@@ -350,7 +350,7 @@ namespace TH_Bank
 
             }
             Console.WriteLine("Enter accounttype: ");
-            Console.WriteLine("[1] Salaryaccount ");
+            Console.WriteLine("[1] Salary account ");
             Console.WriteLine("[2] Savingsaccount ");
             int accountChoice = Format.Choice(2);
             string userchoice = "";
@@ -358,12 +358,12 @@ namespace TH_Bank
             switch (accountChoice)
             {
                 case 1:
-                    userchoice = "Salaryaccount";
-                    Console.WriteLine("You created a new Salaryaccount.");
+                    userchoice = "SalaryAccount";
+                    Console.WriteLine("You created a new Salary account.");
                     break;
 
                 case 2:
-                    userchoice = "Savingsaccount";
+                    userchoice = "SavingsAccount";
                     Console.WriteLine("You created a new Savingsaccount.");
                     break;
 
