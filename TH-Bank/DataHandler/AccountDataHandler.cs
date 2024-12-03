@@ -134,5 +134,25 @@ namespace TH_Bank
         {
             throw new NotImplementedException();
         }
+
+        public double GetInterest(string accountType)
+        {
+            string[] openFile = File.ReadAllLines(FilePath);
+
+            int startindex = Array.IndexOf(openFile, "///INTERESTRATES///");
+            int endindex = Array.IndexOf(openFile, "///ENDINTERESTRATES///");
+
+            for(int i = startindex; i < endindex; i++)
+            {
+                if (openFile[i].Contains(accountType))
+                {
+                    string[] split = openFile[i].Split('|');
+
+                    return double.Parse(split[1]);
+                }
+            }
+
+            throw new Exception("Account Type not found among interest rates!");
+        }
     }
 }
