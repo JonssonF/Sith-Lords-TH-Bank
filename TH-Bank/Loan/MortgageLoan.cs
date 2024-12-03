@@ -5,14 +5,14 @@
         public List<Loan> loans;
         public override string LoanType { get; } = "Mortgage";
 
-        public MortgageLoan(string id, decimal amount, double interest) : base(id, amount, interest)
+        public MortgageLoan(string id, decimal amount) : base(id, amount)
         {
             loans = new List<Loan>();
         }
 
         public override string ToString()
         {
-            return $"{Id}|{LoanType}|{Amount}|{Interest}|{LoanStart}";
+            return $"{OwnerId}|{LoanType}|{Amount}|{Interest}|{LoanStart}";
         }
     }
 }

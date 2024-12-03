@@ -174,7 +174,7 @@ namespace TH_Bank
             string centeredText = new string('.', padding) + text + new string('.', padding);
             Console.WriteLine(new string('-', center));
             List<Loan> allLoans = loanUser.LoadAll(user.Id);
-            List<Loan> loanList = allLoans.Where(loan => loan.Id == user.Id).ToList(); // LINQ Method to filter away accounts that isn't current users.
+            List<Loan> loanList = allLoans.Where(loan => loan.OwnerId == user.Id).ToList(); // LINQ Method to filter away accounts that isn't current users.
 
             Console.WriteLine(centeredText);  // Headline for account show.
             Console.WriteLine(new string('-', center));
@@ -382,7 +382,6 @@ namespace TH_Bank
             bool loanBool = true;
             string id = user.Id;
             decimal amount = 0;
-            double interest = 0;
             decimal maxLoan = 0;
             decimal maxValue = 0;
             string currentLoan = "";
@@ -417,8 +416,9 @@ namespace TH_Bank
 
             void CarLoan()
             {
+                var ldh = new LoanDataHandler();
+                double interest = ldh.GetInterest("CarLoan");
                 currentLoan = "Car - Loan";
-                interest = 0.06;
                 while (loanBool)
                 {
                     Console.Clear();
@@ -459,7 +459,7 @@ namespace TH_Bank
                                 Process();
                                 loanBool = false;
                                 DateTime loanTimeStamp = DateTime.Now;
-                                loanData.Save(loanFactory.NewLoan(id, amount, interest, "CarLoan"));
+                                loanData.Save(loanFactory.NewLoan(id, amount, "CarLoan"));
                                 Console.WriteLine(new string('-', 80));
                                 Console.WriteLine($"Congratulations {user.UserName} on your new loan.\n" +
                                     $"Loan type: [ {currentLoan} ]\n" +
@@ -482,9 +482,10 @@ namespace TH_Bank
 
             void Mortgage()
             {
-
+                var ldh = new LoanDataHandler();
+                double interest = ldh.GetInterest("MortgageLoan");
                 currentLoan = "Mortgage - Loan";
-                interest = 0.04;
+
                 while (loanBool)
                 {
                     Console.Clear();
@@ -525,7 +526,7 @@ namespace TH_Bank
                                 Process();
                                 loanBool = false;
                                 DateTime loanTimeStamp = DateTime.Now;
-                                loanData.Save(loanFactory.NewLoan(id, amount, interest, "Mortgage"));
+                                loanData.Save(loanFactory.NewLoan(id, amount, "MortgageLoan"));
                                 Console.WriteLine(new string('-', 80));
                                 Console.WriteLine($"Congratulations {user.UserName} on your new loan.\n" +
                                     $"Loan type: [ {currentLoan} ]\n" +
