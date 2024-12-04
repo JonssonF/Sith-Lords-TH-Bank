@@ -8,7 +8,7 @@ namespace TH_Bank
         DateTime startTime;
 
         // Interval for the timer.
-        TimeSpan interval = TimeSpan.FromMinutes(15);
+        TimeSpan interval = TimeSpan.FromSeconds(10);
 
         List<Transaction> PendingTransactions;
 

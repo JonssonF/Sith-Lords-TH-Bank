@@ -33,7 +33,7 @@ namespace TH_Bank
 
             string[] defaultAccounts =
             {
-               " ///INTERESTRATES///",
+                "///INTERESTRATES///",
                 "SalaryAccount|0,0",
                 "SavingsAccount|0,1",
                 "///ENDINTERESTRATES///",

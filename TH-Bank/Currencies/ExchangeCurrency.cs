@@ -14,9 +14,11 @@
        // Loads eventual changes from file.
         private static void LoadRates(ExchangeDataHandler ex)
         {
+            
+            AllCurrentRates = new Dictionary<string, Dictionary<string, double>>();
             foreach(Currency c in currencies)
             {
-                AllCurrentRates[c.Name] = ex.LoadRates(c.Name);
+                AllCurrentRates[c.NameShort] = ex.LoadRates(c.Name);
             }
 
             LastReview = ex.LoadLastReview();
@@ -39,6 +41,7 @@
         // This method is called to return converted amount
         public static decimal Exchange(decimal amount, string fromCurrency, string toCurrency)
         {
+            ThisCurrencyRates = new Dictionary<string, double>();
             LoadRates(new ExchangeDataHandler());
             ThisCurrencyRates = AllCurrentRates[fromCurrency];
 

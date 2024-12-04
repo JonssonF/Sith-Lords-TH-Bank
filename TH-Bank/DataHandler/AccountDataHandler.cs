@@ -50,23 +50,23 @@ namespace TH_Bank
             foreach (string line in openFile)
             {
 
-                if (line.Contains("SalaryAccount"))
+                if (line.Contains("SalaryAccount") && line.Length > 19)
                 {
                     string[] variables = line.Split('|');
 
                     string ownerid = variables[0];
-                    int accountnumber = int.Parse(variables[1]);
+                    int accountnumber = Int32.Parse(variables[1]);
                     decimal balance = decimal.Parse(variables[2]);
                     string currency = variables[3];
 
                     accounts.Add(new SalaryAccount(ownerid, balance, accountnumber, currency));
                 }
-                else if (line.Contains("SavingsAccount"))
+                else if (line.Contains("SavingsAccount") && line.Length > 19)
                 {
                     string[] variables = line.Split('|');
 
                     string ownerid = variables[0];
-                    int accountnumber = int.Parse(variables[1]);
+                    int accountnumber = Int32.Parse(variables[1]);
                     decimal balance = decimal.Parse(variables[2]);
                     string currency = variables[3];
                     //$"{OwnerID}|{AccountNumber}|{Balance}|{Currency}|{AccountType}";
@@ -90,7 +90,7 @@ namespace TH_Bank
                     string[] variables = lines.Split('|');
 
                     string ownerid = variables[0];
-                    int accountnumber = int.Parse(variables[1]);
+                    int accountnumber = Int32.Parse(variables[1]);
                     decimal balance = decimal.Parse(variables[2]);
                     string currency = variables[3];
 
@@ -101,7 +101,7 @@ namespace TH_Bank
                     string[] variables = lines.Split('|');
 
                     string ownerid = variables[0];
-                    int accountnumber = int.Parse(variables[1]);
+                    int accountnumber = Int32.Parse(variables[1]);
                     decimal balance = decimal.Parse(variables[2]);
                     string currency = variables[3];
 
