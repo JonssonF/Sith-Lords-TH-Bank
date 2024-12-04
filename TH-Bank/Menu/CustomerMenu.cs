@@ -453,16 +453,18 @@ namespace TH_Bank
 
         public void ApplyForLoan(User user, LoanDataHandler loanData, LoanFactory loanFactory, AccountDataHandler activeUser)
         {
+            if(user.LoanLimit <= 0)
+            {
+                
+            }
             Console.Clear();
             bool loanBool = true;
             string id = user.Id;
             decimal amount = 0;
-            decimal maxLoan = 0;
-            decimal maxValue = 0;
+            user.SetMaxLoan();
             string currentLoan = "";
             List<Account> accounts = activeUser.LoadAll(user.Id);
             
-            SetMaxLoan(ref maxLoan);
 
             Console.WriteLine(new string('-', 80));
             Console.WriteLine(new string('-', 80));
@@ -498,7 +500,7 @@ namespace TH_Bank
                     Console.WriteLine(new string('-', 80));
                     Console.WriteLine(new string('-', 80));
                     Console.WriteLine($"Should you wish to apply for a Car-loan.\n" +
-                        $"You are eligible for a loan of this amount: {maxLoan.ToString("C")}\n");
+                        $"You are eligible for a loan of this amount: {user.LoanLimit.ToString("C")}\n");
                     Console.WriteLine(new string('-', 80));
                     Console.WriteLine("Would you like to continue?");
                     Console.WriteLine("[1] - Yes.");
@@ -510,7 +512,7 @@ namespace TH_Bank
                         case 1:
                             Console.Clear();
                             Console.WriteLine(new string('-', 80));
-                            Console.WriteLine($":[ {currentLoan} ]::..::[ Max Amount: {maxLoan.ToString("C")} ]::..::[ Interest: **** ]::");
+                            Console.WriteLine($":[ {currentLoan} ]::..::[ Max Amount: {user.LoanLimit.ToString("C")} ]::..::[ Interest: **** ]::");
                             Console.WriteLine(new string('-', 80));
                             Console.Write("How much would you like to loan: ");
                             if (!decimal.TryParse(Console.ReadLine(), out amount))
@@ -519,7 +521,7 @@ namespace TH_Bank
                                 Console.WriteLine("Press any key to try again.");
                                 Console.ReadKey();
                             }
-                            else if (amount > maxLoan)
+                            else if (amount > user.LoanLimit)
                             {
                                 Process();
                                 Console.WriteLine(new string('-', 80));
@@ -571,7 +573,7 @@ namespace TH_Bank
                     Console.WriteLine(new string('-', 80));
                     Console.WriteLine(new string('-', 80));
                     Console.WriteLine($"Should you wish to apply for a mortgage.\n\n" +
-                        $"You are eligible for a loan of this amount: {maxLoan.ToString("C")}\n" +
+                        $"You are eligible for a loan of this amount: {user.LoanLimit.ToString("C")}\n" +
                         $"With a interest rate of {interest.ToString("P")}.\n\n");
                     Console.WriteLine(new string('-', 80));
                     Console.WriteLine("Would you like to continue?");
@@ -583,7 +585,7 @@ namespace TH_Bank
                     {
                         case 1:
                             Console.Clear();
-                            Console.WriteLine($"..::[ {currentLoan} ]::..::[ Max Amount: {maxLoan.ToString("C")} ]::..::[ Interest: {interest.ToString("P")} ]::..");
+                            Console.WriteLine($"..::[ {currentLoan} ]::..::[ Max Amount: {user.LoanLimit.ToString("C")} ]::..::[ Interest: {interest.ToString("P")} ]::..");
                             Console.WriteLine(new string('-', 80));
                             Console.Write("How much would you like to loan: ");
                             if (!decimal.TryParse(Console.ReadLine(), out amount))
@@ -593,7 +595,7 @@ namespace TH_Bank
                                 Console.WriteLine("Press any key to try again.");
                                 Console.ReadKey();
                             }
-                            else if (amount > maxLoan)
+                            else if (amount > user.LoanLimit)
                             {
                                 Process();
                                 Console.WriteLine(new string('-', 80));
@@ -640,7 +642,7 @@ namespace TH_Bank
                         Thread.Sleep(35);
                     }
                     Console.Clear();
-                    if (amount < maxLoan)
+                    if (amount < user.LoanLimit)
                     {
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("Loan granted.");
@@ -657,23 +659,7 @@ namespace TH_Bank
                 }
             }
 
-            decimal SetMaxLoan(ref decimal maxLoan)
-            {
-                User current = ActiveUserSingleton.GetInstance();
-
-                var activeUser = new AccountDataHandler();
-
-                List<Account> accounts = activeUser.LoadAll(current.Id);
-                foreach (var acc in accounts)
-                {
-                    maxLoan += acc.Balance;
-                }
-                decimal maxLoanAmount = maxLoan * 5;
-
-                current.LoanLimit = maxLoanAmount;
-
-                return maxLoanAmount;
-            }
+            
 
         }
     }
