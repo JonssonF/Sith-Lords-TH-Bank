@@ -504,7 +504,7 @@ namespace TH_Bank
             void IntroLoan()
             {
                 Console.Clear();
-                
+
                 SetInterest(ref interest);
                 LoanLogo();
                 Console.WriteLine($"Should you wish to apply for a {currentLoan},\n" +
@@ -541,7 +541,7 @@ namespace TH_Bank
                 }
                 return interest;
             }
-            
+
             void Credibility()
             {
                 Console.Clear();
@@ -573,77 +573,82 @@ namespace TH_Bank
                 ConsoleColor W = ConsoleColor.White;
                 ConsoleColor R = ConsoleColor.Red;
                 DateTime LastPay = DateTime.Now;
+                decimal int6 = interestCalc(amount, interest, 0.5);
+                decimal int12 = interestCalc(amount, interest, 1);
+                decimal int18 = interestCalc(amount, interest, 1.5);
 
                 Console.WriteLine($"We can offer you a car loan for the desired amount of:{amount.ToString("C")}\n." +
                     $"What repayment term would you prefer?\n\n");
+                /*--------------------6 months-------------------------*/
                 Console.Write("[1]");
                 Console.ForegroundColor = G;
-                Console.Write(" 6 Months"); 
+                Console.Write(" 6 Months");
                 Console.ResetColor();
                 Console.Write(". Last payment on");
                 Console.ForegroundColor = G;
                 Console.Write($"[{LastPay.AddMonths(6)}]");
                 Console.ResetColor();
                 Console.Write($" Total amount of interest payment");
-                Console.Write($" [{}]");
+                Console.Write($" [{int6.ToString("C")}]");
+                /*--------------------12 months------------------------*/
+                Console.Write("[2]");
+                Console.ForegroundColor = G;
+                Console.Write(" 12 Months");
+                Console.ResetColor();
+                Console.Write(". Last payment on");
+                Console.ForegroundColor = G;
+                Console.Write($"[{LastPay.AddMonths(12)}]");
+                Console.ResetColor();
+                Console.Write($" Total amount of interest payment");
+                Console.Write($" [{int12.ToString("C")}]");
+                /*--------------------18 months------------------------*/
+                Console.Write("[3]");
+                Console.ForegroundColor = R;
+                Console.Write(" 18 Months");
+                Console.ResetColor();
+                Console.Write(". Last payment on");
+                Console.ForegroundColor = R;
+                Console.Write($"[{LastPay.AddMonths(18)}]");
+                Console.ResetColor();
+                Console.Write($" Total amount of interest payment");
+                Console.Write($" [{int18.ToString("C")}]");
+                /*-----------------------------------------------------*/
+
+
+                Console.WriteLine("Slut på test hittills...");
+                Console.WriteLine("Slut på test hittills...");
+                Console.WriteLine("Slut på test hittills...");
+                Console.WriteLine("Slut på test hittills...");
+                Console.ReadLine();
+                //int userTime = Format.Choice(3);
+                //decimal interestPay;
+                //switch (userTime)
+                //{
+                //    case 1:
+                //        interestPayment(1);
+
+                //        break;
+                //        interestPayment(2);
+                //    case 2:
+                //        interestPayment(3);
+                //        break;
+                //    case 3:
+                //        break;
+                //}
 
 
 
-                
-                decimal int6 = interestCalc(amount, interest, 0, 5);
-                decimal int12 = interestCalc(amount, interest, 1);
-                decimal int18 = interestCalc(amount, interest, 1.5);
 
-                int userTime = Format.Choice(3);
-                decimal interestPay;
-                switch (userTime)
-                {
-                    case 1:
-                        interestPayment(1);
-                        
-                        break;
-                        interestPayment(2);
-                    case 2:
-                        interestPayment(3);
-                        break;
-                    case 3:
-                        break;
-                }
-
-
-
-                
             }
-            decimal interestCalc(decimal amount, double interest, decimal time)
+            decimal interestCalc(decimal amount, double interest, double time)
             {
-                
-                decimal interestDec = (decimal)interest; // Convert double to decimal so i can calculate interest.
+                decimal timeDec = (decimal)time; // Convert double to decimal so i can calculate interest.
+                decimal interestDec = (decimal)interest;
 
-                return amount * interestDec * time;    
+                return amount * interestDec * timeDec;
             }
-            decimal interestPayment(int userTime)
-            {
-
-                if (userTime == 1)
-                {
-
-                }
-                else if(userTime == 2)
-                {
-
-                }
-                else if(userTime ==3)
-                {
-                    interestPay =
-                }
-                else
-                {
-
-                }
-
-
-                    return interestPay;
-            }
+            //decimal interestPayment(int userTime)
+            //{   }
 
             void SaveLoan()
             {
@@ -706,4 +711,4 @@ namespace TH_Bank
 
     }
 }
-  
+
