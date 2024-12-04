@@ -9,10 +9,10 @@ namespace TH_Bank
         {
             _menu = new string[] // Menu in array = easy to add options.
             {
-                "1. Show accounts / balance.",
+                "1. Accounts.",
                 "2. Show transactions.",
                 "3. Perform transaction.",
-                "4. Apply for loan.",
+                "4. Loan.",
                 "5. Open new account.",
                 "6. Logout.",
                 "7. Exit program.",
@@ -47,7 +47,6 @@ namespace TH_Bank
 
                     case 1:
                         ShowAccounts(ActiveUserSingleton.GetInstance(), new AccountDataHandler());
-                        ShowLoans(ActiveUserSingleton.GetInstance(), new LoanDataHandler());
                         Console.Write("Press any key to go back. . .");
                         Console.ReadLine();
                         Console.Clear();
@@ -61,7 +60,8 @@ namespace TH_Bank
                         break;
 
                     case 4:
-                        ApplyForLoan(ActiveUserSingleton.GetInstance(), new LoanDataHandler(), new LoanFactory(), new AccountDataHandler());
+                        LoanSection(ActiveUserSingleton.GetInstance(), new LoanDataHandler());
+                        
                         Console.Clear();
                         ShowMenu();
                         break;
@@ -153,8 +153,10 @@ namespace TH_Bank
                     $"{CenterText(acc.Interest.ToString("P"), width)}");
                 nr++;
                 Console.ResetColor();      // Lägga till Kolumn för VALUTA. // Lägg till vart pengarna ska hamna efter lån.
+            Console.WriteLine(new string('-', center));
             }
         }
+
         public string CenterText(string text, int width) // A method to align the text in columns when showing accounts.
         {
 
@@ -162,63 +164,6 @@ namespace TH_Bank
             string paddedText = text.PadLeft(padding + text.Length);
             paddedText = paddedText.PadRight(width);
             return paddedText;
-        }
-
-        public void ShowLoans(User user, LoanDataHandler loanUser)
-        {
-            ConsoleColor textColor;
-            int width = 20;
-            int center = 86; // Used for dividing lines, and to align column headers.
-            string text = $".:{user.UserName}'s Loans:."; //Headline.
-            int padding = (center - text.Length) / 2;
-            string centeredText = new string('.', padding) + text + new string('.', padding);
-            Console.WriteLine(new string('-', center));
-            List<Loan> allLoans = loanUser.LoadAll(user.Id);
-            //List<Loan> loanList = allLoans.Where(loan => loan.OwnerId == user.Id).ToList(); // LINQ Method to filter away accounts that isn't current users.
-
-            Console.WriteLine(centeredText);  // Headline for account show.
-            Console.WriteLine(new string('-', center));
-            Console.WriteLine(
-                $"{"Nr:."}" +
-                $"{CenterText(".:Loan Type:.", width)}" +
-                $"{CenterText(".:Amount:.", width)}" +
-                $"{CenterText(".:Interest:.", width)}" +
-                $"{CenterText(".:Loan Start:.", width)}");
-            Console.WriteLine(new string('-', center));
-
-            if (allLoans.Count == 0)
-            {
-                Console.WriteLine($"{user.UserName} currently has no loans with us. ");
-            }
-            else
-            {
-                int nr = 1;
-                foreach (var loan in allLoans)
-                {
-                    if (loan.LoanType == "Carloan")
-                    {
-                        textColor = ConsoleColor.Yellow;
-                    }
-                    else if (loan.LoanType == "Mortgage")
-                    {
-                        textColor = ConsoleColor.Red;
-                    }
-                    else
-                    {
-                        textColor = ConsoleColor.White;
-                    }
-                    Console.ForegroundColor = textColor;
-                    Console.WriteLine(
-                    $"{" "}{nr}{"."}{CenterText(loan.LoanType, width)}" +
-                    $"{CenterText(loan.Amount.ToString("C"), width)}" +
-                    $"{CenterText(loan.Interest.ToString("P"), width)}" +
-                    $"{CenterText(loan.LoanStart.ToString("yyyy-MM-dd"), width)}");
-                    nr++;
-                }
-            }
-
-            Console.ResetColor();
-            Console.WriteLine(new string('-', center));
         }
 
         public void MakeTransaction(User user, AccountDataHandler adh)
@@ -343,6 +288,7 @@ namespace TH_Bank
             while (ownAccount > optionCount);
             return ownAccount;
         }
+
         public void CreateNewAccount(User user, AccountFactory accountFactory, AccountDataHandler activeUser)
         {
             Console.Clear();
@@ -405,6 +351,104 @@ namespace TH_Bank
             Console.WriteLine("\nPress any key to continue to main menu. . .");
             Console.ReadLine();
             ShowMenu();
+        }
+        public void LoanSection(User user, LoanDataHandler loanUser)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(" ________  __    __          __        ______    ______   __    __ \r\n|        \\|  \\  |  \\        |  \\      /      \\  /      \\ |  \\  |  \\\r\n \\$$$$$$$$| $$  | $$        | $$     |  $$$$$$\\|  $$$$$$\\| $$\\ | $$\r\n   | $$   | $$__| $$ ______ | $$     | $$  | $$| $$__| $$| $$$\\| $$\r\n   | $$   | $$    $$|      \\| $$     | $$  | $$| $$    $$| $$$$\\ $$\r\n   | $$   | $$$$$$$$ \\$$$$$$| $$     | $$  | $$| $$$$$$$$| $$\\$$ $$\r\n   | $$   | $$  | $$        | $$_____| $$__/ $$| $$  | $$| $$ \\$$$$\r\n   | $$   | $$  | $$        | $$     \\\\$$    $$| $$  | $$| $$  \\$$$\r\n    \\$$    \\$$   \\$$         \\$$$$$$$$ \\$$$$$$  \\$$   \\$$ \\$$   \\$$\r\n");
+            Console.ResetColor();
+            Console.WriteLine(new string('-', 70));
+            Console.WriteLine(new string('-', 70));
+            Console.WriteLine($"Welcome to TH-Bank's loan section {user.UserName}.");
+            Console.WriteLine($"\nChoose a number to proceed.");
+            Console.WriteLine($"[1] Apply for new loans.");
+            Console.WriteLine($"[2] Display previously taken loans.");
+            Console.WriteLine($"[3] Review current loan interest rates.");
+            Console.WriteLine($"[4] Return to main menu.");
+            int userChoice = Format.Choice(4);
+            switch (userChoice)
+            {
+
+                case 1:
+                    ApplyForLoan(ActiveUserSingleton.GetInstance(), new LoanDataHandler(), new LoanFactory(), new AccountDataHandler());
+                    break;
+                case 2:
+                    ShowLoans(ActiveUserSingleton.GetInstance(), new LoanDataHandler());
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    return;
+                default:
+                    Console.WriteLine("Plase choose a valid option.");
+                    break;
+            }
+
+            Console.WriteLine();
+
+
+
+            Console.ReadLine();
+            ShowMenu();
+        }
+        public void ShowLoans(User user, LoanDataHandler loanUser)
+        {
+            Console.Clear();
+            ConsoleColor textColor;
+            int width = 20;
+            int center = 86; // Used for dividing lines, and to align column headers.
+            string text = $".:{user.UserName}'s Loans:."; //Headline.
+            int padding = (center - text.Length) / 2;
+            string centeredText = new string('.', padding) + text + new string('.', padding);
+            Console.WriteLine(new string('-', center));
+            List<Loan> allLoans = loanUser.LoadAll(user.Id);
+            Console.WriteLine(new string('-', center));
+            Console.WriteLine(centeredText);  // Headline for account show.
+            Console.WriteLine(new string('-', center));
+            Console.WriteLine(
+                $"{"Nr:."}" +
+                $"{CenterText(".:Loan Type:.", width)}" +
+                $"{CenterText(".:Amount:.", width)}" +
+                $"{CenterText(".:Interest:.", width)}" +
+                $"{CenterText(".:Loan Start:.", width)}");
+            Console.WriteLine(new string('-', center));
+
+            if (allLoans.Count == 0)
+            {
+                Console.WriteLine($"{user.UserName} currently has no loans with us. ");
+            }
+            else
+            {
+                int nr = 1;
+                foreach (var loan in allLoans)
+                {
+                    if (loan.LoanType == "Carloan")
+                    {
+                        textColor = ConsoleColor.Yellow;
+                    }
+                    else if (loan.LoanType == "Mortgage")
+                    {
+                        textColor = ConsoleColor.Red;
+                    }
+                    else
+                    {
+                        textColor = ConsoleColor.White;
+                    }
+                    Console.ForegroundColor = textColor;
+                    Console.WriteLine(
+                    $"{" "}{nr}{"."}{CenterText(loan.LoanType, width)}" +
+                    $"{CenterText(loan.Amount.ToString("C"), width)}" +
+                    $"{CenterText(loan.Interest.ToString("P"), width)}" +
+                    $"{CenterText(loan.LoanStart.ToString("yyyy-MM-dd"), width)}");
+                    nr++;
+                    Console.ResetColor();
+                    Console.WriteLine(new string('-', center));
+                }
+            }
+            Console.Write("Press any key to go back. . .");
+            Console.ReadKey();
+            LoanSection(ActiveUserSingleton.GetInstance(), new LoanDataHandler());
         }
 
         public void ApplyForLoan(User user, LoanDataHandler loanData, LoanFactory loanFactory, AccountDataHandler activeUser)
@@ -572,7 +616,6 @@ namespace TH_Bank
                                     $"Approved: [ {loanTimeStamp} ]");
                                 Console.WriteLine(new string('-', 80));
                                 Console.WriteLine("Press any key to get to the main menu.");
-                                Console.ReadKey();
                                 return;
                             }
                             break;
