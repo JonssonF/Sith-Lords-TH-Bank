@@ -1,4 +1,5 @@
 
+using System.ComponentModel.Design;
 using System.Globalization;
 
 namespace TH_Bank
@@ -61,7 +62,6 @@ namespace TH_Bank
 
                     case 4:
                         LoanSection(ActiveUserSingleton.GetInstance(), new LoanDataHandler());
-                        
                         Console.Clear();
                         ShowMenu();
                         break;
@@ -153,7 +153,7 @@ namespace TH_Bank
                     $"{CenterText(acc.Interest.ToString("P"), width)}");
                 nr++;
                 Console.ResetColor();      // Lägga till Kolumn för VALUTA. // Lägg till vart pengarna ska hamna efter lån.
-            Console.WriteLine(new string('-', center));
+                Console.WriteLine(new string('-', center));
             }
         }
 
@@ -355,14 +355,10 @@ namespace TH_Bank
         public void LoanSection(User user, LoanDataHandler loanUser)
         {
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine(" ________  __    __          __        ______    ______   __    __ \r\n|        \\|  \\  |  \\        |  \\      /      \\  /      \\ |  \\  |  \\\r\n \\$$$$$$$$| $$  | $$        | $$     |  $$$$$$\\|  $$$$$$\\| $$\\ | $$\r\n   | $$   | $$__| $$ ______ | $$     | $$  | $$| $$__| $$| $$$\\| $$\r\n   | $$   | $$    $$|      \\| $$     | $$  | $$| $$    $$| $$$$\\ $$\r\n   | $$   | $$$$$$$$ \\$$$$$$| $$     | $$  | $$| $$$$$$$$| $$\\$$ $$\r\n   | $$   | $$  | $$        | $$_____| $$__/ $$| $$  | $$| $$ \\$$$$\r\n   | $$   | $$  | $$        | $$     \\\\$$    $$| $$  | $$| $$  \\$$$\r\n    \\$$    \\$$   \\$$         \\$$$$$$$$ \\$$$$$$  \\$$   \\$$ \\$$   \\$$\r\n");
-            Console.ResetColor();
-            Console.WriteLine(new string('-', 70));
-            Console.WriteLine(new string('-', 70));
+            LoanLogo();
             Console.WriteLine($"Welcome to TH-Bank's loan section {user.UserName}.");
             Console.WriteLine($"\nChoose a number to proceed.");
-            Console.WriteLine($"[1] Apply for new loans.");
+            Console.WriteLine($"[1] Apply for a new loan.");
             Console.WriteLine($"[2] Display previously taken loans.");
             Console.WriteLine($"[3] Review current loan interest rates.");
             Console.WriteLine($"[4] Return to main menu.");
@@ -377,6 +373,7 @@ namespace TH_Bank
                     ShowLoans(ActiveUserSingleton.GetInstance(), new LoanDataHandler());
                     break;
                 case 3:
+                    ShowLoanRates();
                     break;
                 case 4:
                     return;
@@ -391,6 +388,20 @@ namespace TH_Bank
 
             Console.ReadLine();
             ShowMenu();
+        }
+        public void ShowLoanRates()
+        {
+            var ldhD = new LoanDataHandler();
+            double displayCar = ldhD.GetInterest("CarLoan");
+            double displayMortg = ldhD.GetInterest("MortgageLoan");
+            LoanLogo();
+            Console.WriteLine($"::Type: Car - Loan::..::[Interest Rate: {displayCar}]");
+            Console.WriteLine(new string('-', 80));
+            Console.WriteLine($"::Type: Housing - Mortgage - Loan::..::[Interest Rate: {displayMortg}]");
+            Console.WriteLine(new string('-', 80));
+            Console.Write("Press any key to go back. . .");
+            Console.ReadKey();
+            LoanSection(ActiveUserSingleton.GetInstance(), new LoanDataHandler());
         }
         public void ShowLoans(User user, LoanDataHandler loanUser)
         {
@@ -453,215 +464,170 @@ namespace TH_Bank
 
         public void ApplyForLoan(User user, LoanDataHandler loanData, LoanFactory loanFactory, AccountDataHandler activeUser)
         {
-            if(user.LoanLimit <= 0)
-            {
-                
-            }
+            //if (user.LoanLimit <= 0) work in progress.
+            //{
+
+            //}
             Console.Clear();
+            double interest = 0;
             bool loanBool = true;
             string id = user.Id;
             decimal amount = 0;
-            user.SetMaxLoan();
             string currentLoan = "";
             List<Account> accounts = activeUser.LoadAll(user.Id);
-            
-
-            Console.WriteLine(new string('-', 80));
-            Console.WriteLine(new string('-', 80));
+            user.SetMaxLoan();
+            LoanLogo();
             Console.WriteLine($"Wich type of loan would you like to apply for {user.UserName}?\n");
             Console.WriteLine("[1] Car-loan.");
             Console.WriteLine("[2] Housing-mortgage-loan.");
-            Console.WriteLine("[3] Return to main menu.");
+            Console.WriteLine("[3] Return to Loan menu.");
             Console.Write("Choose option:");
             int userChoice = Format.Choice(3);
 
             switch (userChoice)
             {
                 case 1:
-                    CarLoan();
+                    currentLoan = "Car - Loan";
+                    IntroLoan();
                     return;
                 case 2:
-                    Mortgage();
+                    currentLoan = "Housing - Mortgage - Loan";
+                    IntroLoan();
                     return;
                 case 3:
+                    LoanSection(ActiveUserSingleton.GetInstance(), new LoanDataHandler()); // Returns to loan section.
                     return;
                 default:
                     throw new Exception("Invalid menu choice");
             }
 
-            void CarLoan()
+            void IntroLoan()
+            {
+                Console.Clear();
+                
+                SetInterest(ref interest);
+                LoanLogo();
+                Console.WriteLine($"Should you wish to apply for a {currentLoan},\n" +
+                    $"the maximum loan amount is {user.LoanLimit.ToString("C")},\n" +
+                    $"and the interest rate we can offer is {interest.ToString("P")}");
+                Console.WriteLine(new string('-', 80));
+                Console.WriteLine("Would you like to continue?");
+                Console.WriteLine("[1] - Yes.");
+                Console.WriteLine("[2] - No.");
+                int userChoice = Format.Choice(2);
+                switch (userChoice)
+                {
+                    case 1:
+                        Credability();
+                        break;
+                    case 2:
+                        LoanSection(ActiveUserSingleton.GetInstance(), new LoanDataHandler());
+                        break;
+                    default: throw new Exception("Invalid menu choice");
+                }
+                return;
+            }
+            double SetInterest(ref double interest)
             {
                 var ldh = new LoanDataHandler();
-                double interest = ldh.GetInterest("CarLoan");
-                currentLoan = "Car - Loan";
-                while (loanBool)
+
+                if (currentLoan == "Car - Loan")
                 {
-                    Console.Clear();
-                    Console.WriteLine(new string('-', 80));
-                    Console.WriteLine(new string('-', 80));
-                    Console.WriteLine($"Should you wish to apply for a Car-loan.\n" +
-                        $"You are eligible for a loan of this amount: {user.LoanLimit.ToString("C")}\n");
-                    Console.WriteLine(new string('-', 80));
-                    Console.WriteLine("Would you like to continue?");
-                    Console.WriteLine("[1] - Yes.");
-                    Console.WriteLine("[2] - No.");
-                    int userChoice = Format.Choice(2);
-
-                    switch (userChoice)
-                    {
-                        case 1:
-                            Console.Clear();
-                            Console.WriteLine(new string('-', 80));
-                            Console.WriteLine($":[ {currentLoan} ]::..::[ Max Amount: {user.LoanLimit.ToString("C")} ]::..::[ Interest: **** ]::");
-                            Console.WriteLine(new string('-', 80));
-                            Console.Write("How much would you like to loan: ");
-                            decimal howMuch = Format.DecimalInput();
-                            if (!decimal.TryParse(Console.ReadLine(), out amount))
-                            {
-                                Console.WriteLine("Invalid input. Make sure you write an integer.");
-                                Console.WriteLine("Press any key to try again.");
-                                Console.ReadKey();
-                            }
-                            else if (amount > user.LoanLimit)
-                            {
-                                Process();
-                                Console.WriteLine(new string('-', 80));
-                                Console.WriteLine("Invalid amount. You are not eligible for that.");
-                                Console.WriteLine("Press any key to try again.");
-                                Console.ReadKey();
-                                amount = 0;
-                            }
-                            else
-                            {
-                                Console.WriteLine(new string('-', 80));
-                                Console.WriteLine($":[ {currentLoan} ]::..::[ Amount: {amount.ToString("C")} ]::..::[ Interest: {interest.ToString("P")} ]:");
-
-
-                                Process();
-                                loanBool = false;
-                                DateTime loanTimeStamp = DateTime.Now;
-                                loanData.Save(loanFactory.NewLoan(id, amount, "CarLoan"));
-                                Console.WriteLine(new string('-', 80));
-                                Console.WriteLine($"Congratulations {user.UserName} on your new loan.\n\n" +
-                                    $"::Loan:[ {currentLoan} ]" +
-                                    $"::Amount: [ {amount.ToString("C")}]\n" +
-                                    $"::Interest rate: [ {interest.ToString("P")} ]" +
-                                    $"::Approved: [ {loanTimeStamp} ]");
-                                Console.WriteLine(new string('-', 80));
-                                Console.ReadKey();
-                                break;
-                            }
-                            break;
-                        case 2:
-                            return;
-                        default:
-                            throw new Exception("Invalid menu choice");
-                    }
+                    interest = ldh.GetInterest("CarLoan");
                 }
-                Console.WriteLine("Wich account would you like the loan to be deposited into?");
-                ShowAccounts(ActiveUserSingleton.GetInstance(), new AccountDataHandler());
+                else if (currentLoan == "Housing - Mortgage - Loan")
+                {
+                    interest = ldh.GetInterest("MortgageLoan");
+                }
+                return interest;
             }
-
-            void Mortgage()
+            
+            void Credability()
             {
-                var ldh = new LoanDataHandler();
-                double interest = ldh.GetInterest("MortgageLoan");
-                currentLoan = "Housing - Mortgage - Loan";
-
-                while (loanBool)
+                Console.Clear();
+                LoanLogo();
+                Console.WriteLine($"::[ {currentLoan} ]::..::[ Max Amount: {user.LoanLimit.ToString("C")} ]::..::[ Interest: {interest.ToString("P")} ]::..");
+                Console.WriteLine(new string('-', currentLoan == "Car-Loan" ? 80 : 90));
+                Console.Write("How much would you like to loan: ");
+                decimal amount = Format.DecimalInput();
+                if (amount > user.LoanLimit)
                 {
-                    Console.Clear();
+                    Process(amount);
                     Console.WriteLine(new string('-', 80));
-                    Console.WriteLine(new string('-', 80));
-                    Console.WriteLine($"Should you wish to apply for a mortgage.\n\n" +
-                        $"You are eligible for a loan of this amount: {user.LoanLimit.ToString("C")}\n" +
-                        $"With a interest rate of {interest.ToString("P")}.\n\n");
-                    Console.WriteLine(new string('-', 80));
-                    Console.WriteLine("Would you like to continue?");
-                    Console.WriteLine("[1] - Yes.");
-                    Console.WriteLine("[2] - No.");
-                    int userChoice = Format.Choice(2);
-
-                    switch (userChoice)
-                    {
-                        case 1:
-                            Console.Clear();
-                            Console.WriteLine($"..::[ {currentLoan} ]::..::[ Max Amount: {user.LoanLimit.ToString("C")} ]::..::[ Interest: {interest.ToString("P")} ]::..");
-                            Console.WriteLine(new string('-', 80));
-                            Console.Write("How much would you like to loan: ");
-                            if (!decimal.TryParse(Console.ReadLine(), out amount))
-                            {
-                                Console.WriteLine(new string('-', 80));
-                                Console.WriteLine("Invalid input. Makre sure you write an integer.");
-                                Console.WriteLine("Press any key to try again.");
-                                Console.ReadKey();
-                            }
-                            else if (amount > user.LoanLimit)
-                            {
-                                Process();
-                                Console.WriteLine(new string('-', 80));
-                                Console.WriteLine("Invalid amount. You are not eligible for that.");
-                                Console.WriteLine("Press any key to try again.");
-                                amount = 0;
-                                Console.ReadKey();
-                            }
-                            else
-                            {
-                                Process();
-                                loanBool = false;
-                                DateTime loanTimeStamp = DateTime.Now;
-                                loanData.Save(loanFactory.NewLoan(id, amount, "MortgageLoan"));
-                                Console.WriteLine(new string('-', 80));
-                                Console.WriteLine($"Congratulations {user.UserName} on your new loan.\n" +
-                                    $"Loan type: [ {currentLoan} ]\n" +
-                                    $"Loan amount: [ {amount.ToString("C")}]\n" +
-                                    $"Interest rate: [ {interest.ToString("P")} ]\n" +
-                                    $"Approved: [ {loanTimeStamp} ]");
-                                Console.WriteLine(new string('-', 80));
-                                Console.WriteLine("Press any key to get to the main menu.");
-                                return;
-                            }
-                            break;
-                        case 2:
-                            return;
-                        default:
-                            throw new Exception("Invalid menu choice");
-                    }
-
+                    Console.WriteLine("Invalid amount. You are not eligible for that.");
+                    Console.WriteLine("Press any key to try again.");
+                    Console.ReadKey();
+                    amount = 0;
                 }
+                else
+                {
+                    Process(amount);
+                }
+                Repayment();
             }
-            void Process()
+
+            void Repayment()
+            {
+                DateTime loanTimeStamp = DateTime.Now;
+                loanData.Save(loanFactory.NewLoan(id, amount, "CarLoan"));
+                Console.WriteLine(new string('-', 80));
+                Console.WriteLine($"Congratulations {user.UserName} on your new loan.\n\n" +
+                    $"::Loan:[ {currentLoan} ]" +
+                    $"::Amount: [ {amount.ToString("C")}]\n" +
+                    //$"::Interest rate: [ {interest.ToString("P")} ]" +
+                    $"::Approved: [ {loanTimeStamp} ]");
+                Console.WriteLine(new string('-', 80));
+                Console.ReadKey();
+                //Console.WriteLine("Wich account would you like the loan to be deposited into?");
+                //ShowAccounts(ActiveUserSingleton.GetInstance(), new AccountDataHandler());
+            }
+
+            
+
+            void Process(decimal amount)
             {
                 string Proccess = "Processing...";
                 string rounds = "1";
                 foreach (char c in rounds)
                 {
                     Console.Clear();
+                    LoanLogo();
                     foreach (char d in Proccess)
                     {
                         Console.Write(d);
                         Thread.Sleep(35);
                     }
                     Console.Clear();
+                    LoanLogo();
                     if (amount < user.LoanLimit)
                     {
                         Console.ForegroundColor = ConsoleColor.Green;
-                        Console.WriteLine("Loan granted.");
+                        Console.WriteLine("Loan granted...");
                         Thread.Sleep(1500);
                     }
                     else
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("Loan denied.");
+                        Console.WriteLine("Loan denied...");
                         Thread.Sleep(1500);
                     }
                     Console.ResetColor();
+                    LoanLogo();
                     Console.Clear();
                 }
             }
-
-            
-
         }
+        public void LoanLogo()
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(" ________  __    __          __        ______    ______   __    __ \r\n|        \\|  \\  |  \\        |  \\      /      \\  /      \\ |  \\  |  \\\r\n \\$$$$$$$$| $$  | $$        | $$     |  $$$$$$\\|  $$$$$$\\| $$\\ | $$\r\n   | $$   | $$__| $$ ______ | $$     | $$  | $$| $$__| $$| $$$\\| $$\r\n   | $$   | $$    $$|      \\| $$     | $$  | $$| $$    $$| $$$$\\ $$\r\n   | $$   | $$$$$$$$ \\$$$$$$| $$     | $$  | $$| $$$$$$$$| $$\\$$ $$\r\n   | $$   | $$  | $$        | $$_____| $$__/ $$| $$  | $$| $$ \\$$$$\r\n   | $$   | $$  | $$        | $$     \\\\$$    $$| $$  | $$| $$  \\$$$\r\n    \\$$    \\$$   \\$$         \\$$$$$$$$ \\$$$$$$  \\$$   \\$$ \\$$   \\$$\r\n");
+            Console.ResetColor();
+            Console.WriteLine(new string('-', 80));
+            Console.WriteLine(new string('-', 80));
+        }
+
+
+
     }
 }
+  
