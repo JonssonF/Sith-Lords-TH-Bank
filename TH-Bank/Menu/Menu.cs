@@ -7,6 +7,8 @@
         internal string[]? _menu;
         internal int menuWidth;
 
+        protected UserFacade _userFacade;
+
         public abstract void ShowMenu();
 
         public abstract void ShowAccounts(User user, AccountDataHandler activeUser);
