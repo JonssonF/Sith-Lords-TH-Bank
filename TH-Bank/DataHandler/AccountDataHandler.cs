@@ -37,7 +37,7 @@ namespace TH_Bank
 
             foreach (string line in openFile)
             {
-                if (line.Contains("SalaryAccount") && line.Length > 19)
+                if (line.Contains("SalaryAccount") && line.Length > 19 && line.Contains(accountNumber))
                 {
                     string[] variables = line.Split('|');
 
@@ -48,7 +48,7 @@ namespace TH_Bank
 
                     return new SalaryAccount(ownerid, balance, accountnumber, currency);
                 }
-                else if (line.Contains("SavingsAccount") && line.Length > 19)
+                else if (line.Contains("SavingsAccount") && line.Length > 19 && line.Contains(accountNumber))
                 {
                     string[] variables = line.Split('|');
 
