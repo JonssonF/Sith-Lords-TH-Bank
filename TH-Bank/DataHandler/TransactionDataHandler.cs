@@ -1,4 +1,7 @@
-﻿namespace TH_Bank
+﻿using Microsoft.VisualBasic;
+using System.Security.Principal;
+
+namespace TH_Bank
 {
     public class TransactionDataHandler : IMyDataHandler<Transaction>, IAggregateDataHandler<Transaction>
     {
@@ -36,10 +39,8 @@
 
             var transactions = new List<Transaction>();
             var accountDataHandler = new AccountDataHandler();
-
             foreach (string line in openFile)
             {
-
                     string[] variables = line.Split('|');
                     string id = variables[0];
                     string dateTime = variables[1];

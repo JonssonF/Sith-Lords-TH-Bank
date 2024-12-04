@@ -50,7 +50,14 @@ namespace TH_Bank
 
             foreach (Transaction transaction in PendingTransactions)
             {
+                if(transaction.FromAccount.Currency != transaction.ToAccount.Currency)
+                {
                 transaction.ToAccount.Balance += ExchangeCurrency.Exchange(transaction.Amount, transaction.FromAccount.Currency, transaction.ToAccount.Currency);
+                }
+                else
+                {
+                    transaction.ToAccount.Balance += transaction.Amount;
+                }
                 accountHandler.Save(transaction.ToAccount);
             }
             PendingTransactions.Clear();
