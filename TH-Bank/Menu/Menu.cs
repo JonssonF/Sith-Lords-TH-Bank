@@ -37,7 +37,11 @@
         public void LogoText()
         {
             User current = ActiveUserSingleton.GetInstance();
-            
+            //Dictionary<string, Dictionary<string, double>> rates = ExchangeCurrency.AllCurrentRates;
+            ////double SEK = rates["SEK"]["SEK"];
+            //double SEKtoUSD = rates["SEK"]["USD"];            Återkommer till detta om jag har tid efter lån biten är utvecklad.
+            //double SEKtoEUR = rates["SEK"]["EUR"];
+
             Console.Write("" +
                 " _____ _   _  ______  ___  _   _ _   __\r\n" +
                 "|_   _| | | | | ___ \\/ _ \\| \\ | | | / /\r\n" +
@@ -46,6 +50,7 @@
                 "  | | | | | | | |_/ / | | | |\\  | |\\  \\\r\n" +
                 "  \\_/ \\_| |_/ \\____/\\_| |_|_| \\_|_| \\_/\n");
             Console.WriteLine($"\n##Username:{current.UserName}  ##Access:{current.UserType}.");
+            //Console.WriteLine($"##SEK:##USD:{SEKtoUSD}##EUR:{SEKtoEUR}");
         }
 
         /*------------Methods to create dynamic border based on length on menu options--------*/

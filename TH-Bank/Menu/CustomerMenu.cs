@@ -195,7 +195,7 @@ namespace TH_Bank
                 int nr = 1;
                 foreach (var loan in allLoans)
                 {
-                    if (loan.LoanType == "Carloan")
+                    if (loan.LoanType == "CarLoan")
                     {
                         textColor = ConsoleColor.Yellow;
                     }
