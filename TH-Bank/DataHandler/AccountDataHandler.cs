@@ -3,7 +3,7 @@
 
 namespace TH_Bank
 {
-    public class AccountDataHandler : IDataHandler<Account>
+    public class AccountDataHandler : IMyDataHandler<Account>,IAggregateDataHandler<Account>
     {
         public string FilePath { get; set; }
 
@@ -29,11 +29,6 @@ namespace TH_Bank
             File.WriteAllLines(FilePath, openFile);
 
 
-        }
-
-        public Account Load()
-        {
-            throw new NotImplementedException();
         }
 
         public Account Load(string accountNumber)

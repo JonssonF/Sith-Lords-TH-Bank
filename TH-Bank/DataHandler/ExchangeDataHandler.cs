@@ -1,8 +1,8 @@
 ﻿
 namespace TH_Bank
 {
-    public class ExchangeDataHandler : IDataHandler<Currency>
-    {
+    public class ExchangeDataHandler : IObjectHandler<Currency>
+    { 
         public string FilePath { get; set; }
 
         public ExchangeDataHandler()
@@ -48,16 +48,6 @@ namespace TH_Bank
             File.WriteAllLines(FilePath, openFile);
             
         }
-        public Currency Load()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Currency Load(string id)
-        {
-            
-            throw new NotImplementedException();
-        }
 
         public Dictionary<string,double> LoadRates(string currency)
         {
@@ -78,11 +68,6 @@ namespace TH_Bank
         }
 
         public List<Currency> LoadAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<Currency> LoadAll(string userid)
         {
             throw new NotImplementedException();
         }
