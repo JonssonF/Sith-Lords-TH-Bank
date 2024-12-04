@@ -14,7 +14,7 @@
 
         public bool IsBlocked { get; set; }
 
-        //public decimal LoanLimit { get; set; }
+        public decimal LoanLimit { get; set; }
         public User(string id, string userName, string passWord)
         {
             Id = id;
@@ -25,24 +25,6 @@
 
         public abstract string ToString();
 
-        //private decimal SetMaxLoan()
-        //{
-        //    User current = ActiveUserSingleton.GetInstance();
-
-        //    var activeUser = new AccountDataHandler();
-
-        //    decimal maxLoan = 0;
-
-        //    List<Account> accounts = activeUser.LoadAll(current.Id);
-        //    foreach (var acc in accounts)
-        //    {
-        //        maxLoan +=acc.Balance;
-        //    }
-        //    decimal maxLoanAmount = maxLoan * 5;
-
-        //    current.LoanLimit = maxLoanAmount;
-
-        //    return maxLoanAmount;
-        //}
+        
     }
 }

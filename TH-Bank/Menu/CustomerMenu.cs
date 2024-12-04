@@ -381,7 +381,7 @@ namespace TH_Bank
                 case 4:
                     return;
                 default:
-                    Console.WriteLine("Plase choose a valid option.");
+                    Console.WriteLine("Please choose a valid option.");
                     break;
             }
 
@@ -461,12 +461,8 @@ namespace TH_Bank
             decimal maxValue = 0;
             string currentLoan = "";
             List<Account> accounts = activeUser.LoadAll(user.Id);
-
-            foreach (var acc in accounts) // Counts total value of users accounts.
-            {
-                maxValue += acc.Balance;
-            }
-            maxLoan = maxValue * 5; // Counts max loan value.
+            
+            SetMaxLoan(ref maxLoan);
 
             Console.WriteLine(new string('-', 80));
             Console.WriteLine(new string('-', 80));
@@ -502,8 +498,7 @@ namespace TH_Bank
                     Console.WriteLine(new string('-', 80));
                     Console.WriteLine(new string('-', 80));
                     Console.WriteLine($"Should you wish to apply for a Car-loan.\n" +
-                        $"You are eligible for a loan of this amount: {maxLoan.ToString("C")}\n" +
-                        $"With a interest rate of {interest.ToString("P")}.\n\n");
+                        $"You are eligible for a loan of this amount: {maxLoan.ToString("C")}\n");
                     Console.WriteLine(new string('-', 80));
                     Console.WriteLine("Would you like to continue?");
                     Console.WriteLine("[1] - Yes.");
@@ -515,7 +510,7 @@ namespace TH_Bank
                         case 1:
                             Console.Clear();
                             Console.WriteLine(new string('-', 80));
-                            Console.WriteLine($"..::[ {currentLoan} ]::..::[ Max Amount: {maxLoan.ToString("C")} ]::..::[ Interest: {interest.ToString("P")} ]::..");
+                            Console.WriteLine($":[ {currentLoan} ]::..::[ Max Amount: {maxLoan.ToString("C")} ]::..::[ Interest: **** ]::");
                             Console.WriteLine(new string('-', 80));
                             Console.Write("How much would you like to loan: ");
                             if (!decimal.TryParse(Console.ReadLine(), out amount))
@@ -535,20 +530,23 @@ namespace TH_Bank
                             }
                             else
                             {
+                                Console.WriteLine(new string('-', 80));
+                                Console.WriteLine($":[ {currentLoan} ]::..::[ Amount: {amount.ToString("C")} ]::..::[ Interest: {interest.ToString("P")} ]:");
+
+
                                 Process();
                                 loanBool = false;
                                 DateTime loanTimeStamp = DateTime.Now;
                                 loanData.Save(loanFactory.NewLoan(id, amount, "CarLoan"));
                                 Console.WriteLine(new string('-', 80));
                                 Console.WriteLine($"Congratulations {user.UserName} on your new loan.\n" +
-                                    $"Loan type: [ {currentLoan} ]\n" +
-                                    $"Loan amount: [ {amount.ToString("C")}]\n" +
-                                    $"Interest rate: [ {interest.ToString("P")} ]\n" +
-                                    $"Approved: [ {loanTimeStamp} ]");
+                                    $"::Loan:[ {currentLoan} ]\n" +
+                                    $"::Amount: [ {amount.ToString("C")}]\n" +
+                                    $"::Interest rate: [ {interest.ToString("P")} ]\n" +
+                                    $"::Approved: [ {loanTimeStamp} ]");
                                 Console.WriteLine(new string('-', 80));
-                                Console.WriteLine("Press any key to get to the main menu.");
                                 Console.ReadKey();
-                                return;
+                                break;
                             }
                             break;
                         case 2:
@@ -557,6 +555,8 @@ namespace TH_Bank
                             throw new Exception("Invalid menu choice");
                     }
                 }
+                Console.WriteLine("Wich account would you like the loan to be deposited into?");
+                ShowAccounts(ActiveUserSingleton.GetInstance(), new AccountDataHandler());
             }
 
             void Mortgage()
@@ -657,6 +657,23 @@ namespace TH_Bank
                 }
             }
 
+            decimal SetMaxLoan(ref decimal maxLoan)
+            {
+                User current = ActiveUserSingleton.GetInstance();
+
+                var activeUser = new AccountDataHandler();
+
+                List<Account> accounts = activeUser.LoadAll(current.Id);
+                foreach (var acc in accounts)
+                {
+                    maxLoan += acc.Balance;
+                }
+                decimal maxLoanAmount = maxLoan * 5;
+
+                current.LoanLimit = maxLoanAmount;
+
+                return maxLoanAmount;
+            }
 
         }
     }
