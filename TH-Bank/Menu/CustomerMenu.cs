@@ -515,6 +515,7 @@ namespace TH_Bank
                             Console.WriteLine($":[ {currentLoan} ]::..::[ Max Amount: {user.LoanLimit.ToString("C")} ]::..::[ Interest: **** ]::");
                             Console.WriteLine(new string('-', 80));
                             Console.Write("How much would you like to loan: ");
+                            decimal howMuch = Format.DecimalInput();
                             if (!decimal.TryParse(Console.ReadLine(), out amount))
                             {
                                 Console.WriteLine("Invalid input. Make sure you write an integer.");
@@ -541,10 +542,10 @@ namespace TH_Bank
                                 DateTime loanTimeStamp = DateTime.Now;
                                 loanData.Save(loanFactory.NewLoan(id, amount, "CarLoan"));
                                 Console.WriteLine(new string('-', 80));
-                                Console.WriteLine($"Congratulations {user.UserName} on your new loan.\n" +
-                                    $"::Loan:[ {currentLoan} ]\n" +
+                                Console.WriteLine($"Congratulations {user.UserName} on your new loan.\n\n" +
+                                    $"::Loan:[ {currentLoan} ]" +
                                     $"::Amount: [ {amount.ToString("C")}]\n" +
-                                    $"::Interest rate: [ {interest.ToString("P")} ]\n" +
+                                    $"::Interest rate: [ {interest.ToString("P")} ]" +
                                     $"::Approved: [ {loanTimeStamp} ]");
                                 Console.WriteLine(new string('-', 80));
                                 Console.ReadKey();

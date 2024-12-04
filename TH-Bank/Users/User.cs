@@ -55,5 +55,12 @@
 
             return maxLoanAmount;
         }
+
+        public decimal MaxLoanDecrease(decimal decreasedLoan)
+        {
+            decreasedLoan -= LoanLimit;
+
+            return decreasedLoan;
+        }
     }
 }
