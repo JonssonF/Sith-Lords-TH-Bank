@@ -59,7 +59,7 @@
                     maxWidth = item.Length;
                 }
             }
-            return maxWidth + 4 + extraWidth;
+            return maxWidth + 6 + extraWidth;
         }
 
         internal void DrawBorder()
