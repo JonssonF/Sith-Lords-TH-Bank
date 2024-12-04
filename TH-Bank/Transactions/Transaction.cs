@@ -16,6 +16,8 @@ namespace TH_Bank
         public Account ToAccount { get; set; }
         public string Id { get; set; }
 
+        public string Currency { get; set; }
+
         public string DateAndTime { get; set; }
 
         public Transaction(string id, string? dateTime, decimal amount, Account fromAccount, Account toAccount)
@@ -24,10 +26,15 @@ namespace TH_Bank
             FromAccount = fromAccount;
             ToAccount = toAccount; 
             Id = id;
+            Currency = fromAccount.Currency;
 
             if(dateTime == null)
             {
                 DateAndTime = DateTime.Now.ToString();
+            }
+            else
+            {
+                DateAndTime = dateTime;
             }
             
         }
@@ -76,7 +83,7 @@ namespace TH_Bank
         }
         public override string ToString()
         {
-            return $"{Id}|{DateAndTime}|{Amount}|{FromAccount.AccountNumber}|{ToAccount.AccountNumber}";
+            return $"{Id}|{DateAndTime}|{Amount}|{FromAccount.AccountNumber}|{ToAccount.AccountNumber}|{Currency}|{FromAccount.OwnerID}|{ToAccount.OwnerID}";
             //Add "Id" to ToString. Figure out a way to make this unique
         }
         

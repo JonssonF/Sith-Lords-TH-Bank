@@ -33,8 +33,36 @@ namespace TH_Bank
 
         public Account Load(string accountNumber)
         {
-            throw new NotImplementedException();
+            string[] openFile = File.ReadAllLines(FilePath);
+
+            foreach (string line in openFile)
+            {
+                if (line.Contains("SalaryAccount") && line.Length > 19)
+                {
+                    string[] variables = line.Split('|');
+
+                    string ownerid = variables[0];
+                    int accountnumber = Int32.Parse(variables[1]);
+                    decimal balance = decimal.Parse(variables[2]);
+                    string currency = variables[3];
+
+                    return new SalaryAccount(ownerid, balance, accountnumber, currency);
+                }
+                else if (line.Contains("SavingsAccount") && line.Length > 19)
+                {
+                    string[] variables = line.Split('|');
+
+                    string ownerid = variables[0];
+                    int accountnumber = Int32.Parse(variables[1]);
+                    decimal balance = decimal.Parse(variables[2]);
+                    string currency = variables[3];
+                    //$"{OwnerID}|{AccountNumber}|{Balance}|{Currency}|{AccountType}";
+                    return new SavingsAccount(ownerid, balance, accountnumber, currency);
+                }
+            }
+            throw new Exception("Invalid Account type, can't be Loaded");
         }
+                
 
         public List<Account> LoadAll()
         {
