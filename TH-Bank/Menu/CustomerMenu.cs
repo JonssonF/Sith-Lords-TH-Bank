@@ -518,7 +518,7 @@ namespace TH_Bank
                 switch (userChoice)
                 {
                     case 1:
-                        Credability();
+                        Credibility();
                         break;
                     case 2:
                         LoanSection(ActiveUserSingleton.GetInstance(), new LoanDataHandler());
@@ -542,7 +542,7 @@ namespace TH_Bank
                 return interest;
             }
             
-            void Credability()
+            void Credibility()
             {
                 Console.Clear();
                 LoanLogo();
@@ -568,13 +568,92 @@ namespace TH_Bank
 
             void Repayment()
             {
+                LoanLogo();
+                ConsoleColor G = ConsoleColor.Green;
+                ConsoleColor W = ConsoleColor.White;
+                ConsoleColor R = ConsoleColor.Red;
+                DateTime LastPay = DateTime.Now;
+
+                Console.WriteLine($"We can offer you a car loan for the desired amount of:{amount.ToString("C")}\n." +
+                    $"What repayment term would you prefer?\n\n");
+                Console.Write("[1]");
+                Console.ForegroundColor = G;
+                Console.Write(" 6 Months"); 
+                Console.ResetColor();
+                Console.Write(". Last payment on");
+                Console.ForegroundColor = G;
+                Console.Write($"[{LastPay.AddMonths(6)}]");
+                Console.ResetColor();
+                Console.Write($" Total amount of interest payment");
+                Console.Write($" [{}]");
+
+
+
+                
+                decimal int6 = interestCalc(amount, interest, 0, 5);
+                decimal int12 = interestCalc(amount, interest, 1);
+                decimal int18 = interestCalc(amount, interest, 1.5);
+
+                int userTime = Format.Choice(3);
+                decimal interestPay;
+                switch (userTime)
+                {
+                    case 1:
+                        interestPayment(1);
+                        
+                        break;
+                        interestPayment(2);
+                    case 2:
+                        interestPayment(3);
+                        break;
+                    case 3:
+                        break;
+                }
+
+
+
+                
+            }
+            decimal interestCalc(decimal amount, double interest, decimal time)
+            {
+                
+                decimal interestDec = (decimal)interest; // Convert double to decimal so i can calculate interest.
+
+                return amount * interestDec * time;    
+            }
+            decimal interestPayment(int userTime)
+            {
+
+                if (userTime == 1)
+                {
+
+                }
+                else if(userTime == 2)
+                {
+
+                }
+                else if(userTime ==3)
+                {
+                    interestPay =
+                }
+                else
+                {
+
+                }
+
+
+                    return interestPay;
+            }
+
+            void SaveLoan()
+            {
                 DateTime loanTimeStamp = DateTime.Now;
                 loanData.Save(loanFactory.NewLoan(id, amount, "CarLoan"));
                 Console.WriteLine(new string('-', 80));
                 Console.WriteLine($"Congratulations {user.UserName} on your new loan.\n\n" +
                     $"::Loan:[ {currentLoan} ]" +
                     $"::Amount: [ {amount.ToString("C")}]\n" +
-                    //$"::Interest rate: [ {interest.ToString("P")} ]" +
+                    $"::Interest rate: [ {interest.ToString("P")} ]" +
                     $"::Approved: [ {loanTimeStamp} ]");
                 Console.WriteLine(new string('-', 80));
                 Console.ReadKey();
@@ -582,11 +661,9 @@ namespace TH_Bank
                 //ShowAccounts(ActiveUserSingleton.GetInstance(), new AccountDataHandler());
             }
 
-            
-
             void Process(decimal amount)
             {
-                string Proccess = "Processing...";
+                string Proccess = "Checking credibility...";
                 string rounds = "1";
                 foreach (char c in rounds)
                 {
@@ -612,7 +689,6 @@ namespace TH_Bank
                         Thread.Sleep(1500);
                     }
                     Console.ResetColor();
-                    LoanLogo();
                     Console.Clear();
                 }
             }
