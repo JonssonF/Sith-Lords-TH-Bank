@@ -16,7 +16,6 @@ namespace TH_Bank
 
             // Finds the row that contains the account to be deleted.
             int deleterow = Array.IndexOf(openFile, deleteThis.ToString());
-
             // Loops trough users starting at deleted row, and shifts them one to the left,
             // writing over the deleted account info.
             for (int i = deleterow + 1; i < openFile.Length; i++)
@@ -43,7 +42,6 @@ namespace TH_Bank
                     string firstname = variables[3];
                     string lastname = variables[4];
                     var customer = new Customer(id, username, password, firstname, lastname);
-                    //{Id}|{UserName}|{PassWord}|{FirstName}|{LastName}|{UserType}|Blocked:{IsBlocked}";
                     return customer;
                 }
                 else if (line.Contains(userid) && line.Contains("Admin"))
@@ -133,6 +131,7 @@ namespace TH_Bank
             throw new NotImplementedException();
         }
 
+        // Checks if password matches user
         public bool PasswordCheck(string username, string password)
         {
             string[] openFile = File.ReadAllLines(FilePath);
@@ -147,6 +146,7 @@ namespace TH_Bank
             return false;
         }
 
+        // Checks if user is blocked
         public bool BlockCheck(string username)
         {
             string[] openFile = File.ReadAllLines(FilePath);
@@ -161,6 +161,7 @@ namespace TH_Bank
             return true;
         }
 
+        // Checks if user exists
         public bool Exists(string username)
         {
             string[] openFile = File.ReadAllLines(FilePath);
