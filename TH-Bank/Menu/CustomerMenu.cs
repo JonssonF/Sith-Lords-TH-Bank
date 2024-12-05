@@ -11,13 +11,13 @@ namespace TH_Bank
             _menu = new string[] // Menu in array = easy to add options.
             {
 
-                "1. Accounts.",
-                "2. Show transactions.",
-                "3. Perform transaction.",
-                "4. Loan.",
-                "5. Open new account.",
-                "6. Logout.",
-                "7. Exit program.",
+                "1. Accounts",
+                "2. Show transactions",
+                "3. Perform transaction",
+                "4. Loan",
+                "5. Open new account",
+                "6. Logout",
+                "7. Exit program",
 
             };
             menuWidth = CalculateWidth(extraWidth: 10);
@@ -48,8 +48,8 @@ namespace TH_Bank
 
                     case 1:
                         ShowAccounts(ActiveUserSingleton.GetInstance(), new AccountDataHandler());
-                        Console.Write("Press any key to go back. . .");
-                        Console.ReadLine();
+                        Console.Write("Press any key to return to menu. . .");
+                        Console.ReadKey();
                         Console.Clear();
                         ShowMenu();
                         break;
@@ -168,6 +168,7 @@ namespace TH_Bank
 
 
         public void ShowTransactions(User user, TransactionDataHandler tdh)
+            // Presents transactions made to or from logged in user
         {
             Console.Clear();   // Headings 
             int width = 20;  
@@ -226,14 +227,14 @@ namespace TH_Bank
                     $"{CenterText(t.ToAccount.AccountNumber.ToString(), width)}");
                 Console.ResetColor();
             }
-            Console.Write("\nPress any key to go back. . .");
+            Console.Write("\nPress any key to return to menu. . .");
             Console.ReadKey();
             Console.Clear();
             ShowMenu();
         }
 
         public void MakeTransaction(User user, AccountDataHandler adh, TransactionDataHandler tdh)
-
+            // Method for making a transaction which results in a new Transaction object
         {
             ShowAccounts(user, adh);
             Console.WriteLine("\n[1] - Transaction between own accounts");
@@ -301,7 +302,7 @@ namespace TH_Bank
             if (amount > fromAccount.Balance)    // If amount to transfer > balance - abort
             {
                 Console.WriteLine("\nTransaction not possible. Check your balance.\nPress any key to return to menu. . .");
-                Console.ReadLine();
+                Console.ReadKey();
                 Console.Clear();
                 ShowMenu();
             }
@@ -328,7 +329,7 @@ namespace TH_Bank
                             Thread.Sleep(35);
                         }
                     }
-                    Console.ResetColor();     // New transaction object created
+                    Console.ResetColor();                                   // New transaction object created
                     Transaction transaction = new TransactionFactory().CreateTransaction(amount, fromAccount, toAccount);
                     TransactionSender transactionSender = TransactionSender.GetInstance();
                     transactionSender.AddPendingTransaction(transaction);    // Transaction from account is updated immediately
@@ -343,7 +344,7 @@ namespace TH_Bank
                     Console.WriteLine("\nTransaction aborted.");
                 }
                 Console.Write("Press any key to return to menu. . .");
-                Console.ReadLine();
+                Console.ReadKey();
                 Console.Clear();
                 ShowMenu();
             }
@@ -429,8 +430,8 @@ namespace TH_Bank
             Console.WriteLine($"You have succesfully created a new account.\n" +
                 $"[Account type: {userchoice} with currency: {currency}.]");
             Account account = accountFactory.CreateAccount(user.Id, balance, currency, userchoice);
-            Console.WriteLine("\nPress any key to continue to main menu. . .");
-            Console.ReadLine();
+            Console.WriteLine("\nPress any key to return to menu. . .");
+            Console.ReadKey();
             ShowMenu();
         }
         public void LoanSection(User user, LoanDataHandler loanUser)
@@ -482,7 +483,7 @@ namespace TH_Bank
             Console.WriteLine(new string('-', 80));
             Console.WriteLine($"::Type: House - Loan".PadRight(30) + $"[Interest Rate: {displayMortg.ToString("P")}]::..");
             Console.WriteLine(new string('-', 80));
-            Console.Write("Press any key to go back. . .");
+            Console.Write("Press any key to return to menu. . .");
             Console.ReadKey();
             LoanSection(ActiveUserSingleton.GetInstance(), new LoanDataHandler());
         }
@@ -540,7 +541,7 @@ namespace TH_Bank
                     Console.WriteLine(new string('-', center));
                 }
             }
-            Console.Write("Press any key to go back. . .");
+            Console.Write("Press any key to return to menu. . .");
             Console.ReadKey();
             LoanSection(ActiveUserSingleton.GetInstance(), new LoanDataHandler());
         }
