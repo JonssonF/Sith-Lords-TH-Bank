@@ -232,7 +232,7 @@ namespace TH_Bank
             ShowMenu();
         }
 
-        public void MakeTransaction(User user, AccountDataHandler adh)
+        public void MakeTransaction(User user, AccountDataHandler adh, TransactionDataHandler tdh)
 
         {
             ShowAccounts(user, adh);
@@ -332,7 +332,7 @@ namespace TH_Bank
                     Transaction transaction = new TransactionFactory().CreateTransaction(amount, fromAccount, toAccount);
                     TransactionSender transactionSender = TransactionSender.GetInstance();
                     transactionSender.AddPendingTransaction(transaction);    // Transaction from account is updated immediately
-                    tdh = new TransactionDataHandler();                      // Transaction to account is added to Pending Transactions
+                                                                            // Transaction to account is added to Pending Transactions
                     tdh.Save(transaction);                                   // and executed at specific intervals.
                     Console.Clear();
                     ShowAccounts(user, adh);
