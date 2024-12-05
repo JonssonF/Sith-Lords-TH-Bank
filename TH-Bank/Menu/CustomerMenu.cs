@@ -594,19 +594,19 @@ namespace TH_Bank
                 {
                     case 1:
                         userTime = 6;
-                        LastPay.AddMonths(6);
+                        LastPay = LastPay.AddMonths(6);
                         intCal = interestCalc(amount, interest, 0.5);
                         PresentLoan(userTime, LastPay, intCal, amount);
                         break;
                     case 2:
                         userTime = 12;
-                        LastPay.AddMonths(12);
+                        LastPay = LastPay.AddMonths(12);
                         intCal = interestCalc(amount, interest, 1);
                         PresentLoan(userTime, LastPay, intCal, amount);
                         break;
                     case 3:
                         userTime = 18;
-                        LastPay.AddMonths(18);
+                        LastPay = LastPay.AddMonths(18);
                         intCal = interestCalc(amount, interest, 1.5);
                         PresentLoan(userTime,LastPay, intCal, amount);
                         break;
@@ -623,9 +623,9 @@ namespace TH_Bank
             {
                 Console.Clear();
                 ConsoleColor C;
-                if(userTime == 1)
+                if(userTime == 6)
                 { C = ConsoleColor.Green; }
-                else if(userTime == 2)
+                else if(userTime == 12)
                 { C = ConsoleColor.White; }
                 else
                 { C = ConsoleColor.Red; }
