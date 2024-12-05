@@ -14,35 +14,53 @@
 
         public bool IsBlocked { get; set; }
 
-        //public decimal LoanLimit { get; set; }
+        public decimal LoanLimit { get; private set; }
         public User(string id, string userName, string passWord)
         {
             Id = id;
             PassWord = passWord;
             IsLoggedIn = false;
             UserName = userName;
+            LoanLimit = SetMaxLoan(); 
         }
 
         public abstract string ToString();
 
-        //private decimal SetMaxLoan()
-        //{
-        //    User current = ActiveUserSingleton.GetInstance();
+        public decimal SetMaxLoan()
+        {
+            
+            decimal maxLoan = 0;
+            var activeUser = new AccountDataHandler();
+            List<Account> accounts = activeUser.LoadAll(Id);
+            
+            
+            foreach (var acc in accounts)
+            {
+                if(acc.Currency == "USD")
+                {
+                    decimal UStoSE = ExchangeCurrency.Exchange(acc.Balance, "USD", "SEK");
+                    maxLoan += UStoSE;
+                }
+                else if (acc.Currency == "EUR")
+                {
+                    decimal EUtoSE = ExchangeCurrency.Exchange(acc.Balance, "EUR", "SEK");
+                    maxLoan += EUtoSE;
+                }
+                else
+                {
+                maxLoan += acc.Balance;
+                }
+            }
+            decimal maxLoanAmount = maxLoan * 5;
 
-        //    var activeUser = new AccountDataHandler();
+            return maxLoanAmount;
+        }
 
-        //    decimal maxLoan = 0;
+        public decimal MaxLoanDecrease(decimal decreasedLoan)
+        {
+            decreasedLoan -= LoanLimit;
 
-        //    List<Account> accounts = activeUser.LoadAll(current.Id);
-        //    foreach (var acc in accounts)
-        //    {
-        //        maxLoan +=acc.Balance;
-        //    }
-        //    decimal maxLoanAmount = maxLoan * 5;
-
-        //    current.LoanLimit = maxLoanAmount;
-
-        //    return maxLoanAmount;
-        //}
+            return decreasedLoan;
+        }
     }
 }
