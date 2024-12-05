@@ -56,7 +56,7 @@ namespace TH_Bank
                         ShowTransactions(ActiveUserSingleton.GetInstance(), new TransactionDataHandler());
                         break;
                     case 3:
-                        MakeTransaction(ActiveUserSingleton.GetInstance(), new AccountDataHandler());
+                        MakeTransaction(ActiveUserSingleton.GetInstance(), new AccountDataHandler(), new TransactionDataHandler());
                         break;
 
                     case 4:
@@ -251,7 +251,7 @@ namespace TH_Bank
                 $"{CenterText(".:To Account:.", width)}");
             Console.WriteLine(new string('-', center));
 
-            tList.Reverse();     // Reverse the transaction list to newest transactions at top
+            tList.Reverse();     // Reverse the transaction list to show newest transactions at top
 
             foreach (var t in tList)
             {
@@ -284,29 +284,29 @@ namespace TH_Bank
             ShowMenu();
         }
         
-        public void MakeTransaction(User user, AccountDataHandler adh)
+        public void MakeTransaction(User user, AccountDataHandler adh, TransactionDataHandler tdh)
+        // Method for active user to make a transaction. Transaction is saved as an object.
         {
             ShowAccounts(user, adh);
-            Console.WriteLine("\n[1] Transaction between own accounts");
-            Console.WriteLine("[2] Transaction to external account");
+            Console.WriteLine("\n[1] - Transaction between own accounts");
+            Console.WriteLine("[2] - Transaction to external account");
             int transChoice = Format.Choice(2);
             Console.Clear();
             ShowAccounts(user, adh);
 
             List<Account> userAccounts = adh.LoadAll(user.Id);
             List<Account> allAccounts = adh.LoadAll();
-            Account[] accountArray = userAccounts.ToArray();
             optionCount = userAccounts.Count;
-            Account fromAccount = null;
-            Account toAccount = null;
+            Account? fromAccount = null;
+            Account? toAccount = null;
             bool validToAccount = false;
 
             switch (transChoice)
             {
                 case 1:
-                    Console.WriteLine("\n[1] Transaction between own accounts\n");
-                    int accChoiceFrom = ValidOwnAccount("from");
-                    int accChoiceTo = ValidOwnAccount("to");
+                    Console.WriteLine("\n[1] - Transaction between own accounts\n");
+                    int accChoiceFrom = ValidOwnAccount("from");  // Method for choosing valid own accounts
+                    int accChoiceTo = ValidOwnAccount("to");      // based on number of accounts for user
                     if (accChoiceTo == accChoiceFrom)
                     {
                         Console.WriteLine("\nTo and from account are the same. Transaction aborted." +
@@ -316,20 +316,20 @@ namespace TH_Bank
                     }
                     else
                     {
-                        fromAccount = accountArray[accChoiceFrom - 1];
-                        toAccount = accountArray[accChoiceTo - 1];
+                        fromAccount = allAccounts[accChoiceFrom - 1];
+                        toAccount = allAccounts[accChoiceTo - 1];
                     }
                     break;
                 case 2:
                     Console.WriteLine("\n[2] Transaction to external account\n");
                     int accChoice = ValidOwnAccount("from");
-                    fromAccount = accountArray[accChoice - 1];
+                    fromAccount = allAccounts[accChoice - 1];
                     Console.WriteLine("Enter recieving account number: ");
                     int toAccountInt = Format.IntegerInput(6);
 
                     foreach (Account account in allAccounts)
                     {
-                        if (account.AccountNumber == toAccountInt)
+                        if (account.AccountNumber == toAccountInt)   // If valid reciever account - proceed
                         {
                             toAccount = account;
                             validToAccount = true;
@@ -339,7 +339,7 @@ namespace TH_Bank
                             Console.WriteLine($"Reciever: [{owner.FirstName} {owner.LastName}]");
                         }
                     }
-                    if (validToAccount == false)
+                    if (validToAccount == false)    // If not valid reciever account - abort
                     {
                         Console.WriteLine("\nInvalid account number. Transaction aborted." +
                             "\nPress any key to return to menu. . .");
@@ -350,25 +350,25 @@ namespace TH_Bank
             }
             Console.WriteLine("Enter amount to transfer: ");
             decimal amount = Format.DecimalInput();
-            if (amount > fromAccount.Balance)
+            if (amount > fromAccount.Balance)    // If amount to transfer > balance - abort
             {
                 Console.WriteLine("\nTransaction not possible. Check your balance.\nPress any key to return to menu. . .");
                 Console.ReadLine();
                 Console.Clear();
                 ShowMenu();
             }
-            else
+            else   // Amount to transfer is ok - proceed
             {
                 Console.Clear();
                 ShowAccounts(user, adh);
                 Console.WriteLine($"\n[{amount} {fromAccount.Currency}] will be tranferred from account " +
                     $"[{fromAccount.AccountNumber}] to account [{toAccount.AccountNumber}]" +
-                    $"\nDo you wish to continue?\n\n[1] - Yes\n[2] - No");
+                    $"\nDo you wish to continue?\n\n[1] - Yes\n[2] - No");   // Possibility for user to abort transaction
 
                 int proceed = Format.Choice(2);
                 if (proceed == 1)
                 {
-                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.ForegroundColor = ConsoleColor.Green;    // Fictive processing...
                     string Proccess = "Processing...";
                     string rounds = "1";
                     foreach (char c in rounds)
@@ -380,12 +380,12 @@ namespace TH_Bank
                             Thread.Sleep(35);
                         }
                     }
-                    Console.ResetColor();
+                    Console.ResetColor();     // New transaction object created
                     Transaction transaction = new TransactionFactory().CreateTransaction(amount, fromAccount, toAccount);
                     TransactionSender transactionSender = TransactionSender.GetInstance();
-                    transactionSender.AddPendingTransaction(transaction);
-                    var tdh = new TransactionDataHandler();
-                    tdh.Save(transaction);
+                    transactionSender.AddPendingTransaction(transaction);    // Transaction from account is updated immediately
+                    tdh = new TransactionDataHandler();                      // Transaction to account is added to Pending Transactions
+                    tdh.Save(transaction);                                   // and executed at specific intervals.
                     Console.Clear();
                     ShowAccounts(user, adh);
                     Console.WriteLine($"\nTransaction successful!\nRecieving account will be updated shortly.");
@@ -401,7 +401,7 @@ namespace TH_Bank
             }
         }
 
-        public int ValidOwnAccount(string toOrFrom)
+        public int ValidOwnAccount(string toOrFrom)  // Method for valid user input regarding own accounts
         {
             int ownAccount = 0;
             do
@@ -410,12 +410,12 @@ namespace TH_Bank
 
                 if (optionCount <= 9)
                 {
-                    ownAccount = Format.Choice(optionCount);
+                    ownAccount = Format.Choice(optionCount);   //Format.Choice is possible for accounts < 10
                     Console.WriteLine(ownAccount);
                 }
                 else if (optionCount >= 10)
                 {
-                    ownAccount = Format.IntegerInput(2);
+                    ownAccount = Format.IntegerInput(2);      //Format.IntegerInput is possible for accounts > 9
                 }
             }
             while (ownAccount > optionCount);
