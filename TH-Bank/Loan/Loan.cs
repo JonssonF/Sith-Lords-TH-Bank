@@ -11,7 +11,6 @@
         private double _interest;
 
         public string OwnerId { get; set; }
-        //public Account ToAccount { get; set; }
         public decimal Amount { get; set; }
         public double Interest { get; set; }
         public DateTime LoanStart { get; set; }
