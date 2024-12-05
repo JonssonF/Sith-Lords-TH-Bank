@@ -168,13 +168,15 @@ namespace TH_Bank
 
             foreach (string s in openFile)
             {
-                string[] usrcheck = s.Split('|');
+                if (s != "User ID/Username/Password/First name/Last name/User type")
+                {
+                    string[] usrcheck = s.Split('|');
 
                     if (usrcheck[1] == username)
                     {
                         return true;
                     }
-                
+                }
             }
             return false;
         }
