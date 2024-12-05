@@ -1,7 +1,8 @@
 
 namespace TH_Bank
 
-{
+{// This class is not related to any objects,
+ // and therefor does not inherit from interfaces
     public class SystemDataHandler
     {
         public string FilePath { get; set; }
