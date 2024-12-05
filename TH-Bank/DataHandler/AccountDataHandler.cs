@@ -39,7 +39,7 @@ namespace TH_Bank
             {
                 // Makes sure the account that is put in the list is of correct type
                 // Is the same in several methods, could probably be aggregated.
-                if (line.Contains("SalaryAccount") && line.Length > 19)
+                if (line.Contains("SalaryAccount") && line.Length > 19 && line.Contains(accountNumber))
                 {
                     string[] variables = line.Split('|');
 
@@ -50,7 +50,7 @@ namespace TH_Bank
 
                     return new SalaryAccount(ownerid, balance, accountnumber, currency);
                 }
-                else if (line.Contains("SavingsAccount") && line.Length > 19)
+                else if (line.Contains("SavingsAccount") && line.Length > 19 && line.Contains(accountNumber))
                 {
                     string[] variables = line.Split('|');
 

@@ -54,7 +54,7 @@ namespace TH_Bank
                         ShowMenu();
                         break;
                     case 2:
-                        //Show transactions.
+                        ShowTransactions(ActiveUserSingleton.GetInstance(), new TransactionDataHandler());
                         break;
                     case 3:
                         MakeTransaction(ActiveUserSingleton.GetInstance(), new AccountDataHandler());
@@ -221,6 +221,71 @@ namespace TH_Bank
             Console.WriteLine(new string('-', center));
         }
 
+        public void ShowTransactions(User user, TransactionDataHandler tdh)
+        {
+            Console.Clear();
+            int width = 20;
+            int center = 100; // Used for dividing lines, and to align column headers.
+            string text = $".:{user.UserName}'s Transactions:."; //Headline.
+            int padding = (center - text.Length) / 2;
+            string centeredText = new string('.', padding) + text + new string('.', padding);
+            ConsoleColor textColor;
+            List<Transaction> tList = tdh.LoadAll(user.Id);
+
+            if (tList == null || tList.Count == 0)
+            {
+                textColor = ConsoleColor.Red;
+                Console.ForegroundColor = textColor;
+                Console.WriteLine($"Username: {user.UserName} has no transactions to show.");
+                Console.ResetColor();
+                Thread.Sleep(2000);
+                ShowMenu();
+                return;
+            }
+
+            Console.WriteLine(centeredText);  // Headline for transaction show.
+            Console.WriteLine(new string('-', center));
+            Console.WriteLine(
+                $"{CenterText(".:Date/Time:.", width)}" +
+                $"{CenterText(".:Amount:.", width)}" +
+                $"{CenterText(".:Currency:.", width)}" +
+                $"{CenterText(".:From Account:.", width)}" +
+                $"{CenterText(".:To Account:.", width)}");
+            Console.WriteLine(new string('-', center));
+
+            tList.Reverse();
+
+            foreach (var t in tList)
+            {
+                textColor = ConsoleColor.Gray;
+                string signedAmount = t.Amount.ToString();
+
+                if (t.FromAccount.OwnerID != user.Id && t.ToAccount.OwnerID == user.Id)
+                {
+                    textColor = ConsoleColor.Green;
+                    signedAmount = $"+{signedAmount}";
+                }
+                else if (t.FromAccount.OwnerID == user.Id && t.ToAccount.OwnerID != user.Id)
+                {
+                    textColor = ConsoleColor.Red;
+                    signedAmount = $"-{signedAmount}";
+                }
+                Console.ForegroundColor = textColor;
+
+                Console.WriteLine(
+                    $"{CenterText(t.DateAndTime, width)}" +
+                    $"{CenterText(signedAmount, width)}" +
+                    $"{CenterText(t.Currency, width)}" +
+                    $"{CenterText(t.FromAccount.AccountNumber.ToString(), width)}" +
+                    $"{CenterText(t.ToAccount.AccountNumber.ToString(), width)}");
+                Console.ResetColor();
+            }
+            Console.Write("\nPress any key to go back. . .");
+            Console.ReadKey();
+            Console.Clear();
+            ShowMenu();
+        }
+        
         public void MakeTransaction(User user, AccountDataHandler adh)
         {
             ShowAccounts(user, adh);
