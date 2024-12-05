@@ -370,8 +370,9 @@ namespace TH_Bank
             DateTime loanTimeStamp = DateTime.Now;
             DateTime LastPay = DateTime.Now;
             ConsoleColor textColor;
-            List<Loan> allLoans = loanUser.LoadAll(user.Id);
             decimal maxLoan = user.SetMaxLoan();
+            maxLoan = user.MaxLoanDecrease(maxLoan);
+            List<Loan> allLoans = loanUser.LoadAll(user.Id);
             /*----------------------------------------------------------------------*/
             Console.Clear();
             LoanLogo();
@@ -386,7 +387,8 @@ namespace TH_Bank
             switch (userChoice)
             {
                 case 1:
-                    ApplyForLoan(ActiveUserSingleton.GetInstance(), new LoanDataHandler(), new LoanFactory(), new AccountDataHandler());
+                    
+                    ApplyForLoan(ActiveUserSingleton.GetInstance(), new LoanDataHandler(), new LoanFactory(), new AccountDataHandler()); 
                     break;
                 case 2:
                     ShowLoans(ActiveUserSingleton.GetInstance(), new LoanDataHandler());
@@ -399,13 +401,14 @@ namespace TH_Bank
                 default:
                     Console.WriteLine("Please choose a valid option.");
                     break;
-            } ShowMenu();
+            }
+            ShowMenu();
             /*------------------------------------------------------*/
             void ShowLoanRates()
             {
                 Console.Clear();
                 LoanLogo();
-                
+
                 Console.WriteLine($"::Type: Car - Loan".PadRight(30) + $"[Interest Rate: {displayCar.ToString("P")}]::..");
                 Console.WriteLine(new string('-', 80));
                 Console.WriteLine($"::Type: House - Loan".PadRight(30) + $"[Interest Rate: {displayMortg.ToString("P")}]::..");
@@ -501,6 +504,7 @@ namespace TH_Bank
             void IntroLoan()
             {
                 Console.Clear();
+                
                 SetInterest(ref interest);
                 LoanLogo();
                 Console.WriteLine($"::[ {currentLoan} ]::..::[ Max Amount: {maxLoan.ToString("C")} ]::..::[ Interest: {interest.ToString("P")} ]::.");
@@ -535,25 +539,29 @@ namespace TH_Bank
                 Console.WriteLine(new string('-', 80));
                 Console.Write("How much would you like to loan: ");
                 decimal amount = Format.DecimalInput();
-                if (amount > user.LoanLimit)
+                if (amount > maxLoan)
                 {
                     Process(amount);
+                    LoanLogo();
+                    Console.WriteLine($"::[ {currentLoan} ]::..::[ Max Amount: {maxLoan.ToString("C")} ]::..::[ Interest: {interest.ToString("P")} ]::.");
                     Console.WriteLine(new string('-', 80));
-                    Console.WriteLine("Invalid amount. You are not eligible for that.");
+                    Console.WriteLine($"\nYour current balance is insufficient to meet the requirements for a loan.\n");
                     Console.Write("Press any key to try again. . .");
                     Console.ReadKey();
                     amount = 0;
+                    Console.Clear();
+                    IntroLoan();
                 }
-                else
+                else if(amount <= maxLoan)
                 {
                     Process(amount);
+                    Repayment(amount);
                 }
-                Repayment(amount);
             }
 
             void Repayment(decimal amount)
             {
-                
+
                 LoanLogo();
                 Console.WriteLine($"::[ {currentLoan} ]::..::[ Amount: {amount.ToString("C")} ]::..::[ Interest: {interest.ToString("P")} ]::.");
                 Console.WriteLine(new string('-', 80));
@@ -648,11 +656,11 @@ namespace TH_Bank
             void SaveLoan(User user, LoanDataHandler loanData, LoanFactory loanFactory, AccountDataHandler activeUser, decimal intCal, decimal amount)
             {
                 string displayLoan = currentLoan;
-                if(currentLoan == "Car - Loan")
+                if (currentLoan == "Car - Loan")
                 {
                     currentLoan = "CarLoan";
                 }
-                else if(currentLoan == "House - Loan")
+                else if (currentLoan == "House - Loan")
                 {
                     currentLoan = "MortgageLoan";
                 }
@@ -669,7 +677,7 @@ namespace TH_Bank
                     $"::Interest rate: [ {interest.ToString("P")} ]" +
                     $"::Total interest: [ {intCal.ToString("C")}]\n" +
                     $"::Approved: [ {loanTimeStamp.ToString("yyy-MM-dd")} ]" +
-                    $"::Expires: [ {LastPay.ToString("yyy-MM-dd")} ]" );
+                    $"::Expires: [ {LastPay.ToString("yyy-MM-dd")} ]");
                 Console.WriteLine(new string('-', 80));
                 ShowAccounts(ActiveUserSingleton.GetInstance(), new AccountDataHandler());
 
@@ -681,7 +689,7 @@ namespace TH_Bank
                     accountCount++;
                 }
                 int accChoice = Format.Choice(accountCount);
-                if( accChoice >= 1 && accChoice <= accountCount)
+                if (accChoice >= 1 && accChoice <= accountCount)
                 {
                     Account selectedAccount = accounts[accChoice - 1];
                     Console.WriteLine(new string('-', 80));
@@ -738,7 +746,7 @@ namespace TH_Bank
                     }
                     Console.Clear();
                     LoanLogo();
-                    if (amount < user.LoanLimit)
+                    if (amount < maxLoan)
                     {
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("Loan granted...");
@@ -765,15 +773,6 @@ namespace TH_Bank
                 Console.WriteLine(new string('-', 80));
             }
         }
-        
-        
-        
-
-        
-        
-
-
-
     }
 }
 
