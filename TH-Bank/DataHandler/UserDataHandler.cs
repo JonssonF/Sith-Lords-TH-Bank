@@ -135,6 +135,11 @@ namespace TH_Bank
         public bool PasswordCheck(string username, string password)
         {
             string[] openFile = File.ReadAllLines(FilePath);
+            int deleterow = 0;
+            for (int i = deleterow + 1; i < openFile.Length; i++)
+            {
+                openFile[i - 1] = openFile[i];
+            }
 
             foreach (string s in openFile)
             {
@@ -165,18 +170,20 @@ namespace TH_Bank
         public bool Exists(string username)
         {
             string[] openFile = File.ReadAllLines(FilePath);
+            int deleterow = 0;
+            for (int i = deleterow + 1; i < openFile.Length; i++)
+            {
+                openFile[i - 1] = openFile[i];
+            }
 
             foreach (string s in openFile)
             {
-                if (s != "User ID/Username/Password/First name/Last name/User type")
-                {
                     string[] usrcheck = s.Split('|');
 
                     if (usrcheck[1] == username)
                     {
                         return true;
                     }
-                }
             }
             return false;
         }
