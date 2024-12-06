@@ -11,9 +11,9 @@ namespace TH_Bank
         {
             _menu = new string[] // Menu in array = easy to add options.
         {
-            "1. Add new customer.",
+            "1. Add a new user to system.",
             "2. Handle suspended customers.",
-            "3. Change currency exchange rate.",
+            "3. Change currency exchange rates.",
             "4. Logout.",
             "5. Exit program.",
         };
@@ -100,7 +100,6 @@ namespace TH_Bank
 
             string firstName = "";
             string lastName = "";
-            //string userChoice = "";
             string passWord = "";
             string userName = "";
 
@@ -187,6 +186,26 @@ namespace TH_Bank
 
         public void UpdateExchangeRates()
         {
+            Console.WriteLine($"Currencies were last updated {ExchangeCurrency.GetLastReview().ToString()}.");
+            Console.WriteLine("Do you wish to approve current rates or change one or more?");
+            int appOrChange = Format.Choice(2);
+            bool editing = false;
+
+            if (appOrChange == 1)
+            {
+
+                ExchangeCurrency.Review(DateTime.Now);
+
+            }
+            else
+            {
+                editing = true;
+            }
+
+            while(editing)
+            {
+
+
             Console.WriteLine("Chooce a currency to edit:");
             int loop = 1;
             foreach (Currency c in ExchangeCurrency.currencies)
@@ -216,6 +235,8 @@ namespace TH_Bank
             Console.WriteLine($"New rate for {chosen.NameShort} -> {keys[choice]}: {chosen.ExchangeRates[keys[choice]]} ");
             xdh.Save(chosen);
             ExchangeCurrency.Review(DateTime.Now);
+            
+            }
         }
 
         public bool TimeToReview()

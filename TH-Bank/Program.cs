@@ -20,6 +20,7 @@ namespace TH_Bank
         {
             string[] defaultUsers =
             {
+                "USERID/USERNAME/PASSWORD/FIRSTNAME*/LASTNAME*/USERTYPE",
                 "CUS00000000|UserName|Password|FirstName|LastName|Customer",
                 "ADM00000000|Admin|Password|Admin"
             };
