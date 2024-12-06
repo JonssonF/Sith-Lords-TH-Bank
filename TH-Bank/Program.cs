@@ -115,9 +115,11 @@ namespace TH_Bank
 
             while (!userValidation)
             {
-                
-                
-                Console.WriteLine("Welcome to TH-Bank.");
+
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                Console.WriteLine("****************************************\r\n* _____           ___             _    *\r\n*/__   \\/\\  /\\   / __\\ __ _ _ __ | | __*\r\n*  / /\\/ /_/ /  /__\\/// _` | '_ \\| |/ /*\r\n* / / / __  /  / \\/  \\ (_| | | | |   < *\r\n* \\/  \\/ /_/   \\_____/\\__,_|_| |_|_|\\_\\*\r\n****************************************");
+                Console.ResetColor();
+                Console.WriteLine("Welcome!");
                 Console.WriteLine("Please enter your username: ");
                 userName = Console.ReadLine();
 
