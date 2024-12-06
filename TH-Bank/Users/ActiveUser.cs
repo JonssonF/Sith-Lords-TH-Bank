@@ -5,7 +5,7 @@
         public override string UserType { get; }
 
         private static User? _instance;
-
+         
         public override string ToString()
         {
             return _instance.ToString();

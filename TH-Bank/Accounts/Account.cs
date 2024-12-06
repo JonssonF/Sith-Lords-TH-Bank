@@ -5,18 +5,12 @@ namespace TH_Bank
     public abstract class Account
     {
         
-        private string _accountName;
-        private decimal _amount;
-        private decimal _currency;
-        private int _accountNumber;
-        private string _ownerID;
-
         public abstract string AccountType { get; }
         public decimal Balance { get; set; }
-        public string Currency { get; set; }
-        public int AccountNumber { get; set; }
-        public string OwnerID { get; set; }
-        public double Interest { get; set; }
+        public string Currency { get; private set; }
+        public int AccountNumber { get; private set; }
+        public string OwnerID { get; private set; }
+        public double Interest { get; private set; }
 
 
         public Account(string ownerID, decimal balance, int accountNumber, string currency)

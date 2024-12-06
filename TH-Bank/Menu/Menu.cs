@@ -2,10 +2,10 @@
 {
     public abstract class Menu
     {
-        internal int optionCount;
-        internal bool access;
-        internal string[]? _menu;
-        internal int menuWidth;
+        protected int optionCount;
+        protected bool access;
+        protected string[]? _menu;
+        protected int menuWidth;
 
         public abstract void ShowMenu();
 

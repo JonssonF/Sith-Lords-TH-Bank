@@ -3,17 +3,10 @@
 
     public abstract class Loan
     {
-
-        private decimal _amount;
-        private int _toAccount;
-        private DateTime _loanStart;
-        private string _Id;
-        private double _interest;
-
-        public string OwnerId { get; set; }
-        public decimal Amount { get; set; }
+        public string OwnerId { get; private set; }
+        public decimal Amount { get; private set; }
         public double Interest { get; set; }
-        public DateTime LoanStart { get; set; }
+        public DateTime LoanStart { get; private set; }
         public abstract string LoanType { get; }
 
 

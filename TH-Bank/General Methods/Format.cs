@@ -1,5 +1,7 @@
 ﻿
 
+using System.Globalization;
+
 namespace TH_Bank
 {
     public class Format
