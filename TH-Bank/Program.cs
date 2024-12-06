@@ -116,8 +116,14 @@ namespace TH_Bank
                 Console.WriteLine("Please enter your username: ");
                 userName = Console.ReadLine();
 
+                if (string.IsNullOrEmpty(userName))
+                {
+                    Console.WriteLine("Username cannot be empty, try again.");
+                    continue;
+                }
+
                 // Does user exist?
-                if(!userDataHandler.Exists(userName))
+                if (!userDataHandler.Exists(userName))
                 {
                     Console.WriteLine("User does not exist!");
                 }
