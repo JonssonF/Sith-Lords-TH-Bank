@@ -168,11 +168,11 @@ namespace TH_Bank
 
 
         public void ShowTransactions(User user, TransactionDataHandler tdh)
-            // Presents transactions made to or from logged in user
+        // Presents transactions made to or from logged in user
         {
             Console.Clear();   // Headings 
-            int width = 20;  
-            int center = 100; 
+            int width = 20;
+            int center = 100;
             string text = $".:{user.UserName}'s Transactions:.";
             int padding = (center - text.Length) / 2;
             string centeredText = new string('.', padding) + text + new string('.', padding);
@@ -234,7 +234,7 @@ namespace TH_Bank
         }
 
         public void MakeTransaction(User user, AccountDataHandler adh, TransactionDataHandler tdh)
-            // Method for making a transaction which results in a new Transaction object
+        // Method for making a transaction which results in a new Transaction object
         {
             ShowAccounts(user, adh);
             Console.WriteLine("\n[1] - Transaction between own accounts");
@@ -333,7 +333,7 @@ namespace TH_Bank
                     Transaction transaction = new TransactionFactory().CreateTransaction(amount, fromAccount, toAccount);
                     TransactionSender transactionSender = TransactionSender.GetInstance();
                     transactionSender.AddPendingTransaction(transaction);    // Transaction from account is updated immediately
-                                                                            // Transaction to account is added to Pending Transactions
+                                                                             // Transaction to account is added to Pending Transactions
                     tdh.Save(transaction);                                   // and executed at specific intervals.
                     Console.Clear();
                     ShowAccounts(user, adh);
@@ -469,8 +469,8 @@ namespace TH_Bank
             switch (userChoice)
             {
                 case 1:
-                    
-                    ApplyForLoan(ActiveUserSingleton.GetInstance(), new LoanDataHandler(), new LoanFactory(), new AccountDataHandler()); 
+
+                    ApplyForLoan(ActiveUserSingleton.GetInstance(), new LoanDataHandler(), new LoanFactory(), new AccountDataHandler());
                     break;
                 case 2:
                     ShowLoans(ActiveUserSingleton.GetInstance(), new LoanDataHandler());
@@ -486,59 +486,25 @@ namespace TH_Bank
             }
             ShowMenu();
 
-        }
-        public void ShowLoanRates()
-        {
-            Console.Clear();
-            var ldhD = new LoanDataHandler();
-            double displayCar = ldhD.GetInterest("CarLoan");
-            double displayMortg = ldhD.GetInterest("MortgageLoan");
-            LoanLogo();
-            Console.WriteLine($"::Type: Car - Loan".PadRight(30) + $"[Interest Rate: {displayCar.ToString("P")}]::..");
-            Console.WriteLine(new string('-', 80));
-            Console.WriteLine($"::Type: House - Loan".PadRight(30) + $"[Interest Rate: {displayMortg.ToString("P")}]::..");
-            Console.WriteLine(new string('-', 80));
-            Console.Write("Press any key to return to menu. . .");
-            Console.ReadKey();
-            LoanSection(ActiveUserSingleton.GetInstance(), new LoanDataHandler());
-        }
-        public void ShowLoans(User user, LoanDataHandler loanUser)
-        {
-            Console.Clear();
-            ConsoleColor textColor;
-            int width = 20;
-            int center = 86; // Used for dividing lines, and to align column headers.
-            string text = $".:{user.UserName}'s Loans:."; //Headline.
-            int padding = (center - text.Length) / 2;
-            string centeredText = new string('.', padding) + text + new string('.', padding);
-            List<Loan> allLoans = loanUser.LoadAll(user.Id);
-            Console.WriteLine(new string('-', center));
-            Console.WriteLine(new string('-', center));
-            Console.WriteLine(centeredText);  // Headline for account show.
-            Console.WriteLine(new string('-', center));
-            Console.WriteLine(
-                $"{"Nr:."}" +
-                $"{CenterText(".:Loan Type:.", width)}" +
-                $"{CenterText(".:Amount:.", width)}" +
-                $"{CenterText(".:Interest:.", width)}" +
-                $"{CenterText(".:Loan Start:.", width)}");
-            Console.WriteLine(new string('-', center));
 
-            if (allLoans.Count == 0)
-
+            void ShowLoanRates()
             {
-                Console.Clear();
-                LoanLogo();
 
+
+                Console.Clear();
+                var ldhD = new LoanDataHandler();
+                double displayCar = ldhD.GetInterest("CarLoan");
+                double displayMortg = ldhD.GetInterest("MortgageLoan");
+                LoanLogo();
                 Console.WriteLine($"::Type: Car - Loan".PadRight(30) + $"[Interest Rate: {displayCar.ToString("P")}]::..");
                 Console.WriteLine(new string('-', 80));
                 Console.WriteLine($"::Type: House - Loan".PadRight(30) + $"[Interest Rate: {displayMortg.ToString("P")}]::..");
                 Console.WriteLine(new string('-', 80));
-                Console.Write("Press any key to go back. . .");
+                Console.Write("Press any key to return to menu. . .");
                 Console.ReadKey();
                 LoanSection(ActiveUserSingleton.GetInstance(), new LoanDataHandler());
-            }
 
+            }
             void ShowLoans(User user, LoanDataHandler loanUser)
             {
                 Console.Clear();
@@ -626,7 +592,7 @@ namespace TH_Bank
             void IntroLoan()
             {
                 Console.Clear();
-                
+
                 SetInterest(ref interest);
                 LoanLogo();
                 Console.WriteLine($"::[ {currentLoan} ]::..::[ Max Amount: {maxLoan.ToString("C")} ]::..::[ Interest: {interest.ToString("P")} ]::.");
@@ -674,7 +640,7 @@ namespace TH_Bank
                     Console.Clear();
                     IntroLoan();
                 }
-                else if(amount <= maxLoan)
+                else if (amount <= maxLoan)
                 {
                     Process(amount);
                     Repayment(amount);

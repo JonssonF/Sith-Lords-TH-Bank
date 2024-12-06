@@ -55,14 +55,14 @@
 
             return maxLoanAmount;
         }
-        
+
         public decimal MaxLoanDecrease(decimal maxLoan)
         {
             LoanDataHandler ldh = new LoanDataHandler();
             List<Loan> allLoans = ldh.LoadAll(Id);
 
             decimal totalLoans = 0;
-            foreach(var loan in allLoans) 
+            foreach (var loan in allLoans)
             {
                 totalLoans += loan.Amount;
             }
@@ -73,7 +73,7 @@
 
             decreasedLoan -= LoanLimit;
 
-            if(decreasedLoan < 0)
+            if (decreasedLoan < 0)
             {
                 decreasedLoan = 0;
             }
