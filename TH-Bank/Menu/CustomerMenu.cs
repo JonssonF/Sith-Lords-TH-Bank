@@ -489,8 +489,6 @@ namespace TH_Bank
 
             void ShowLoanRates()
             {
-
-
                 Console.Clear();
                 var ldhD = new LoanDataHandler();
                 double displayCar = ldhD.GetInterest("CarLoan");
