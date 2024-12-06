@@ -456,8 +456,6 @@ namespace TH_Bank
             DateTime loanTimeStamp = DateTime.Now;
             DateTime LastPay = DateTime.Now;
             ConsoleColor textColor;
-            decimal maxLoan = user.SetMaxLoan();
-            maxLoan = user.MaxLoanDecrease(maxLoan);
             List<Loan> allLoans = loanUser.LoadAll(user.Id);
             /*----------------------------------------------------------------------*/
             Console.Clear();
@@ -519,7 +517,8 @@ namespace TH_Bank
                     $"{CenterText(".:Loan Type:.", width)}" +
                     $"{CenterText(".:Amount:.", width)}" +
                     $"{CenterText(".:Interest:.", width)}" +
-                    $"{CenterText(".:Loan Start:.", width)}");
+                    $"{CenterText(".:Approved:.", width)}" +
+                    $"{CenterText(".:Expire:.", width)}");
                 Console.WriteLine(new string('-', center));
 
                 if (allLoans.Count == 0)
@@ -548,7 +547,8 @@ namespace TH_Bank
                         $"{" "}{nr}{"."}{CenterText(loan.LoanType, width)}" +
                         $"{CenterText(loan.Amount.ToString("C"), width)}" +
                         $"{CenterText(loan.Interest.ToString("P"), width)}" +
-                        $"{CenterText(loan.LoanStart.ToString("yyyy-MM-dd"), width)}");
+                        $"{CenterText(loan.LoanStart, width)}" +
+                        $"{CenterText(loan.LoanExp, width)}");
                         nr++;
                         Console.ResetColor();
                         Console.WriteLine(new string('-', center));
@@ -564,8 +564,17 @@ namespace TH_Bank
             {
                 Console.Clear();
                 LoanLogo();
+                user.LoanLimit = user.SetMaxLoan();
                 Console.WriteLine($"::[ Loan :******* ]::..::[ Max Amount: ******* ]::..::[ Interest: ******* ]::..");
                 Console.WriteLine("--------------------------------------------------------------------------------");
+                if(user.LoanLimit <= 0)
+                {
+                    Console.WriteLine("Currently you are not eligiable for a loan at TH-Bank.");
+                    Thread.Sleep(1500);
+                    Console.WriteLine("Redirecting you to main menu. . .");
+                    Thread.Sleep(1500);
+                    ShowMenu();
+                }
                 Console.WriteLine($"Wich type of loan would you like to apply for {user.UserName}?\n");
                 Console.WriteLine("[1] Car - Loan.");
                 Console.WriteLine("[2] House - Loan.");
@@ -597,10 +606,10 @@ namespace TH_Bank
 
                 SetInterest(ref interest);
                 LoanLogo();
-                Console.WriteLine($"::[ {currentLoan} ]::..::[ Max Amount: {maxLoan.ToString("C")} ]::..::[ Interest: {interest.ToString("P")} ]::.");
+                Console.WriteLine($"::[ {currentLoan} ]::..::[ Max Amount: {user.LoanLimit.ToString("C")} ]::..::[ Interest: {interest.ToString("P")} ]::.");
                 Console.WriteLine(new string('-', 80));
                 Console.WriteLine($"If you wish to apply for a {currentLoan},\n" +
-                    $"the maximum loan amount is {maxLoan.ToString("C")},\n" +
+                    $"the maximum loan amount is {user.LoanLimit.ToString("C")},\n" +
                     $"and the interest rate we can offer is {interest.ToString("P")}.");
                 Console.WriteLine(new string('-', 80));
                 Console.WriteLine("Would you like to continue?");
@@ -625,15 +634,15 @@ namespace TH_Bank
             {
                 Console.Clear();
                 LoanLogo();
-                Console.WriteLine($"::[ {currentLoan} ]::..::[ Max Amount: {maxLoan.ToString("C")} ]::..::[ Interest: {interest.ToString("P")} ]::.");
+                Console.WriteLine($"::[ {currentLoan} ]::..::[ Max Amount: {user.LoanLimit.ToString("C")} ]::..::[ Interest: {interest.ToString("P")} ]::.");
                 Console.WriteLine(new string('-', 80));
                 Console.Write("How much would you like to loan: ");
                 decimal amount = Format.DecimalInput();
-                if (amount > maxLoan)
+                if (amount > user.LoanLimit)
                 {
                     Process(amount);
                     LoanLogo();
-                    Console.WriteLine($"::[ {currentLoan} ]::..::[ Max Amount: {maxLoan.ToString("C")} ]::..::[ Interest: {interest.ToString("P")} ]::.");
+                    Console.WriteLine($"::[ {currentLoan} ]::..::[ Max Amount: {user.LoanLimit.ToString("C")} ]::..::[ Interest: {interest.ToString("P")} ]::.");
                     Console.WriteLine(new string('-', 80));
                     Console.WriteLine($"\nYour current balance is insufficient to meet the requirements for a loan.\n");
                     Console.Write("Press any key to try again. . .");
@@ -642,7 +651,7 @@ namespace TH_Bank
                     Console.Clear();
                     IntroLoan();
                 }
-                else if (amount <= maxLoan)
+                else if (amount <= user.LoanLimit)
                 {
                     Process(amount);
                     Repayment(amount);
@@ -787,7 +796,11 @@ namespace TH_Bank
                         $"::Account: {selectedAccount.AccountType} ::Accountnumber: {selectedAccount.AccountNumber}.");
                     selectedAccount.Balance += amount;
                     activeUser.Save(selectedAccount);
-                    loanData.Save(loanFactory.NewLoan(id, amount, currentLoan));
+
+                    string expire = LastPay.ToString("yyy-MM-dd");
+
+                    loanData.Save(loanFactory.NewLoan(id, amount, expire, currentLoan));
+
                 }
                 else
                 {
@@ -836,7 +849,7 @@ namespace TH_Bank
                     }
                     Console.Clear();
                     LoanLogo();
-                    if (amount < maxLoan)
+                    if (amount <= user.LoanLimit)
                     {
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("Loan granted...");

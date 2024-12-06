@@ -4,15 +4,12 @@
     {
         public override string LoanType { get; } = "CarLoan";
 
-        public CarLoan(string id, decimal amount) : base(id, amount)
+        public CarLoan(string id, decimal amount, string start, string expire) : base(id, amount, start, expire)
         {
 
         }
 
-        public override string ToString()
-        {
-            return $"{OwnerId}|{LoanType}|{Amount}|{Interest}|{LoanStart}";
-        }
+    
 
     }
 }
