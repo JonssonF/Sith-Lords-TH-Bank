@@ -195,6 +195,7 @@ namespace TH_Bank
             {
 
                 ExchangeCurrency.Review(DateTime.Now);
+                Console.WriteLine("Current exchange rates have been approved!");
 
             }
             else
@@ -234,7 +235,18 @@ namespace TH_Bank
             chosen.ExchangeRates[keys[choice]] = Double.Parse(Console.ReadLine());
             Console.WriteLine($"New rate for {chosen.NameShort} -> {keys[choice]}: {chosen.ExchangeRates[keys[choice]]} ");
             xdh.Save(chosen);
-            ExchangeCurrency.Review(DateTime.Now);
+                Console.WriteLine("Do you wish to edit another rate?");
+                int again = Format.Choice(2);
+                if(again == 1)
+                {
+                    Console.Clear();
+                }
+                else
+                {
+                    ExchangeCurrency.Review(DateTime.Now);
+                    Console.WriteLine("Currency review is done");
+                    editing = false;
+                }
             
             }
         }
