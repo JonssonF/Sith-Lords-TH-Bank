@@ -47,26 +47,26 @@ namespace TH_Bank
                 {
 
                     case 1:
-                        ShowAccounts(ActiveUserSingleton.GetInstance(), new AccountDataHandler());
+                        ShowAccounts(ActiveUser.GetInstance(), new AccountDataHandler());
                         Console.Write("Press any key to return to menu. . .");
                         Console.ReadKey();
                         Console.Clear();
                         ShowMenu();
                         break;
                     case 2:
-                        ShowTransactions(ActiveUserSingleton.GetInstance(), new TransactionDataHandler());
+                        ShowTransactions(ActiveUser.GetInstance(), new TransactionDataHandler());
                         break;
                     case 3:
-                        MakeTransaction(ActiveUserSingleton.GetInstance(), new AccountDataHandler(), new TransactionDataHandler());
+                        MakeTransaction(ActiveUser.GetInstance(), new AccountDataHandler(), new TransactionDataHandler());
                         break;
 
                     case 4:
-                        LoanSection(ActiveUserSingleton.GetInstance(), new LoanDataHandler());
+                        LoanSection(ActiveUser.GetInstance(), new LoanDataHandler());
                         Console.Clear();
                         ShowMenu();
                         break;
                     case 5:
-                        CreateNewAccount(ActiveUserSingleton.GetInstance(), new AccountFactory(), new AccountDataHandler());
+                        CreateNewAccount(ActiveUser.GetInstance(), new AccountFactory(), new AccountDataHandler());
                         Thread.Sleep(2500);
                         Console.Clear();
                         ShowMenu();
@@ -470,10 +470,10 @@ namespace TH_Bank
             {
                 case 1:
 
-                    ApplyForLoan(ActiveUserSingleton.GetInstance(), new LoanDataHandler(), new LoanFactory(), new AccountDataHandler());
+                    ApplyForLoan(ActiveUser.GetInstance(), new LoanDataHandler(), new LoanFactory(), new AccountDataHandler());
                     break;
                 case 2:
-                    ShowLoans(ActiveUserSingleton.GetInstance(), new LoanDataHandler());
+                    ShowLoans(ActiveUser.GetInstance(), new LoanDataHandler());
                     break;
                 case 3:
                     ShowLoanRates();
@@ -500,7 +500,7 @@ namespace TH_Bank
                 Console.WriteLine(new string('-', 80));
                 Console.Write("Press any key to return to menu. . .");
                 Console.ReadKey();
-                LoanSection(ActiveUserSingleton.GetInstance(), new LoanDataHandler());
+                LoanSection(ActiveUser.GetInstance(), new LoanDataHandler());
 
             }
             void ShowLoans(User user, LoanDataHandler loanUser)
@@ -552,7 +552,7 @@ namespace TH_Bank
                 }
                 Console.Write("Press any key to go back. . .");
                 Console.ReadKey();
-                LoanSection(ActiveUserSingleton.GetInstance(), new LoanDataHandler());
+                LoanSection(ActiveUser.GetInstance(), new LoanDataHandler());
             }
 
 
@@ -580,7 +580,7 @@ namespace TH_Bank
                         IntroLoan();
                         return;
                     case 3:
-                        LoanSection(ActiveUserSingleton.GetInstance(), new LoanDataHandler()); // Returns to loan section.
+                        LoanSection(ActiveUser.GetInstance(), new LoanDataHandler()); // Returns to loan section.
                         return;
                     default:
                         throw new Exception("Invalid menu choice");
@@ -610,7 +610,7 @@ namespace TH_Bank
                         Credibility();
                         break;
                     case 2:
-                        LoanSection(ActiveUserSingleton.GetInstance(), new LoanDataHandler());
+                        LoanSection(ActiveUser.GetInstance(), new LoanDataHandler());
                         break;
                     default: throw new Exception("Invalid menu choice");
                 }
@@ -683,7 +683,7 @@ namespace TH_Bank
                         PresentLoan(userTime, intCal, amount);
                         break;
                     case 4:
-                        LoanSection(ActiveUserSingleton.GetInstance(), new LoanDataHandler());
+                        LoanSection(ActiveUser.GetInstance(), new LoanDataHandler());
                         break;
                     default:
                         Console.WriteLine("Unvalid option. Loan denied.");
@@ -726,7 +726,7 @@ namespace TH_Bank
                 switch (choice)
                 {
                     case 1:
-                        SaveLoan(ActiveUserSingleton.GetInstance(), new LoanDataHandler(), new LoanFactory(), new AccountDataHandler(), intCal, amount);
+                        SaveLoan(ActiveUser.GetInstance(), new LoanDataHandler(), new LoanFactory(), new AccountDataHandler(), intCal, amount);
                         break;
                     case 2:
                         Console.Clear();
@@ -765,7 +765,7 @@ namespace TH_Bank
                     $"::Approved: [ {loanTimeStamp.ToString("yyy-MM-dd")} ]" +
                     $"::Expires: [ {LastPay.ToString("yyy-MM-dd")} ]");
                 Console.WriteLine(new string('-', 80));
-                ShowAccounts(ActiveUserSingleton.GetInstance(), new AccountDataHandler());
+                ShowAccounts(ActiveUser.GetInstance(), new AccountDataHandler());
 
                 Console.WriteLine("Wich account would you like the loan to be deposited into?");
                 List<Account> accounts = activeUser.LoadAll(user.Id);

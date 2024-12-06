@@ -16,12 +16,10 @@ namespace TH_Bank
             Console.ReadLine();
         }
 
-        // Creates save files and fills them with default values, if they don't exist already
         public static void CreateFiles()
         {
             string[] defaultUsers =
             {
-                "User ID/Username/Password/First name/Last name/User type",
                 "CUS00000000|UserName|Password|FirstName|LastName|Customer",
                 "ADM00000000|Admin|Password|Admin"
             };
@@ -71,12 +69,8 @@ namespace TH_Bank
                     "///ENDINTERESTRATES///",
                     "CUS00000000|CarLoan|125000|0,1|2024-12-03 11:56:14",
                 };
-            string[] defaultTransactions =
-            {
-                "Transaction ID/Date and time/Amount/From account number/To account number/Currency/From user id/To user id"
-                
 
-            };
+
 
             if (!File.Exists(FilePaths.AccountPath))
             {
@@ -88,7 +82,7 @@ namespace TH_Bank
             }
             if (!File.Exists(FilePaths.TransactionPath))
             {
-                File.AppendAllLines(FilePaths.TransactionPath, defaultTransactions);
+                File.Create(FilePaths.TransactionPath);
             }
             if (!File.Exists(FilePaths.SystemPath))
             {
@@ -121,15 +115,8 @@ namespace TH_Bank
                 Console.WriteLine("Please enter your username: ");
                 userName = Console.ReadLine();
 
-                // Handle empty userinput
-                if (string.IsNullOrEmpty(userName))
-                {
-                    Console.WriteLine("Username cannot be empty, try again.");
-                    continue;
-                }
-
                 // Does user exist?
-                if (!userDataHandler.Exists(userName))
+                if(!userDataHandler.Exists(userName))
                 {
                     Console.WriteLine("User does not exist!");
                 }
@@ -164,7 +151,7 @@ namespace TH_Bank
                 {
 
                     // Successful login! Loads user into active user spot
-                    var activeUser = ActiveUserSingleton.SetInstance(userDataHandler.Load(userName));
+                    var activeUser = ActiveUser.SetInstance(userDataHandler.Load(userName));
                     
                     LoadMenu(activeUser);
                     break;

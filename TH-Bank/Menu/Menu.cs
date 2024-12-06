@@ -17,7 +17,7 @@
             Console.WriteLine("Taking you to home screen.");
             Thread.Sleep(2000);
             Console.Clear();
-            ActiveUserSingleton.Reset();
+            ActiveUser.Reset();
             Program.LogIn(new UserDataHandler());
             access = false;
             bool login = true;
@@ -36,7 +36,7 @@
 
         public void LogoText()
         {
-            User current = ActiveUserSingleton.GetInstance();
+            User current = ActiveUser.GetInstance();
             
             Console.Write("" +
                 " _____ _   _  ______  ___  _   _ _   __\r\n" +
@@ -59,7 +59,7 @@
                     maxWidth = item.Length;
                 }
             }
-            return maxWidth + 6 + extraWidth;
+            return maxWidth + 4 + extraWidth;
         }
 
         internal void DrawBorder()
