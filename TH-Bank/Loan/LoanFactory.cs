@@ -22,7 +22,7 @@
             }
             else
             {
-                throw new Exception("Invalid loan-type");
+                throw new Exception("Invalid loan-type"); 
             }
 
             return loan;
