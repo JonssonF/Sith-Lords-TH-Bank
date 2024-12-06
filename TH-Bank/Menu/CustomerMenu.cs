@@ -263,14 +263,14 @@ namespace TH_Bank
                     }
                     else
                     {
-                        fromAccount = allAccounts[accChoiceFrom - 1];
-                        toAccount = allAccounts[accChoiceTo - 1];
+                        fromAccount = userAccounts[accChoiceFrom - 1];
+                        toAccount = userAccounts[accChoiceTo - 1];
                     }
                     break;
                 case 2:
                     Console.WriteLine("\n[2] Transaction to external account\n");
                     int accChoice = ValidOwnAccount("from");
-                    fromAccount = allAccounts[accChoice - 1];
+                    fromAccount = userAccounts[accChoice - 1];
                     Console.WriteLine("Enter recieving account number: ");
                     int toAccountInt = Format.IntegerInput(6);
 
@@ -295,57 +295,57 @@ namespace TH_Bank
                     }
                     break;
             }
-            Console.WriteLine("Enter amount to transfer: ");
-            decimal amount = Format.DecimalInput();
-            if (amount > fromAccount.Balance)    // If amount to transfer > balance - abort
+
+            decimal amount = 0;
+            do
             {
-                Console.WriteLine("\nTransaction not possible. Check your balance.\nPress any key to return to menu. . .");
-                Console.ReadKey();
-                Console.Clear();
-                ShowMenu();
+                Console.WriteLine("Enter amount to transfer: ");
+                amount = Format.DecimalInput();
+                if (amount > fromAccount.Balance)
+                {
+                    Console.WriteLine("Invalid amount - check your balance");
+                }
             }
-            else   // Amount to transfer is ok - proceed
+            while (amount > fromAccount.Balance);
+            Console.Clear();
+            ShowAccounts(user, adh);
+            Console.WriteLine($"\n[{amount} {fromAccount.Currency}] will be tranferred from account " +
+                $"[{fromAccount.AccountNumber}] to account [{toAccount.AccountNumber}]" +
+                $"\nDo you wish to continue?\n\n[1] - Yes\n[2] - No");   // Possibility for user to abort transaction
+
+            int proceed = Format.Choice(2);
+            if (proceed == 1)
             {
+                Console.ForegroundColor = ConsoleColor.Green;    // Fictive processing...
+                string Proccess = "Processing...";
+                string rounds = "1";
+                foreach (char c in rounds)
+                {
+                    Console.Clear();
+                    foreach (char d in Proccess)
+                    {
+                        Console.Write(d);
+                        Thread.Sleep(35);
+                    }
+                }
+                Console.ResetColor();                                   // New transaction object created
+                Transaction transaction = new TransactionFactory().CreateTransaction(amount, fromAccount, toAccount);
+                TransactionSender transactionSender = TransactionSender.GetInstance();
+                transactionSender.AddPendingTransaction(transaction);    // Transaction from account is updated immediately
+                                                                         // Transaction to account is added to Pending Transactions
+                tdh.Save(transaction);                                   // and executed at specific intervals.
                 Console.Clear();
                 ShowAccounts(user, adh);
-                Console.WriteLine($"\n[{amount} {fromAccount.Currency}] will be tranferred from account " +
-                    $"[{fromAccount.AccountNumber}] to account [{toAccount.AccountNumber}]" +
-                    $"\nDo you wish to continue?\n\n[1] - Yes\n[2] - No");   // Possibility for user to abort transaction
-
-                int proceed = Format.Choice(2);
-                if (proceed == 1)
-                {
-                    Console.ForegroundColor = ConsoleColor.Green;    // Fictive processing...
-                    string Proccess = "Processing...";
-                    string rounds = "1";
-                    foreach (char c in rounds)
-                    {
-                        Console.Clear();
-                        foreach (char d in Proccess)
-                        {
-                            Console.Write(d);
-                            Thread.Sleep(35);
-                        }
-                    }
-                    Console.ResetColor();                                   // New transaction object created
-                    Transaction transaction = new TransactionFactory().CreateTransaction(amount, fromAccount, toAccount);
-                    TransactionSender transactionSender = TransactionSender.GetInstance();
-                    transactionSender.AddPendingTransaction(transaction);    // Transaction from account is updated immediately
-                                                                             // Transaction to account is added to Pending Transactions
-                    tdh.Save(transaction);                                   // and executed at specific intervals.
-                    Console.Clear();
-                    ShowAccounts(user, adh);
-                    Console.WriteLine($"\nTransaction successful!\nRecieving account will be updated shortly.");
-                }
-                else if (proceed == 2)
-                {
-                    Console.WriteLine("\nTransaction aborted.");
-                }
-                Console.Write("Press any key to return to menu. . .");
-                Console.ReadKey();
-                Console.Clear();
-                ShowMenu();
+                Console.WriteLine($"\nTransaction successful!\nRecieving account will be updated shortly.");
             }
+            else if (proceed == 2)
+            {
+                Console.WriteLine("\nTransaction aborted.");
+            }
+            Console.Write("Press any key to return to menu. . .");
+            Console.ReadKey();
+            Console.Clear();
+            ShowMenu();
         }
 
         public int ValidOwnAccount(string toOrFrom)  // Method for valid user input regarding own accounts
