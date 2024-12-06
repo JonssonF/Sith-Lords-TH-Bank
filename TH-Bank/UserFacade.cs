@@ -1,4 +1,6 @@
-﻿namespace TH_Bank
+﻿using System.Reflection.Metadata.Ecma335;
+
+namespace TH_Bank
 {
     public class UserFacade
     {
@@ -41,26 +43,33 @@
 
             void CreateCustomer()
             {
-                Console.WriteLine("Enter Customer First Name");
-                firstName = Console.ReadLine();
-                Console.WriteLine("Enter Customer Last Name");
-                lastName = Console.ReadLine();
-                Console.WriteLine("Enter a UserName for Customer");
-                userName = Console.ReadLine();
-                Console.WriteLine("Enter a Password for Customer");
-                passWord = Console.ReadLine();
+                Console.WriteLine("Enter first name of customer (minimum 2 characters)");
+                firstName = Format.StringMinimumInput(2);
+                Console.WriteLine("Enter last name of customer (minimum 2 characters)");
+                lastName = Format.StringMinimumInput(2);
+                Console.WriteLine("Enter a UserName for Customer (at least 5 characters)");
+                userName = Format.StringMinimumInput(5);
+                Console.WriteLine("Enter a Password for Customer (at least 5 characters");
+                passWord = Format.StringMinimumInput(5);
 
                 userDataHandler.Save(userFactory.CreateUser(userName, passWord, firstName, lastName, "Customer"));
             }
 
             void CreateAdmin()
             {
-                Console.WriteLine("Enter a UserName for new Admin");
-                userName = Console.ReadLine();
-                Console.WriteLine("Enter a Password for new Admin");
-                passWord = Console.ReadLine();
+                bool creating = true;
+                while(creating)
+                {
+                    Console.WriteLine("Enter a UserName for new Admin (must contain at least 5 characters)");
+                    userName = Format.StringMinimumInput(5);
+                    
+                    Console.WriteLine("Enter a Password for new Admin (must contain at least 5 characters)");
+                    passWord = Format.StringMinimumInput(5);
 
-                userDataHandler.Save(userFactory.CreateUser(userName, passWord, null, null, "Admin"));
+                    userDataHandler.Save(userFactory.CreateUser(userName, passWord, null, null, "Admin"));
+
+                }
+                
             }
         }
 
