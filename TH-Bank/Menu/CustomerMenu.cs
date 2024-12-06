@@ -564,7 +564,7 @@ namespace TH_Bank
             {
                 Console.Clear();
                 LoanLogo();
-                user.LoanLimit = user.SetMaxLoan();
+                //user.LoanLimit = user.SetMaxLoan();
                 Console.WriteLine($"::[ Loan :******* ]::..::[ Max Amount: ******* ]::..::[ Interest: ******* ]::..");
                 Console.WriteLine("--------------------------------------------------------------------------------");
                 if(user.LoanLimit <= 0)

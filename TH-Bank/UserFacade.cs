@@ -58,8 +58,7 @@ namespace TH_Bank
             void CreateAdmin()
             {
                 bool creating = true;
-                while(creating)
-                {
+
                     Console.WriteLine("Enter a UserName for new Admin (must contain at least 5 characters)");
                     userName = Format.StringMinimumInput(5);
                     
@@ -68,7 +67,6 @@ namespace TH_Bank
 
                     userDataHandler.Save(userFactory.CreateUser(userName, passWord, null, null, "Admin"));
 
-                }
                 
             }
         }
