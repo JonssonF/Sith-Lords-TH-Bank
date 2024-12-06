@@ -224,9 +224,10 @@ namespace TH_Bank
         // Method for making a transaction which results in a new Transaction object
         {
             ShowAccounts(user, adh);
-            Console.WriteLine("\n[1] - Transaction between own accounts");
-            Console.WriteLine("[2] - Transaction to external account");
-            int transChoice = Format.Choice(2);
+            Console.WriteLine("\n[1] - Transaction between own accounts" +
+                              "\n[2] - Transaction to external account" +
+                              "\n[3] - Return to menu");
+            int transChoice = Format.Choice(3);
             Console.Clear();
             ShowAccounts(user, adh);
 
@@ -282,6 +283,10 @@ namespace TH_Bank
                         Console.ReadKey();
                         ShowMenu();
                     }
+                    break;
+                case 3:
+                    Console.Clear();
+                    ShowMenu();
                     break;
             }
 
