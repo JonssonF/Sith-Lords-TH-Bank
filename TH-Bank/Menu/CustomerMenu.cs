@@ -12,8 +12,8 @@ namespace TH_Bank
             {
 
                 "1. Accounts",
-                "2. Show transactions",
-                "3. Perform transaction",
+                "2. New transaction",
+                "3. View transactions",
                 "4. Loan",
                 "5. Open new account",
                 "6. Logout",
@@ -54,12 +54,11 @@ namespace TH_Bank
                         ShowMenu();
                         break;
                     case 2:
-                        ShowTransactions(ActiveUser.GetInstance(), new TransactionDataHandler());
-                        break;
-                    case 3:
                         MakeTransaction(ActiveUser.GetInstance(), new AccountDataHandler(), new TransactionDataHandler());
                         break;
-
+                    case 3:
+                        ShowTransactions(ActiveUser.GetInstance(), new TransactionDataHandler());
+                        break;
                     case 4:
                         LoanSection(ActiveUser.GetInstance(), new LoanDataHandler());
                         Console.Clear();
@@ -77,7 +76,6 @@ namespace TH_Bank
                     case 7:
                         Close(); // Close application.
                         break;
-
                     case 8:
                         break;
                 }
