@@ -36,6 +36,8 @@
             }
 
             Console.WriteLine($"You created a new User ({userDataHandler.Load(userName).UserType}): {userDataHandler.Load(userName).UserName}");
+            Console.WriteLine($"Press any key to return to menu");
+            Console.ReadKey(true);
 
             void CreateCustomer()
             {

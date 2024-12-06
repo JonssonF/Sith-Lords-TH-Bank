@@ -2,6 +2,7 @@
 
 using System.Diagnostics;
 using System.Runtime.Serialization;
+using System.Security.Cryptography.X509Certificates;
 
 namespace TH_Bank
 {
@@ -22,10 +23,12 @@ namespace TH_Bank
             menuWidth = CalculateWidth(extraWidth: 10);
         }
 
-        public override void ShowMenu()
+
+
+        public override void MenuChoices()
         {
-            Console.Clear();
-            LogoText();
+            optionCount = _menu.Length; // Combined with Choice method from MenuClass wrongful inputs can't be made.
+            access = true;
             if (TimeToReview())
             {
                 Console.Beep();
@@ -34,33 +37,8 @@ namespace TH_Bank
                 Console.ForegroundColor = ConsoleColor.Gray;
                 UpdateExchangeRates();
             }
-            DrawBorder();
 
-            
-
-            foreach (string item in _menu)
-            {
-                DrawMenuItem(item);
-            }
-            
-            DrawBorder();
-            MenuAdmin();
-        }
-
-        public override void ShowAccounts(User user, AccountDataHandler activeUser)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        public void MenuAdmin()
-        {
-            optionCount = _menu.Length; // Combined with Choice method from MenuClass wrongful inputs can't be made.
-            access = true;
-            while (access)
-            {
-                
-                int adminChoice = Format.Choice(optionCount); 
+            int adminChoice = Format.Choice(optionCount); 
                 switch (adminChoice)
                 {
 
@@ -90,7 +68,7 @@ namespace TH_Bank
                     default:
                         break;
                 }
-            }
+            
         }
 
         public void UpdateExchangeRates()
