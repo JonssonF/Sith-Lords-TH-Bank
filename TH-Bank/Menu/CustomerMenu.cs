@@ -29,8 +29,7 @@ namespace TH_Bank
         {
             optionCount = _menu.Length; // Combined with Choice method from MenuClass wrongful inputs can't be made.
             access = true;
-            while (access)
-            {
+
                 int customerChoice = Format.Choice(optionCount);
                 switch (customerChoice)
                 {
@@ -67,8 +66,10 @@ namespace TH_Bank
                         break;
                     case 8:
                         break;
+                    default:
+                        break;
                 }
-            }
+            
         }
         public void ShowAccounts(User user, AccountDataHandler activeUser)
         {
@@ -216,8 +217,6 @@ namespace TH_Bank
             }
             Console.Write("\nPress any key to return to menu. . .");
             Console.ReadKey();
-            Console.Clear();
-            ShowMenu();
         }
 
         public void MakeTransaction(User user, AccountDataHandler adh, TransactionDataHandler tdh)
@@ -293,8 +292,8 @@ namespace TH_Bank
                     }
                     break;
                 case 3:
-                    Console.Clear();
-                    ShowMenu();
+                    break;
+                default:
                     break;
             }
 
@@ -347,8 +346,6 @@ namespace TH_Bank
             }
             Console.Write("Press any key to return to menu. . .");
             Console.ReadKey();
-            Console.Clear();
-            ShowMenu();
         }
 
         public int ValidOwnAccount(string toOrFrom)  // Method for valid user input regarding own accounts
@@ -435,8 +432,7 @@ namespace TH_Bank
             Account account = accountFactory.CreateAccount(user.Id, balance, currency, userchoice);
             Console.WriteLine("\nPress any key to return to menu. . .");
             Console.ReadKey();
-            Console.Clear();
-            ShowMenu();
+
         }
         public void LoanSection(User user, LoanDataHandler loanUser)
         {
