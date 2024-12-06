@@ -2,14 +2,31 @@
 {
     public abstract class Menu
     {
-        internal int optionCount;
-        internal bool access;
-        internal string[]? _menu;
-        internal int menuWidth;
+        protected int optionCount;
+        protected bool access;
+        protected string[]? _menu;
+        protected int menuWidth;
 
-        public abstract void ShowMenu();
+        public void ShowMenu()
+        {
+            do
+            {
+                LogoText();
 
-        public abstract void ShowAccounts(User user, AccountDataHandler activeUser);
+                DrawBorder();
+
+                foreach (string item in _menu)
+                {
+                    DrawMenuItem(item);
+                }
+
+                DrawBorder();
+                MenuChoices();
+                Console.Clear();
+            } while (access);
+        }
+
+        public abstract void MenuChoices();
 
         internal void Return() // Method to return to Login.
         {
@@ -17,7 +34,7 @@
             Console.WriteLine("Taking you to home screen.");
             Thread.Sleep(2000);
             Console.Clear();
-            ActiveUserSingleton.Reset();
+            ActiveUser.Reset();
             Program.LogIn(new UserDataHandler());
             access = false;
             bool login = true;
@@ -36,7 +53,7 @@
 
         public void LogoText()
         {
-            User current = ActiveUserSingleton.GetInstance();
+            User current = ActiveUser.GetInstance();
             
             Console.Write("" +
                 " _____ _   _  ______  ___  _   _ _   __\r\n" +
@@ -59,7 +76,7 @@
                     maxWidth = item.Length;
                 }
             }
-            return maxWidth + 6 + extraWidth;
+            return maxWidth + 4 + extraWidth;
         }
 
         internal void DrawBorder()

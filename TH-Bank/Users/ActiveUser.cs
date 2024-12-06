@@ -1,11 +1,11 @@
 ﻿namespace TH_Bank
 {
-    public sealed class ActiveUserSingleton : User
+    public sealed class ActiveUser : User
     {
         public override string UserType { get; }
 
         private static User? _instance;
-
+         
         public override string ToString()
         {
             return _instance.ToString();
@@ -13,7 +13,7 @@
 
         // private constructor makes sure we can't create multiple
         // active user objects
-        private ActiveUserSingleton(string id, string passWord, string userName) : base(id, passWord, userName)
+        private ActiveUser(string id, string passWord, string userName) : base(id, passWord, userName)
         {
 
         }

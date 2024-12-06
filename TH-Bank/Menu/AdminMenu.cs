@@ -2,28 +2,33 @@
 
 using System.Diagnostics;
 using System.Runtime.Serialization;
+using System.Security.Cryptography.X509Certificates;
 
 namespace TH_Bank
 {
     public class AdminMenu : Menu
     {
+        UserFacade userFacade;
         public AdminMenu()
         {
+            userFacade = new UserFacade();
             _menu = new string[] // Menu in array = easy to add options.
         {
-            "1. Add new customer.",
+            "1. Add a new user to system.",
             "2. Handle suspended customers.",
-            "3. Change currency exchange rate.",
+            "3. Change currency exchange rates.",
             "4. Logout.",
             "5. Exit program.",
         };
             menuWidth = CalculateWidth(extraWidth: 10);
         }
 
-        public override void ShowMenu()
+
+
+        public override void MenuChoices()
         {
-            Console.Clear();
-            LogoText();
+            optionCount = _menu.Length; // Combined with Choice method from MenuClass wrongful inputs can't be made.
+            access = true;
             if (TimeToReview())
             {
                 Console.Beep();
@@ -32,44 +37,19 @@ namespace TH_Bank
                 Console.ForegroundColor = ConsoleColor.Gray;
                 UpdateExchangeRates();
             }
-            DrawBorder();
 
-            
-
-            foreach (string item in _menu)
-            {
-                DrawMenuItem(item);
-            }
-            
-            DrawBorder();
-            MenuAdmin();
-        }
-
-        public override void ShowAccounts(User user, AccountDataHandler activeUser)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        public void MenuAdmin()
-        {
-            optionCount = _menu.Length; // Combined with Choice method from MenuClass wrongful inputs can't be made.
-            access = true;
-            while (access)
-            {
-                
-                int adminChoice = Format.Choice(optionCount); 
+            int adminChoice = Format.Choice(optionCount); 
                 switch (adminChoice)
                 {
 
                     case 1:
                         // Add new customer. 
-                        CreateUser(new UserDataHandler(), new UserFactory());
+                        userFacade.CreateUser();
                         break;
 
                     case 2:
                         // Unblock user.
-                        UnblockUser(new UserDataHandler());
+                        userFacade.UnblockUser();
                         break;
 
                     case 3:
@@ -88,105 +68,36 @@ namespace TH_Bank
                     default:
                         break;
                 }
-            }
-        }
-
-        public void CreateUser(UserDataHandler userData, UserFactory userFactory)
-        {
-            Console.WriteLine("What type of user do you want to create?");
-            Console.WriteLine("1. Customer");
-            Console.WriteLine("2. Admin");
-            int choice = Format.Choice(2);
-
-            string firstName = "";
-            string lastName = "";
-            //string userChoice = "";
-            string passWord = "";
-            string userName = "";
-
-            switch(choice)
-            {
-                case 1:
-                    CreateCustomer();
-                    break;
-                case 2:
-                    CreateAdmin();
-                    break;
-                default:
-                    throw new Exception("Invalid menu choice");
-            }
-
-            Console.WriteLine($"You created a new User ({userData.Load(userName).UserType}): {userData.Load(userName).UserName}");
-
-            void CreateCustomer()
-            {
-                Console.WriteLine("Enter Customer First Name");
-                firstName = Console.ReadLine(); 
-                Console.WriteLine("Enter Customer Last Name");
-                lastName = Console.ReadLine();
-                Console.WriteLine("Enter a UserName for Customer");
-                userName = Console.ReadLine();
-                Console.WriteLine("Enter a Password for Customer");
-                passWord = Console.ReadLine();
-
-                userData.Save(userFactory.CreateUser(userName, passWord,firstName, lastName, "Customer"));
-            }
-
-            void CreateAdmin()
-            {
-                Console.WriteLine("Enter a UserName for new Admin");
-                userName = Console.ReadLine();
-                Console.WriteLine("Enter a Password for new Admin");
-                passWord = Console.ReadLine();
-
-                userData.Save(userFactory.CreateUser(userName, passWord, null, null, "Admin"));
-            }
-        }
-
-        public void UnblockUser(UserDataHandler userDataHandler)
-        {
-            List<User> allUsers = userDataHandler.LoadAll();
-            List<User> blockedUsers = new List<User>();
-
-            foreach(User user in allUsers)
-            {
-                if(user.IsBlocked == true)
-                {
-                    blockedUsers.Add(user);
-                }
-            }
-
-            if(blockedUsers.Count > 0)
-            {
-
-            Console.WriteLine("Blocked Users:");
-            foreach(User user in blockedUsers)
-            {  
-                    Console.WriteLine($"{blockedUsers.IndexOf(user) +1}: {user.Id}: {user.UserName} ({user.UserType})");
-            }
-
-            Console.WriteLine("Which user do you want to unblock? Select a number from the list.");
-            int unblockThis = Format.Choice(allUsers.Count);
-
-            var unblockMe = blockedUsers[unblockThis - 1];
-
-            unblockMe.IsBlocked = false;
-
-            userDataHandler.Save(unblockMe);
-
-            Console.WriteLine($"You have unblocked user {unblockMe.UserName}!");
-                Console.WriteLine("Press any key to return to menu."); 
-                Console.ReadKey(true);
-            }
-            else
-            {
-                    Console.WriteLine("There are no blocked users currently! Press any key to return to menu.");
-                    Console.ReadKey(true);
-            }
+            
         }
 
         public void UpdateExchangeRates()
         {
+            Console.WriteLine("Current exchange rates:");
+            ExchangeCurrency.ViewAllRates();
+            Console.WriteLine($"Currencies were last approved {ExchangeCurrency.GetLastReview().ToString()}.");
+            Console.WriteLine("--------------");
+            Console.WriteLine("1. Approve current rates");
+            Console.WriteLine("2. Edit rates");
+            int appOrChange = Format.Choice(2);
+            bool editing = false;
+
+            if (appOrChange == 1)
+            {
+
+                ExchangeCurrency.Review(DateTime.Now);
+                Console.WriteLine("Current exchange rates have been approved!");
+
+            }
+            else
+            {
+                editing = true;
+            }
+
+            while(editing)
+            {
+
+
             Console.WriteLine("Chooce a currency to edit:");
             int loop = 1;
             foreach (Currency c in ExchangeCurrency.currencies)
@@ -215,7 +126,22 @@ namespace TH_Bank
             chosen.ExchangeRates[keys[choice]] = Double.Parse(Console.ReadLine());
             Console.WriteLine($"New rate for {chosen.NameShort} -> {keys[choice]}: {chosen.ExchangeRates[keys[choice]]} ");
             xdh.Save(chosen);
-            ExchangeCurrency.Review(DateTime.Now);
+                Console.WriteLine("Do you wish to edit another rate?");
+                Console.WriteLine("1. Yes");
+                Console.WriteLine("2. No");
+                int again = Format.Choice(2);
+                if(again == 1)
+                {
+                    Console.Clear();
+                }
+                else
+                {
+                    ExchangeCurrency.Review(DateTime.Now);
+                    Console.WriteLine("Currency review is done");
+                    editing = false;
+                }
+            
+            }
         }
 
         public bool TimeToReview()

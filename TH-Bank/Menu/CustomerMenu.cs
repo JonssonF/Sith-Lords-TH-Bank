@@ -12,8 +12,8 @@ namespace TH_Bank
             {
 
                 "1. Accounts",
-                "2. Show transactions",
-                "3. Perform transaction",
+                "2. New transaction",
+                "3. View transactions",
                 "4. Loan",
                 "5. Open new account",
                 "6. Logout",
@@ -23,20 +23,9 @@ namespace TH_Bank
             menuWidth = CalculateWidth(extraWidth: 10);
         }
 
-        public override void ShowMenu()
-        {
-            Console.Clear();
-            LogoText();
-            DrawBorder();
-            foreach (string item in _menu)
-            {
-                DrawMenuItem(item);
-            }
-            DrawBorder();
-            MenuCustomer();
-        }
 
-        public void MenuCustomer()
+
+        public override void MenuChoices()
         {
             optionCount = _menu.Length; // Combined with Choice method from MenuClass wrongful inputs can't be made.
             access = true;
@@ -47,26 +36,25 @@ namespace TH_Bank
                 {
 
                     case 1:
-                        ShowAccounts(ActiveUserSingleton.GetInstance(), new AccountDataHandler());
+                        ShowAccounts(ActiveUser.GetInstance(), new AccountDataHandler());
                         Console.Write("Press any key to return to menu. . .");
                         Console.ReadKey();
                         Console.Clear();
                         ShowMenu();
                         break;
                     case 2:
-                        ShowTransactions(ActiveUserSingleton.GetInstance(), new TransactionDataHandler());
+                        MakeTransaction(ActiveUser.GetInstance(), new AccountDataHandler(), new TransactionDataHandler());
                         break;
                     case 3:
-                        MakeTransaction(ActiveUserSingleton.GetInstance(), new AccountDataHandler(), new TransactionDataHandler());
+                        ShowTransactions(ActiveUser.GetInstance(), new TransactionDataHandler());
                         break;
-
                     case 4:
-                        LoanSection(ActiveUserSingleton.GetInstance(), new LoanDataHandler());
+                        LoanSection(ActiveUser.GetInstance(), new LoanDataHandler());
                         Console.Clear();
                         ShowMenu();
                         break;
                     case 5:
-                        CreateNewAccount(ActiveUserSingleton.GetInstance(), new AccountFactory(), new AccountDataHandler());
+                        CreateNewAccount(ActiveUser.GetInstance(), new AccountFactory(), new AccountDataHandler());
                         Thread.Sleep(2500);
                         Console.Clear();
                         ShowMenu();
@@ -77,13 +65,12 @@ namespace TH_Bank
                     case 7:
                         Close(); // Close application.
                         break;
-
                     case 8:
                         break;
                 }
             }
         }
-        public override void ShowAccounts(User user, AccountDataHandler activeUser)
+        public void ShowAccounts(User user, AccountDataHandler activeUser)
         {
             Console.Clear();
             int width = 20;
@@ -205,7 +192,7 @@ namespace TH_Bank
             foreach (var t in tList)
             {
                 textColor = ConsoleColor.Gray;        // Transactions between own accounts are Gray
-                string signedAmount = t.Amount.ToString();
+                string signedAmount = t.Amount.ToString("0.00");
 
                 if (t.FromAccount.OwnerID != user.Id && t.ToAccount.OwnerID == user.Id)
                 {
@@ -237,9 +224,10 @@ namespace TH_Bank
         // Method for making a transaction which results in a new Transaction object
         {
             ShowAccounts(user, adh);
-            Console.WriteLine("\n[1] - Transaction between own accounts");
-            Console.WriteLine("[2] - Transaction to external account");
-            int transChoice = Format.Choice(2);
+            Console.WriteLine("\n[1] - Transaction between own accounts" +
+                              "\n[2] - Transaction to external account" +
+                              "\n[3] - Return to menu");
+            int transChoice = Format.Choice(3);
             Console.Clear();
             ShowAccounts(user, adh);
 
@@ -265,14 +253,22 @@ namespace TH_Bank
                     }
                     else
                     {
-                        fromAccount = allAccounts[accChoiceFrom - 1];
-                        toAccount = allAccounts[accChoiceTo - 1];
+                        fromAccount = userAccounts[accChoiceFrom - 1];
+                        toAccount = userAccounts[accChoiceTo - 1];
+                        if (fromAccount.Balance <= 0)
+                        {
+                            Console.WriteLine("The account is empty. Transaction aborted." +
+                                "\nPress any key to return to menu. . .");
+                            Console.ReadKey();
+                            Console.Clear();
+                            ShowMenu();
+                        }
                     }
                     break;
                 case 2:
                     Console.WriteLine("\n[2] Transaction to external account\n");
                     int accChoice = ValidOwnAccount("from");
-                    fromAccount = allAccounts[accChoice - 1];
+                    fromAccount = userAccounts[accChoice - 1];
                     Console.WriteLine("Enter recieving account number: ");
                     int toAccountInt = Format.IntegerInput(6);
 
@@ -296,58 +292,63 @@ namespace TH_Bank
                         ShowMenu();
                     }
                     break;
+                case 3:
+                    Console.Clear();
+                    ShowMenu();
+                    break;
             }
-            Console.WriteLine("Enter amount to transfer: ");
-            decimal amount = Format.DecimalInput();
-            if (amount > fromAccount.Balance)    // If amount to transfer > balance - abort
+
+            decimal amount = 0;
+            do
             {
-                Console.WriteLine("\nTransaction not possible. Check your balance.\nPress any key to return to menu. . .");
-                Console.ReadKey();
-                Console.Clear();
-                ShowMenu();
+                Console.WriteLine("Enter amount to transfer: ");
+                amount = Format.DecimalInput();
+                if (amount > fromAccount.Balance)
+                {
+                    Console.WriteLine("Invalid amount - check your balance");
+                }
             }
-            else   // Amount to transfer is ok - proceed
+            while (amount > fromAccount.Balance);
+
+            Console.Clear();
+            ShowAccounts(user, adh);
+            Console.WriteLine($"\n[{amount.ToString("0.00")} {fromAccount.Currency}] will be tranferred from account " +
+                $"[{fromAccount.AccountNumber}] to account [{toAccount.AccountNumber}]" +
+                $"\nDo you wish to continue?\n\n[1] - Yes\n[2] - No");   // Possibility for user to abort transaction
+
+            int proceed = Format.Choice(2);
+            if (proceed == 1)
             {
+                Console.ForegroundColor = ConsoleColor.Green;    // Fictive processing...
+                string Proccess = "Processing...";
+                string rounds = "1";
+                foreach (char c in rounds)
+                {
+                    Console.Clear();
+                    foreach (char d in Proccess)
+                    {
+                        Console.Write(d);
+                        Thread.Sleep(35);
+                    }
+                }
+                Console.ResetColor();                                   // New transaction object created
+                Transaction transaction = new TransactionFactory().CreateTransaction(amount, fromAccount, toAccount);
+                TransactionSender transactionSender = TransactionSender.GetInstance();
+                transactionSender.AddPendingTransaction(transaction);    // Transaction from account is updated immediately
+                                                                         // Transaction to account is added to Pending Transactions
+                tdh.Save(transaction);                                   // and executed at specific intervals.
                 Console.Clear();
                 ShowAccounts(user, adh);
-                Console.WriteLine($"\n[{amount} {fromAccount.Currency}] will be tranferred from account " +
-                    $"[{fromAccount.AccountNumber}] to account [{toAccount.AccountNumber}]" +
-                    $"\nDo you wish to continue?\n\n[1] - Yes\n[2] - No");   // Possibility for user to abort transaction
-
-                int proceed = Format.Choice(2);
-                if (proceed == 1)
-                {
-                    Console.ForegroundColor = ConsoleColor.Green;    // Fictive processing...
-                    string Proccess = "Processing...";
-                    string rounds = "1";
-                    foreach (char c in rounds)
-                    {
-                        Console.Clear();
-                        foreach (char d in Proccess)
-                        {
-                            Console.Write(d);
-                            Thread.Sleep(35);
-                        }
-                    }
-                    Console.ResetColor();                                   // New transaction object created
-                    Transaction transaction = new TransactionFactory().CreateTransaction(amount, fromAccount, toAccount);
-                    TransactionSender transactionSender = TransactionSender.GetInstance();
-                    transactionSender.AddPendingTransaction(transaction);    // Transaction from account is updated immediately
-                                                                             // Transaction to account is added to Pending Transactions
-                    tdh.Save(transaction);                                   // and executed at specific intervals.
-                    Console.Clear();
-                    ShowAccounts(user, adh);
-                    Console.WriteLine($"\nTransaction successful!\nRecieving account will be updated shortly.");
-                }
-                else if (proceed == 2)
-                {
-                    Console.WriteLine("\nTransaction aborted.");
-                }
-                Console.Write("Press any key to return to menu. . .");
-                Console.ReadKey();
-                Console.Clear();
-                ShowMenu();
+                Console.WriteLine($"\nTransaction successful!\nRecieving account will be updated shortly.");
             }
+            else if (proceed == 2)
+            {
+                Console.WriteLine("\nTransaction aborted.");
+            }
+            Console.Write("Press any key to return to menu. . .");
+            Console.ReadKey();
+            Console.Clear();
+            ShowMenu();
         }
 
         public int ValidOwnAccount(string toOrFrom)  // Method for valid user input regarding own accounts
@@ -387,6 +388,7 @@ namespace TH_Bank
             Console.WriteLine("[3] EUR - EU Euro. ");
             Console.Write("Enter currency: ");
             int currencyChoice = Format.Choice(3);
+            Console.WriteLine(currencyChoice);
             string currency = "";
             switch (currencyChoice)
             {
@@ -406,10 +408,11 @@ namespace TH_Bank
             Console.WriteLine(" ");
             Console.WriteLine(new string('-', 80));
             Console.WriteLine("What type of bank account would you like to open?\n");
-            Console.WriteLine("[1] Salaryaccount ");
-            Console.WriteLine("[2] Savingsaccount ");
+            Console.WriteLine("[1] - Salaryaccount ");
+            Console.WriteLine("[2] - Savingsaccount ");
             Console.Write("\nEnter account type: ");
             int accountChoice = Format.Choice(2);
+            Console.WriteLine(accountChoice);
             string userchoice = "";
 
             switch (accountChoice)
@@ -432,6 +435,7 @@ namespace TH_Bank
             Account account = accountFactory.CreateAccount(user.Id, balance, currency, userchoice);
             Console.WriteLine("\nPress any key to return to menu. . .");
             Console.ReadKey();
+            Console.Clear();
             ShowMenu();
         }
         public void LoanSection(User user, LoanDataHandler loanUser)
@@ -468,10 +472,10 @@ namespace TH_Bank
             {
                 case 1:
 
-                    ApplyForLoan(ActiveUserSingleton.GetInstance(), new LoanDataHandler(), new LoanFactory(), new AccountDataHandler());
+                    ApplyForLoan(ActiveUser.GetInstance(), new LoanDataHandler(), new LoanFactory(), new AccountDataHandler());
                     break;
                 case 2:
-                    ShowLoans(ActiveUserSingleton.GetInstance(), new LoanDataHandler());
+                    ShowLoans(ActiveUser.GetInstance(), new LoanDataHandler());
                     break;
                 case 3:
                     ShowLoanRates();
@@ -498,7 +502,7 @@ namespace TH_Bank
                 Console.WriteLine(new string('-', 80));
                 Console.Write("Press any key to return to menu. . .");
                 Console.ReadKey();
-                LoanSection(ActiveUserSingleton.GetInstance(), new LoanDataHandler());
+                LoanSection(ActiveUser.GetInstance(), new LoanDataHandler());
 
             }
             void ShowLoans(User user, LoanDataHandler loanUser)
@@ -552,7 +556,7 @@ namespace TH_Bank
                 }
                 Console.Write("Press any key to go back. . .");
                 Console.ReadKey();
-                LoanSection(ActiveUserSingleton.GetInstance(), new LoanDataHandler());
+                LoanSection(ActiveUser.GetInstance(), new LoanDataHandler());
             }
 
 
@@ -589,7 +593,7 @@ namespace TH_Bank
                         IntroLoan();
                         return;
                     case 3:
-                        LoanSection(ActiveUserSingleton.GetInstance(), new LoanDataHandler()); // Returns to loan section.
+                        LoanSection(ActiveUser.GetInstance(), new LoanDataHandler()); // Returns to loan section.
                         return;
                     default:
                         throw new Exception("Invalid menu choice");
@@ -619,7 +623,7 @@ namespace TH_Bank
                         Credibility();
                         break;
                     case 2:
-                        LoanSection(ActiveUserSingleton.GetInstance(), new LoanDataHandler());
+                        LoanSection(ActiveUser.GetInstance(), new LoanDataHandler());
                         break;
                     default: throw new Exception("Invalid menu choice");
                 }
@@ -692,7 +696,7 @@ namespace TH_Bank
                         PresentLoan(userTime, intCal, amount);
                         break;
                     case 4:
-                        LoanSection(ActiveUserSingleton.GetInstance(), new LoanDataHandler());
+                        LoanSection(ActiveUser.GetInstance(), new LoanDataHandler());
                         break;
                     default:
                         Console.WriteLine("Unvalid option. Loan denied.");
@@ -735,7 +739,7 @@ namespace TH_Bank
                 switch (choice)
                 {
                     case 1:
-                        SaveLoan(ActiveUserSingleton.GetInstance(), new LoanDataHandler(), new LoanFactory(), new AccountDataHandler(), intCal, amount);
+                        SaveLoan(ActiveUser.GetInstance(), new LoanDataHandler(), new LoanFactory(), new AccountDataHandler(), intCal, amount);
                         break;
                     case 2:
                         Console.Clear();
@@ -774,7 +778,7 @@ namespace TH_Bank
                     $"::Approved: [ {loanTimeStamp.ToString("yyy-MM-dd")} ]" +
                     $"::Expires: [ {LastPay.ToString("yyy-MM-dd")} ]");
                 Console.WriteLine(new string('-', 80));
-                ShowAccounts(ActiveUserSingleton.GetInstance(), new AccountDataHandler());
+                ShowAccounts(ActiveUser.GetInstance(), new AccountDataHandler());
 
                 Console.WriteLine("Wich account would you like the loan to be deposited into?");
                 List<Account> accounts = activeUser.LoadAll(user.Id);

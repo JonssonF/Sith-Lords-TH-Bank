@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Globalization;
 
 namespace TH_Bank
 {
@@ -131,5 +126,38 @@ namespace TH_Bank
             return int.Parse(accountNumber);
         }
 
+    
+    public static string StringMinimumInput(int minimumInput) // Method to only accept valid keypress
+    {
+        bool isNumber = false;
+        string toReturn = "";
+        ConsoleKeyInfo cki;
+        char character;
+
+        do
+        {   // Takes input 
+            cki = Console.ReadKey(true);
+            character = cki.KeyChar;
+
+            if (cki.Key != ConsoleKey.Backspace && cki.Key != ConsoleKey.Enter)
+            {
+                        toReturn += cki.KeyChar;
+                        Console.Write(cki.KeyChar); 
+            } // Backspace key delete characters from the string
+            else if (cki.Key == ConsoleKey.Backspace && toReturn.Length > 0)
+            {
+                toReturn = toReturn.Substring(0, (toReturn.Length - 1));
+                Console.Write("\b \b");
+            }
+ 
+                
+            // Exits while loop when user presses enter after entering at least x characters
+        } while (cki.Key != ConsoleKey.Enter || toReturn.Length < minimumInput);
+
+        Console.WriteLine();
+
+
+        return toReturn;
+    }
     }
 }

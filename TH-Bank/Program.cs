@@ -1,5 +1,6 @@
 ﻿
 
+using System.Media;
 using System.Security;
 using System.Security.Cryptography.X509Certificates;
 
@@ -16,12 +17,11 @@ namespace TH_Bank
             Console.ReadLine();
         }
 
-        // Creates save files and fills them with default values, if they don't exist already
         public static void CreateFiles()
         {
             string[] defaultUsers =
             {
-                "User ID/Username/Password/First name/Last name/User type",
+                "USERID/USERNAME/PASSWORD/FIRSTNAME*/LASTNAME*/USERTYPE",
                 "CUS00000000|UserName|Password|FirstName|LastName|Customer",
                 "ADM00000000|Admin|Password|Admin"
             };
@@ -70,12 +70,8 @@ namespace TH_Bank
                     "MortgageLoan|0,05",
                     "///ENDINTERESTRATES///",
                 };
-            string[] defaultTransactions =
-            {
-                "Transaction ID/Date and time/Amount/From account number/To account number/Currency/From user id/To user id"
-                
 
-            };
+
 
             if (!File.Exists(FilePaths.AccountPath))
             {
@@ -87,7 +83,7 @@ namespace TH_Bank
             }
             if (!File.Exists(FilePaths.TransactionPath))
             {
-                File.AppendAllLines(FilePaths.TransactionPath, defaultTransactions);
+                File.Create(FilePaths.TransactionPath);
             }
             if (!File.Exists(FilePaths.SystemPath))
             {
@@ -114,13 +110,17 @@ namespace TH_Bank
 
             while (!userValidation)
             {
-                
-                
-                Console.WriteLine("Welcome to TH-Bank.");
+                //SoundPlayer sound = new SoundPlayer(@"MzU4NDE2MzM1ODQ1MQ_tNMVHRnt0Rw.wav");
+                //sound.Play();
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                Console.WriteLine("                                                                                                  \r\n                         ..:                                                                        \r\n                        .:...                                                                       \r\n                       .+x+ ..                                                                      \r\n                  .. ..xxxx;..  .                                                                   \r\n             .:xXx: .;Xxxxxx;  ;.. .                                                                \r\n          .:+XxX+..:xXxxxxxxx:..xx+. .             .      ..                                        \r\n       ..:xxx+:...;xxxxxxxxxxx...xxx+..         .x&&&X$&X...                                        \r\n     . .+xXx:....+xxxxxxx+xxxxx. .;xxx:       .x$$$X$$$&;. .                                        \r\n      .+X++... .:xxxxxxxxxxxxxxx.. .x+X;  .  +&$&X....&$:..:;:...                                   \r\n     .+xx:.. ....;xXxXxxxxXxxxxx..   xxx.   ;&&$$x.  .x+.. .$&&&..;&&&&&&&X+;;.........    ...      \r\n    .;xX;...:;....+Xxxxxxx+xxx;...   .xxx.  :$&&X&;  ...  .:$&&$...xx$&&$&$$$X..;&&&&+....:XXx+..   \r\n   ..Xx+...;XX;.. .+XXxXxxxxx.....:.. :Xx;   +$&&&$:      .:&&$+ .....X&&&.......x&&$:....:&$&&...  \r\n   .:Xx:..xXxxx;  ..xxxxxxx;... :xx:...+xX   .+&&&&&..   . :&$$+ .....$$&&.......X&&&.....:&&&&:.   \r\n   .;xx;..:xxxxx;. ..xxxxx..  .+xxxx: .;xx ... +$&&&&.     :&$&.......$&$$.......X&&&.....x&&&&..   \r\n   .:Xx;...;xxXXx:..;XxXx:...:xxxxxx;..;XX .....&$&$$$    .X&$&.......&$$&......:$&$&.....;&&&x..   \r\n   ..Xx;....;XxxXXxxxXXXXX..;xXxXxx...:XXx .... .$$&&&X.. .&&$$ ......$$&$ .....:&&&&:....X&&&X..   \r\n   ..+Xx:....+XX+xxXXxXXXXXx+.      ..;xx.........x&$$&;...&&&x......:&$&:......;&$&&$&$&&&&&&;...  \r\n   ...xxx.....xxXxxxXxXxxxX+..:;;;;;. .++.........;&X&X;...&&&:......+&&&.......;&&&X+xxx$&&&&...   \r\n    ...xXx:....xxxxxXxxXxxx+..X&&&&&$ .:.........:$&&&X...x&$&:......$&&&.......x&&&......$&&$...   \r\n    .:..+xX+...:XxxXxxxxxXX+..x&&$$&$...........x&$$$;....x&&&:......X&&$.......+&&&......&&&x..    \r\n     ::..+xxX;..:XXxxXXXxxxx...&&$&$:..........$&$+.......$&&&:......&&&+.......$&&x......&&&:..    \r\n      .::..+Xx+..;XxxXxXXX+....&&$&&.........x&&X........ +&$X.......&&&;.......&&&;.....:&&&:..    \r\n        .;...:x+..;Xxxxxx:.....&&&&$.......:$$..............:;........X&;.......+&&;.....:&&&:..    \r\n          .::......+Xxx+...;..+$&$&+.....;&x:.....................................+.......:$$:..    \r\n             .;:.:..xX;.......+&&$$:..........x&&&&&&&&$$x+...;:............................:..     \r\n                 ....:.:;;;X..X&&$$:.........x&&&&x+xX$&&&&:..$&&&&&$&$XX+....++;::............     \r\n                  ....:.   ...X&&&&:.........x&$&x:...;&&&&...X&&&&x&$&&&&$..:$&$&&&&&&&&$$x:.      \r\n                   .X;.    ..:$&$$&:.........x&&$x....:&&&&:..$&$&;...x&&&&...$&&&&&X&&&&&&&;..     \r\n                          ...x&$&&X:.........x&&&x....:&&&&...X&$&;..:X&&&$...X&&&$:...+&&&$;..     \r\n                          ...x&$&&+.........+&$&&;....X&$&&...$&&X...:$$$&x...X&&$X....+&&&$;..     \r\n                          ...x&&$$+.........+&&&X+....$&&&X..:&&&x...:&$$$X...X&&&+....x&&&$:..     \r\n                          ..:X&&&$;.........+&&$&+...:&&&&X..x&&&x..x$&&&&...:&&&&+....x&&&$:..     \r\n                          ...X&&$X..........+&&&$:....&&&&;..X&&&&$$&&&&X....:&&&&+....x&&&X..      \r\n                          ..;$&&&X..........x&&&X....:&&&&:..x$&$$&$$$$x.....+&&&&+...;$&&&X..      \r\n                          ..+&&&&x.........:&&&&$....:&&&&...X$&&x..&&&X:....;&&&&;...;&&&&X..      \r\n                         ..:X&&&&x.........:$&&&$....+&&&&..:$&&$;..X&&&;....x&&&$;...;$&&&x.:      \r\n                         ...;$&&&&$$$$&$x..:X&&&$;;:;&&&&;..;$&&x....&&&+....X&&&X:...;&&&&;::      \r\n                          ...;$&&&&Xx+...:..x&&&&&&&&$&$&:..;$&&;....X&&&:..:$&&&X:...+&&&&::.      \r\n                           .:.;&x;...;+;::::..:;::;+xXXx;...:X&$:....:&&&+..:$&&&$;::X&&&X:::       \r\n                            ::...:;::.     :;;+;;:...:.::;&;..:&::xx;::X&&..;$&&&&&&&&&X::;:        \r\n                             .+:..               ..;;:.    ::;::::. :;;:.;.:::;;:;;+x+::;:.         \r\n                                                             :+++;    :;+;;++;;;;;;;;;;:            \r\n                                                                        .:.   ....:::               ");
+                Console.ReadKey();
+                sound.Stop();
+                Console.ResetColor();
+                Console.WriteLine("Welcome!");
                 Console.WriteLine("Please enter your username: ");
                 userName = Console.ReadLine();
 
-                // Handle empty userinput
                 if (string.IsNullOrEmpty(userName))
                 {
                     Console.WriteLine("Username cannot be empty, try again.");
@@ -163,8 +163,8 @@ namespace TH_Bank
                 {
 
                     // Successful login! Loads user into active user spot
-                    var activeUser = ActiveUserSingleton.SetInstance(userDataHandler.Load(userName));
-                    
+                    var activeUser = ActiveUser.SetInstance(userDataHandler.Load(userName));
+                    Console.Clear();
                     LoadMenu(activeUser);
                     break;
                 }
@@ -178,7 +178,7 @@ namespace TH_Bank
                 {
                     Console.Clear();
                     Console.WriteLine("You have been denied access.\nContact us" +
-                        " between office hours (9:30 AM - 10 AM on Wednesdays.");
+                        " between office hours (9:30 AM - 10 AM on Wednesdays.)");
                     User blockme = userDataHandler.Load(userName);
                     blockme.IsBlocked = true;
                     userDataHandler.Save(blockme);
@@ -209,7 +209,7 @@ namespace TH_Bank
             }
             else
             {
-                throw new Exception($"Ingen meny matchar användare av typen: {user.UserType}");
+                throw new Exception($"Can't find menu that matches user type: {user.UserType}");
             }
 
             menu.ShowMenu();

@@ -27,8 +27,6 @@ namespace TH_Bank
             }
 
             File.WriteAllLines(FilePath, openFile);
-
-
         }
 
         public Account Load(string accountNumber)

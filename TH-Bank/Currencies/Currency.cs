@@ -4,7 +4,7 @@
     {
         public abstract string Name { get; }
         public abstract string NameShort { get; }
-        public Dictionary<string,double> ExchangeRates { get; set; }
+        public Dictionary<string,double> ExchangeRates { get; private set; }
 
         public Currency()
         {

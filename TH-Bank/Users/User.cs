@@ -2,24 +2,19 @@
 {
     public abstract class User
     {
-        private string _id;
-        private string _passWord;
-
-
-        public string Id { get; set; }
-        public string PassWord { get; set; }
+        public string Id { get; private set; }
+        public string PassWord { get; private set; }
         public abstract string UserType { get; }
-        public bool IsLoggedIn { get; set; }
-        public string UserName { get; set; }
+
+        public string UserName { get; private set; }
 
         public bool IsBlocked { get; set; }
+        public decimal LoanLimit { get; private set; }
 
-        public decimal LoanLimit { get; set; }
         public User(string id, string userName, string passWord)
         {
             Id = id;
             PassWord = passWord;
-            IsLoggedIn = false;
             UserName = userName;
             //LoanLimit = SetMaxLoan(); 
         }
