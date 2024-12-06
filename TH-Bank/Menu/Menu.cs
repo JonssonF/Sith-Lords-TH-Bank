@@ -7,9 +7,26 @@
         protected string[]? _menu;
         protected int menuWidth;
 
-        public abstract void ShowMenu();
+        public void ShowMenu()
+        {
+            do
+            {
+                LogoText();
 
-        public abstract void ShowAccounts(User user, AccountDataHandler activeUser);
+                DrawBorder();
+
+                foreach (string item in _menu)
+                {
+                    DrawMenuItem(item);
+                }
+
+                DrawBorder();
+                MenuChoices();
+                Console.Clear();
+            } while (access);
+        }
+
+        public abstract void MenuChoices();
 
         internal void Return() // Method to return to Login.
         {

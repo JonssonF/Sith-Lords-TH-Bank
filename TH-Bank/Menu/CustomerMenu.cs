@@ -23,20 +23,9 @@ namespace TH_Bank
             menuWidth = CalculateWidth(extraWidth: 10);
         }
 
-        public override void ShowMenu()
-        {
-            Console.Clear();
-            LogoText();
-            DrawBorder();
-            foreach (string item in _menu)
-            {
-                DrawMenuItem(item);
-            }
-            DrawBorder();
-            MenuCustomer();
-        }
 
-        public void MenuCustomer()
+
+        public override void MenuChoices()
         {
             optionCount = _menu.Length; // Combined with Choice method from MenuClass wrongful inputs can't be made.
             access = true;
@@ -83,7 +72,7 @@ namespace TH_Bank
                 }
             }
         }
-        public override void ShowAccounts(User user, AccountDataHandler activeUser)
+        public void ShowAccounts(User user, AccountDataHandler activeUser)
         {
             Console.Clear();
             int width = 20;
