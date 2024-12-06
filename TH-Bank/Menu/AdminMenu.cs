@@ -186,8 +186,12 @@ namespace TH_Bank
 
         public void UpdateExchangeRates()
         {
-            Console.WriteLine($"Currencies were last updated {ExchangeCurrency.GetLastReview().ToString()}.");
-            Console.WriteLine("Do you wish to approve current rates or change one or more?");
+            Console.WriteLine("Current exchange rates:");
+            ExchangeCurrency.ViewAllRates();
+            Console.WriteLine($"Currencies were last approved {ExchangeCurrency.GetLastReview().ToString()}.");
+            Console.WriteLine("--------------");
+            Console.WriteLine("1. Approve current rates");
+            Console.WriteLine("2. Edit rates");
             int appOrChange = Format.Choice(2);
             bool editing = false;
 
@@ -236,6 +240,8 @@ namespace TH_Bank
             Console.WriteLine($"New rate for {chosen.NameShort} -> {keys[choice]}: {chosen.ExchangeRates[keys[choice]]} ");
             xdh.Save(chosen);
                 Console.WriteLine("Do you wish to edit another rate?");
+                Console.WriteLine("1. Yes");
+                Console.WriteLine("2. No");
                 int again = Format.Choice(2);
                 if(again == 1)
                 {

@@ -53,5 +53,22 @@
             currencies = currencies.Append(c).ToArray();
             ex.Save(c);
         }
+
+        public static void ViewAllRates()
+        {
+            var xdh = new ExchangeDataHandler();
+            Console.WriteLine("---------");
+            foreach(Currency c in currencies)
+            {
+                ThisCurrencyRates = xdh.LoadRates(c.Name);
+
+                    foreach(string s in ThisCurrencyRates.Keys)
+                    {
+                         Console.WriteLine($"{c.Name} -> {s} : {ThisCurrencyRates[s]}");
+                    }
+                Console.WriteLine("---------");
+                
+            }
+        }
     }
 }
