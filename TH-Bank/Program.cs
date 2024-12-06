@@ -161,7 +161,7 @@ namespace TH_Bank
 
                     // Successful login! Loads user into active user spot
                     var activeUser = ActiveUser.SetInstance(userDataHandler.Load(userName));
-                    
+                    Console.Clear();
                     LoadMenu(activeUser);
                     break;
                 }
@@ -175,7 +175,7 @@ namespace TH_Bank
                 {
                     Console.Clear();
                     Console.WriteLine("You have been denied access.\nContact us" +
-                        " between office hours (9:30 AM - 10 AM on Wednesdays.");
+                        " between office hours (9:30 AM - 10 AM on Wednesdays.)");
                     User blockme = userDataHandler.Load(userName);
                     blockme.IsBlocked = true;
                     userDataHandler.Save(blockme);
@@ -206,7 +206,7 @@ namespace TH_Bank
             }
             else
             {
-                throw new Exception($"Ingen meny matchar användare av typen: {user.UserType}");
+                throw new Exception($"Can't find menu that matches user type: {user.UserType}");
             }
 
             menu.ShowMenu();
