@@ -40,8 +40,8 @@ namespace TH_Bank
                 "SavingsAccount|0,1",
                 "///ENDINTERESTRATES///",
                 "OwnerID/Accountnumber/Balance/Currency/AccountType",
-                "CUS00000000|112003|5000|SEK|SalaryAccount",
-                "CUS00000000|223030|60000|SEK|SavingsAccount"
+                "CUS00000000|112003|1000|SEK|SalaryAccount",
+                
             };
 
             string[] defaultCurrencies =
@@ -69,7 +69,6 @@ namespace TH_Bank
                     "CarLoan|0,08",
                     "MortgageLoan|0,05",
                     "///ENDINTERESTRATES///",
-                    "CUS00000000|CarLoan|125000|0,1|2024-12-03 11:56:14",
                 };
             string[] defaultTransactions =
             {

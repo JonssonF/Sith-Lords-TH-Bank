@@ -14,26 +14,33 @@
 
         public bool IsBlocked { get; set; }
 
-        public decimal LoanLimit { get; private set; }
+        public decimal LoanLimit { get; set; }
         public User(string id, string userName, string passWord)
         {
             Id = id;
             PassWord = passWord;
             IsLoggedIn = false;
             UserName = userName;
-            LoanLimit = SetMaxLoan(); 
+            //LoanLimit = SetMaxLoan(); 
         }
 
         public abstract string ToString();
 
         public decimal SetMaxLoan()
         {
-            
             decimal maxLoan = 0;
+            decimal totalLoans = 0;
             var activeUser = new AccountDataHandler();
             List<Account> accounts = activeUser.LoadAll(Id);
-            
-            
+            LoanDataHandler ldh = new LoanDataHandler();
+            List<Loan> allLoans = ldh.LoadAll(Id);
+
+
+            foreach (var loan in allLoans)
+            {
+                totalLoans += loan.Amount;
+            }
+
             foreach (var acc in accounts)
             {
                 if(acc.Currency == "USD")
@@ -51,36 +58,20 @@
                 maxLoan += acc.Balance;
                 }
             }
+
             decimal maxLoanAmount = maxLoan * 5;
 
-            return maxLoanAmount;
-        }
+            totalLoans = totalLoans * 6;
 
-        public decimal MaxLoanDecrease(decimal maxLoan)
-        {
-            LoanDataHandler ldh = new LoanDataHandler();
-            List<Loan> allLoans = ldh.LoadAll(Id);
+            LoanLimit = maxLoanAmount - totalLoans;
 
-            decimal totalLoans = 0;
-            foreach (var loan in allLoans)
+            if(LoanLimit < 0)
             {
-                totalLoans += loan.Amount;
+                LoanLimit = 0;
             }
 
-            decimal decreasedLoan = maxLoan - totalLoans;
 
-            decreasedLoan = decreasedLoan * 2;
-
-            decreasedLoan -= LoanLimit;
-
-            if (decreasedLoan < 0)
-            {
-                decreasedLoan = 0;
-            }
-
-            decreasedLoan = LoanLimit;
-
-            return decreasedLoan;
+            return LoanLimit;
         }
     }
 }
