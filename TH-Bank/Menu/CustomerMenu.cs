@@ -255,6 +255,14 @@ namespace TH_Bank
                     {
                         fromAccount = userAccounts[accChoiceFrom - 1];
                         toAccount = userAccounts[accChoiceTo - 1];
+                        if (fromAccount.Balance <= 0)
+                        {
+                            Console.WriteLine("The account is empty. Transaction aborted." +
+                                "\nPress any key to return to menu. . .");
+                            Console.ReadKey();
+                            Console.Clear();
+                            ShowMenu();
+                        }
                     }
                     break;
                 case 2:
