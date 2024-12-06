@@ -203,7 +203,7 @@ namespace TH_Bank
             foreach (var t in tList)
             {
                 textColor = ConsoleColor.Gray;        // Transactions between own accounts are Gray
-                string signedAmount = t.Amount.ToString();
+                string signedAmount = t.Amount.ToString("0.00");
 
                 if (t.FromAccount.OwnerID != user.Id && t.ToAccount.OwnerID == user.Id)
                 {
@@ -307,9 +307,10 @@ namespace TH_Bank
                 }
             }
             while (amount > fromAccount.Balance);
+
             Console.Clear();
             ShowAccounts(user, adh);
-            Console.WriteLine($"\n[{amount} {fromAccount.Currency}] will be tranferred from account " +
+            Console.WriteLine($"\n[{amount.ToString("0.00")} {fromAccount.Currency}] will be tranferred from account " +
                 $"[{fromAccount.AccountNumber}] to account [{toAccount.AccountNumber}]" +
                 $"\nDo you wish to continue?\n\n[1] - Yes\n[2] - No");   // Possibility for user to abort transaction
 
