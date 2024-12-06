@@ -29,7 +29,8 @@
                     decimal amount = Decimal.Parse(variables[2]);
                     double interest = Double.Parse(variables[3]);
                     string loanStart = variables[4];
-                    var carLoan = new CarLoan(userId, amount);
+                    string loanExp = variables[5];
+                    var carLoan = new CarLoan(userId, amount, loanStart, loanExp);
                     return carLoan;
                 }
                 else if (line.Contains(id) && line.Contains("Mortgage"))
@@ -40,7 +41,8 @@
                     decimal amount = Decimal.Parse(variables[2]);
                     double interest = Double.Parse(variables[3]);
                     string loanStart = variables[4];
-                    var mortgageLoan = new MortgageLoan(userId, amount);
+                    string loanExp = variables[5];
+                    var mortgageLoan = new MortgageLoan(userId, amount, loanStart, loanExp);
                     return mortgageLoan;
                 }
             }
@@ -66,22 +68,20 @@
                 {
                     string[] variables = line.Split('|');
                     string userId = variables[0];
-                    string name = variables[1];
                     decimal amount = Decimal.Parse(variables[2]);
-                    double interest = Double.Parse(variables[3]);
                     string loanStart = variables[4];
-                    var loan = new CarLoan(userId, amount);
+                    string loanExp = variables[5];
+                    var loan = new CarLoan(userId, amount, loanStart, loanExp);
                     allLoans.Add(loan);
                 }
                 else if (line.Contains(userid) && line.Contains("Mortgage"))
                 {
                     string[] variables = line.Split('|');
                     string userId = variables[0];
-                    string name = variables[1];
                     decimal amount = Decimal.Parse(variables[2]);
-                    double interest = Double.Parse(variables[3]);
                     string loanStart = variables[4];
-                    var loan = new MortgageLoan(userId, amount);
+                    string loanExp = variables[5];
+                    var loan = new MortgageLoan(userId, amount, loanStart, loanExp);
                     allLoans.Add(loan);
                 }
             }

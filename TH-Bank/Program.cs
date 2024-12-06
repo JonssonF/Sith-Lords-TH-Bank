@@ -10,7 +10,7 @@ namespace TH_Bank
         static void Main(string[] args)
         {
             CreateFiles();
-
+            
             LogIn(new UserDataHandler());
 
             Console.ReadLine();

@@ -6,15 +6,12 @@
         public List<Loan> loans;
         public override string LoanType { get; } = "CarLoan";
 
-        public CarLoan(string id, decimal amount) : base(id, amount)
+        public CarLoan(string id, decimal amount, string start, string expire) : base(id, amount, start, expire)
         {
             loans = new List<Loan>();
         }
 
-        public override string ToString()
-        {
-            return $"{OwnerId}|{LoanType}|{Amount}|{Interest}|{LoanStart}";
-        }
+    
 
     }
 }

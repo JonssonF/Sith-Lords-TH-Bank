@@ -452,7 +452,6 @@ namespace TH_Bank
             DateTime loanTimeStamp = DateTime.Now;
             DateTime LastPay = DateTime.Now;
             ConsoleColor textColor;
-            
             List<Loan> allLoans = loanUser.LoadAll(user.Id);
             /*----------------------------------------------------------------------*/
             Console.Clear();
@@ -514,7 +513,8 @@ namespace TH_Bank
                     $"{CenterText(".:Loan Type:.", width)}" +
                     $"{CenterText(".:Amount:.", width)}" +
                     $"{CenterText(".:Interest:.", width)}" +
-                    $"{CenterText(".:Loan Start:.", width)}");
+                    $"{CenterText(".:Approved:.", width)}" +
+                    $"{CenterText(".:Expire:.", width)}");
                 Console.WriteLine(new string('-', center));
 
                 if (allLoans.Count == 0)
@@ -543,7 +543,8 @@ namespace TH_Bank
                         $"{" "}{nr}{"."}{CenterText(loan.LoanType, width)}" +
                         $"{CenterText(loan.Amount.ToString("C"), width)}" +
                         $"{CenterText(loan.Interest.ToString("P"), width)}" +
-                        $"{CenterText(loan.LoanStart.ToString("yyyy-MM-dd"), width)}");
+                        $"{CenterText(loan.LoanStart, width)}" +
+                        $"{CenterText(loan.LoanExp, width)}");
                         nr++;
                         Console.ResetColor();
                         Console.WriteLine(new string('-', center));
@@ -791,7 +792,11 @@ namespace TH_Bank
                         $"::Account: {selectedAccount.AccountType} ::Accountnumber: {selectedAccount.AccountNumber}.");
                     selectedAccount.Balance += amount;
                     activeUser.Save(selectedAccount);
-                    loanData.Save(loanFactory.NewLoan(id, amount, currentLoan));
+
+                    string expire = LastPay.ToString("yyy-MM-dd");
+
+                    loanData.Save(loanFactory.NewLoan(id, amount, expire, currentLoan));
+
                 }
                 else
                 {
