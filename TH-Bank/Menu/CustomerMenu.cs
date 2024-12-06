@@ -380,6 +380,7 @@ namespace TH_Bank
             Console.WriteLine("[3] EUR - EU Euro. ");
             Console.Write("Enter currency: ");
             int currencyChoice = Format.Choice(3);
+            Console.WriteLine(currencyChoice);
             string currency = "";
             switch (currencyChoice)
             {
@@ -399,10 +400,11 @@ namespace TH_Bank
             Console.WriteLine(" ");
             Console.WriteLine(new string('-', 80));
             Console.WriteLine("What type of bank account would you like to open?\n");
-            Console.WriteLine("[1] Salaryaccount ");
-            Console.WriteLine("[2] Savingsaccount ");
+            Console.WriteLine("[1] - Salaryaccount ");
+            Console.WriteLine("[2] - Savingsaccount ");
             Console.Write("\nEnter account type: ");
             int accountChoice = Format.Choice(2);
+            Console.WriteLine(accountChoice);
             string userchoice = "";
 
             switch (accountChoice)
@@ -425,6 +427,7 @@ namespace TH_Bank
             Account account = accountFactory.CreateAccount(user.Id, balance, currency, userchoice);
             Console.WriteLine("\nPress any key to return to menu. . .");
             Console.ReadKey();
+            Console.Clear();
             ShowMenu();
         }
         public void LoanSection(User user, LoanDataHandler loanUser)
