@@ -31,7 +31,7 @@ namespace TH_Bank
             return num;
         }
 
-        public static decimal DecimalInput()
+        public static decimal DecimalInput()   //Method to only accept valid keypress
         {
             bool isNumber = false;
             string numberString = "";
@@ -82,7 +82,7 @@ namespace TH_Bank
         }
 
 
-        public static int IntegerInput(int numberOfDigits)
+        public static int IntegerInput(int numberOfDigits) // Method to only accept valid keypress
         {
             bool isNumber = false;
             string numberString = "";

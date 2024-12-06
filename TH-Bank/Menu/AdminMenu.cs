@@ -1,5 +1,6 @@
 ﻿
 
+using System.Diagnostics;
 using System.Runtime.Serialization;
 
 namespace TH_Bank
@@ -145,25 +146,43 @@ namespace TH_Bank
         public void UnblockUser(UserDataHandler userDataHandler)
         {
             List<User> allUsers = userDataHandler.LoadAll();
-            Console.WriteLine("Blocked Users:");
+            List<User> blockedUsers = new List<User>();
+
             foreach(User user in allUsers)
             {
-                if(user.ToString().Contains("Blocked:True"))
+                if(user.IsBlocked == true)
                 {
-                    Console.WriteLine($"{user.Id}: {user.UserName} ({user.UserType})");
+                    blockedUsers.Add(user);
                 }
             }
 
-            Console.WriteLine("Which user do you want to unblock? Enter ID:");
-            string unblockId = Console.ReadLine();
+            if(blockedUsers.Count > 0)
+            {
 
-            var unblockMe = allUsers.Find(x => x.Id == unblockId);
+            Console.WriteLine("Blocked Users:");
+            foreach(User user in blockedUsers)
+            {  
+                    Console.WriteLine($"{blockedUsers.IndexOf(user) +1}: {user.Id}: {user.UserName} ({user.UserType})");
+            }
+
+            Console.WriteLine("Which user do you want to unblock? Select a number from the list.");
+            int unblockThis = Format.Choice(allUsers.Count);
+
+            var unblockMe = blockedUsers[unblockThis - 1];
 
             unblockMe.IsBlocked = false;
 
             userDataHandler.Save(unblockMe);
 
             Console.WriteLine($"You have unblocked user {unblockMe.UserName}!");
+                Console.WriteLine("Press any key to return to menu."); 
+                Console.ReadKey(true);
+            }
+            else
+            {
+                    Console.WriteLine("There are no blocked users currently! Press any key to return to menu.");
+                    Console.ReadKey(true);
+            }
         }
 
         public void UpdateExchangeRates()
