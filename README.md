@@ -22,20 +22,24 @@ Currency objects - SEK, EUR, USD<br>
 
 There are also two important objects that currently do not inherit from an abstract class,
 although this could be expanded on in the future:
+
 Transaction objects<br>
 Factory objects<br>
 
 The DataHandler objects inherit from a structure of Interfaces, that varies in functionality
-to make sure DataHandler objects only inherit methods they can make use of.
+to make sure DataHandler objects only inherit methods they can make use of:
+
 IObjectHandler - The "main" interface that all DataHandlers inherit from.<br>
 IMyDataHandler (inherits from IObjectHandler) - Mostly used by Customer objects to handle data that they own.<br>
 IAggregateDataHandler (inherits from IObjectHandler) - Mostly used by Admin objects to handle non-user-specific data.<br>
 
 There are also two DataHandlers that differ a bit from the others:
+
 ExchangeDataHandler handles both currencies and exchange rates (this could probably be split up in two in the future).<<br>
 SystemDataHandler handles system-specific data (for example making sure all new user ID:s are unique).<br>
 
 Finally there are a couple of other classes that handle information:
+
 TransactionSender - corralls transactions and makes sure they are excecuted at the correct time<br>
 ExchangeCurrency - contains methods for quickly exchanging money and viewing current exchange rates<br>
 FilePaths - static class that contains paths for save files and nothing else<br>
