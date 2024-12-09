@@ -22,8 +22,8 @@ Currency objects - SEK, EUR, USD<br>
 
 There are also two important objects that currently do not inherit from an abstract class,
 although this could be expanded on in the future:
-<br>Transaction objects</br>
-<br>Factory objects</br>
+Transaction objects<br>
+Factory objects<br>
 
 The DataHandler objects inherit from a structure of Interfaces, that varies in functionality
 to make sure DataHandler objects only inherit methods they can make use of.
