@@ -29,6 +29,7 @@ namespace TH_Bank
                 "///ENDINTERESTRATES///",
                 "OwnerID/Accountnumber/Balance/Currency/AccountType",
                 "CUS00000000|112003|1000|SEK|SalaryAccount",
+                "CUS00000000|112004|3000|SEK|SalaryAccount"
 
             };
 
@@ -49,7 +50,7 @@ namespace TH_Bank
                 "SEK|10,1",
                 "USD|1,05",
                 "//ENDEuropean Euro//",
-                "LastReview"
+                "LastReview|2024|12|10|10|12|10"
             };
 
             string[] defaultLoans =
@@ -59,6 +60,20 @@ namespace TH_Bank
                     "MortgageLoan|0,05",
                     "///ENDINTERESTRATES///",
                 };
+
+            string[] defaultTransactions =
+            {
+
+                "TRA00000001",
+                "2024-12-09 14:56:07",
+                "100",
+                "112004",
+                "112003",
+                "SEK",
+                "CUS00000000",
+                "CUS00000000"
+            };
+        
 
 
 
@@ -72,7 +87,7 @@ namespace TH_Bank
             }
             if (!File.Exists(FilePaths.TransactionPath))
             {
-                File.Create(FilePaths.TransactionPath);
+                File.AppendAllLines(FilePaths.TransactionPath, defaultTransactions);
             }
             if (!File.Exists(FilePaths.SystemPath))
             {

@@ -1,10 +1,4 @@
-﻿
-
-using System.Diagnostics;
-using System.Runtime.Serialization;
-using System.Security.Cryptography.X509Certificates;
-
-namespace TH_Bank
+﻿namespace TH_Bank
 {
     public class AdminMenu : Menu
     {
@@ -22,9 +16,6 @@ namespace TH_Bank
         };
             menuWidth = CalculateWidth(extraWidth: 10);
         }
-
-
-
         public override void MenuChoices()
         {
             optionCount = _menu.Length; // Combined with Choice method from MenuClass wrongful inputs can't be made.
@@ -39,7 +30,8 @@ namespace TH_Bank
                 Console.ForegroundColor = ConsoleColor.Gray;
                 UpdateExchangeRates();
             }
-
+            else
+            {
             int adminChoice = Format.Choice(optionCount); 
                 switch (adminChoice)
                 {
@@ -70,6 +62,7 @@ namespace TH_Bank
                     default:
                         break;
                 }
+            }
             
         }
 
