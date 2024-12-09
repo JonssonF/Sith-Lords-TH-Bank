@@ -14,32 +14,32 @@ Facade objects -> Contains logic that uses several other objects (like making a 
 
 There are five main abstract classes that objects in the program inherit from:
 
-User objects - Customers, admins
-Account objects - Salary account, Savings account
-Loan objects - Car loan, House loan
-Menu objects - Customer menu, Admin menu
-Currency objects - SEK, EUR, USD
+<br>User objects - Customers, admins</br>
+<br>Account objects - Salary account, Savings account</br>
+<br>Loan objects - Car loan, House loan</br>
+<br>Menu objects - Customer menu, Admin menu</br>
+<br>Currency objects - SEK, EUR, USD</br>
 
 There are also two important objects that currently do not inherit from an abstract class,
 although this could be expanded on in the future:
-Transaction objects
-Factory objects
+<br>Transaction objects</br>
+<br>Factory objects</br>
 
 The DataHandler objects inherit from a structure of Interfaces, that varies in functionality
 to make sure DataHandler objects only inherit methods they can make use of.
-IObjectHandler - The "main" interface that all DataHandlers inherit from. 
-IMyDataHandler (inherits from IObjectHandler) - Mostly used by Customer objects to handle data that they own
-IAggregateDataHandler (inherits from IObjectHandler) - Mostly used by Admin objects to handle non-user-specific data.
+<br>IObjectHandler - The "main" interface that all DataHandlers inherit from. </br>
+<br>IMyDataHandler (inherits from IObjectHandler) - Mostly used by Customer objects to handle data that they own</br>
+<br>IAggregateDataHandler (inherits from IObjectHandler) - Mostly used by Admin objects to handle non-user-specific data.</br>
 
 There are also two DataHandlers that differ a bit from the others:
-ExchangeDataHandler handles both currencies and exchange rates (this could probably be split up in two in the future).
-SystemDataHandler handles system-specific data (for example making sure all new user ID:s are unique).
+<br>ExchangeDataHandler handles both currencies and exchange rates (this could probably be split up in two in the future).</br>
+<br>SystemDataHandler handles system-specific data (for example making sure all new user ID:s are unique).</br>
 
 Finally there are a couple of other classes that handle information:
-TransactionSender - corralls transactions and makes sure they are excecuted at the correct time
-ExchangeCurrency - contains methods for quickly exchanging money and viewing current exchange rates
-FilePaths - static class that contains paths for save files and nothing else
-Format - static class that contains methods for number input safety, to be used throughout the program
+<br>TransactionSender - corralls transactions and makes sure they are excecuted at the correct time</br>
+<br>ExchangeCurrency - contains methods for quickly exchanging money and viewing current exchange rates</br>
+<br>FilePaths - static class that contains paths for save files and nothing else</br>
+<br>Format - static class that contains methods for number input safety, to be used throughout the program</br>
 
 The facade objects are not implemented yet, but there is a UserFacade class that contains methods for
 interacting with user objects.
