@@ -11,13 +11,13 @@ namespace TH_Bank
             _menu = new string[] // Menu in array = easy to add options.
             {
 
-                "1. Accounts",
-                "2. New transaction",
-                "3. View transactions",
-                "4. Loan",
-                "5. Open new account",
-                "6. Logout",
-                "7. Exit program",
+                "[1] Accounts",
+                "[2] New transaction",
+                "[3] View transactions    ",
+                "[4] Loan",
+                "[5] Open new account",
+                "[6] Logout",
+                "[7] Exit program",
 
             };
             menuWidth = CalculateWidth(extraWidth: 10);
@@ -86,6 +86,7 @@ namespace TH_Bank
                 Console.WriteLine($"Username: {user.UserName} have no registered accounts at the moment.");
                 Console.ResetColor();
                 Thread.Sleep(2000);
+                Console.Clear();
                 ShowMenu();
                 return;
             }
@@ -449,6 +450,7 @@ namespace TH_Bank
             DateTime LastPay = DateTime.Now;
             ConsoleColor textColor;
             List<Loan> allLoans = loanUser.LoadAll(user.Id);
+            user.LoanLimit = user.SetMaxLoan();
             /*----------------------------------------------------------------------*/
             Console.Clear();
             LoanLogo();
@@ -478,6 +480,7 @@ namespace TH_Bank
                     Console.WriteLine("Please choose a valid option.");
                     break;
             }
+            Console.Clear();
             ShowMenu();
 
 
@@ -500,10 +503,10 @@ namespace TH_Bank
             void ShowLoans(User user, LoanDataHandler loanUser)
             {
                 Console.Clear();
-                Console.WriteLine(new string('-', center));
-                Console.WriteLine(new string('-', center));
-                Console.WriteLine(centeredText);  // Headline for User.
-                Console.WriteLine(new string('-', center));
+                Console.WriteLine(new string('-', 100));
+                Console.WriteLine(new string('-', 100));
+                Console.WriteLine($".....................................:{user.UserName}'s loan section:.....................................");  // Headline for User.
+                Console.WriteLine(new string('-', 100));
                 Console.WriteLine(
                     $"{"Nr:."}" +
                     $"{CenterText(".:Loan Type:.", width)}" +
@@ -511,7 +514,7 @@ namespace TH_Bank
                     $"{CenterText(".:Interest:.", width)}" +
                     $"{CenterText(".:Approved:.", width)}" +
                     $"{CenterText(".:Expire:.", width)}");
-                Console.WriteLine(new string('-', center));
+                Console.WriteLine(new string('-', 100));
 
                 if (allLoans.Count == 0)
                 {
@@ -543,7 +546,7 @@ namespace TH_Bank
                         $"{CenterText(loan.LoanExp, width)}");
                         nr++;
                         Console.ResetColor();
-                        Console.WriteLine(new string('-', center));
+                        Console.WriteLine(new string('-', 100));
                     }
                 }
                 Console.Write("Press any key to go back. . .");
@@ -556,7 +559,7 @@ namespace TH_Bank
             {
                 Console.Clear();
                 LoanLogo();
-                //user.LoanLimit = user.SetMaxLoan();
+                
                 Console.WriteLine($"::[ Loan :******* ]::..::[ Max Amount: ******* ]::..::[ Interest: ******* ]::..");
                 Console.WriteLine("--------------------------------------------------------------------------------");
                 if(user.LoanLimit <= 0)
@@ -565,9 +568,10 @@ namespace TH_Bank
                     Thread.Sleep(1500);
                     Console.WriteLine("Redirecting you to main menu. . .");
                     Thread.Sleep(1500);
+                    Console.Clear();
                     ShowMenu();
                 }
-                Console.WriteLine($"Wich type of loan would you like to apply for {user.UserName}?\n");
+                Console.WriteLine($"Which type of loan would you like to apply for {user.UserName}?\n");
                 Console.WriteLine("[1] Car - Loan.");
                 Console.WriteLine("[2] House - Loan.");
                 Console.WriteLine("[3] Return to Loan menu.\n");
@@ -800,6 +804,7 @@ namespace TH_Bank
                 }
                 Console.Write("\nPress any key to go to main menu. . .");
                 Console.ReadKey();
+                Console.Clear();
                 ShowMenu();
             }
 

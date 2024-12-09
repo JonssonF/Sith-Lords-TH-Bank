@@ -14,11 +14,11 @@ namespace TH_Bank
             userFacade = new UserFacade();
             _menu = new string[] // Menu in array = easy to add options.
         {
-            "1. Add a new user to system",
-            "2. Handle suspended customers",
-            "3. Change currency exchange rates",
-            "4. Logout",
-            "5. Exit program",
+            "[1] Add a new user to system",
+            "[2] Handle suspended customers",
+            "[3] Change currency exchange rates",
+            "[4] Logout",
+            "[5] Exit program",
         };
             menuWidth = CalculateWidth(extraWidth: 10);
         }

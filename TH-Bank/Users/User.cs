@@ -9,14 +9,14 @@
         public string UserName { get; private set; }
 
         public bool IsBlocked { get; set; }
-        public decimal LoanLimit { get; private set; }
+        public decimal LoanLimit { get; set; }
 
         public User(string id, string userName, string passWord)
         {
             Id = id;
             PassWord = passWord;
             UserName = userName;
-            //LoanLimit = SetMaxLoan(); 
+            LoanLimit = SetMaxLoan(); 
         }
 
         public abstract string ToString();

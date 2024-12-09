@@ -35,7 +35,7 @@
             Thread.Sleep(2000);
             Console.Clear();
             ActiveUser.Reset();
-            Program.LogIn(new UserDataHandler());
+            Bank.LogIn(new UserDataHandler());
             access = false;
             bool login = true;
             return;
@@ -54,7 +54,7 @@
         public void LogoText()
         {
             User current = ActiveUser.GetInstance();
-            
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.Write("" +
                 " _____ _   _  ______  ___  _   _ _   __\r\n" +
                 "|_   _| | | | | ___ \\/ _ \\| \\ | | | / /\r\n" +
@@ -62,6 +62,7 @@
                 "  | | |  _  | | ___ \\  _  | . ` |    \\ \r\n" +
                 "  | | | | | | | |_/ / | | | |\\  | |\\  \\\r\n" +
                 "  \\_/ \\_| |_/ \\____/\\_| |_|_| \\_|_| \\_/\n");
+            Console.ResetColor();
             Console.WriteLine($"\n##Username:{current.UserName}  ##Access:{current.UserType}");
         }
 
