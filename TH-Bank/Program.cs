@@ -10,10 +10,8 @@ namespace TH_Bank
     {
         static void Main(string[] args)
         {
-            
-            Bank.Intro();
+            //Bank.Intro();
             Bank.LogIn(new UserDataHandler());
-
         }
     }
 }

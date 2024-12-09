@@ -86,6 +86,7 @@ namespace TH_Bank
                 Console.WriteLine($"Username: {user.UserName} have no registered accounts at the moment.");
                 Console.ResetColor();
                 Thread.Sleep(2000);
+                Console.Clear();
                 ShowMenu();
                 return;
             }
@@ -449,6 +450,7 @@ namespace TH_Bank
             DateTime LastPay = DateTime.Now;
             ConsoleColor textColor;
             List<Loan> allLoans = loanUser.LoadAll(user.Id);
+            user.LoanLimit = user.SetMaxLoan();
             /*----------------------------------------------------------------------*/
             Console.Clear();
             LoanLogo();
@@ -478,6 +480,7 @@ namespace TH_Bank
                     Console.WriteLine("Please choose a valid option.");
                     break;
             }
+            Console.Clear();
             ShowMenu();
 
 
@@ -556,7 +559,7 @@ namespace TH_Bank
             {
                 Console.Clear();
                 LoanLogo();
-                user.LoanLimit = user.SetMaxLoan();
+                
                 Console.WriteLine($"::[ Loan :******* ]::..::[ Max Amount: ******* ]::..::[ Interest: ******* ]::..");
                 Console.WriteLine("--------------------------------------------------------------------------------");
                 if(user.LoanLimit <= 0)
@@ -565,6 +568,7 @@ namespace TH_Bank
                     Thread.Sleep(1500);
                     Console.WriteLine("Redirecting you to main menu. . .");
                     Thread.Sleep(1500);
+                    Console.Clear();
                     ShowMenu();
                 }
                 Console.WriteLine($"Which type of loan would you like to apply for {user.UserName}?\n");
