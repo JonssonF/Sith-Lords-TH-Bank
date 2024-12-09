@@ -503,10 +503,10 @@ namespace TH_Bank
             void ShowLoans(User user, LoanDataHandler loanUser)
             {
                 Console.Clear();
-                Console.WriteLine(new string('-', center));
-                Console.WriteLine(new string('-', center));
-                Console.WriteLine(centeredText);  // Headline for User.
-                Console.WriteLine(new string('-', center));
+                Console.WriteLine(new string('-', 100));
+                Console.WriteLine(new string('-', 100));
+                Console.WriteLine($".....................................:{user.UserName}'s loan section:.....................................");  // Headline for User.
+                Console.WriteLine(new string('-', 100));
                 Console.WriteLine(
                     $"{"Nr:."}" +
                     $"{CenterText(".:Loan Type:.", width)}" +
@@ -514,7 +514,7 @@ namespace TH_Bank
                     $"{CenterText(".:Interest:.", width)}" +
                     $"{CenterText(".:Approved:.", width)}" +
                     $"{CenterText(".:Expire:.", width)}");
-                Console.WriteLine(new string('-', center));
+                Console.WriteLine(new string('-', 100));
 
                 if (allLoans.Count == 0)
                 {
@@ -546,7 +546,7 @@ namespace TH_Bank
                         $"{CenterText(loan.LoanExp, width)}");
                         nr++;
                         Console.ResetColor();
-                        Console.WriteLine(new string('-', center));
+                        Console.WriteLine(new string('-', 100));
                     }
                 }
                 Console.Write("Press any key to go back. . .");
