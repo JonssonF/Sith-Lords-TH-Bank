@@ -59,7 +59,8 @@ namespace TH_Bank
                 "European Euro",
                 "SEK|10,1",
                 "USD|1,05",
-                "//ENDEuropean Euro//"
+                "//ENDEuropean Euro//",
+                "LastReview"
             };
 
             string[] defaultLoans = 

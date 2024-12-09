@@ -29,6 +29,8 @@ namespace TH_Bank
         {
             optionCount = _menu.Length; // Combined with Choice method from MenuClass wrongful inputs can't be made.
             access = true;
+
+            // Moves directly to currency review if deadline of 24 hours since last update has passed)
             if (TimeToReview())
             {
                 Console.Beep();
@@ -79,27 +81,30 @@ namespace TH_Bank
             Console.WriteLine("--------------");
             Console.WriteLine("1. Approve current rates");
             Console.WriteLine("2. Edit rates");
-            int appOrChange = Format.Choice(2);
+            Console.WriteLine("3. Back to menu");
+            int appOrChange = Format.Choice(3);
             bool editing = false;
 
             if (appOrChange == 1)
             {
-
                 ExchangeCurrency.Review(DateTime.Now);
                 Console.WriteLine("Current exchange rates have been approved!");
-
+            }
+            else if(appOrChange == 2)
+            {
+                editing = true;
             }
             else
             {
-                editing = true;
+
             }
 
             while(editing)
             {
-
-
             Console.WriteLine("Chooce a currency to edit:");
             int loop = 1;
+
+            // Shows all currencies available
             foreach (Currency c in ExchangeCurrency.currencies)
             {
                 Console.WriteLine($"{loop}: {c.Name} ({c.NameShort})");
@@ -111,7 +116,9 @@ namespace TH_Bank
             Currency chosen = ExchangeCurrency.currencies[choice];
             Console.WriteLine($"Choose rate to edit for {chosen.NameShort}:");
             List<string> keys = new List<string>();
-            List<double> values = new List<double>();
+
+            // looks through eschange rates for chosen currency, saves in temporary list for
+            // easier access 
             foreach (var item in chosen.ExchangeRates)
             {
                 Console.WriteLine($"{loop}. {item.Key}: {item.Value}");
@@ -122,8 +129,9 @@ namespace TH_Bank
             choice = Format.Choice(chosen.ExchangeRates.Count) - 1;
 
             Console.WriteLine($"Enter new rate for {chosen.NameShort} -> {keys[choice]} (current: {chosen.ExchangeRates[keys[choice]]})");
-
-            chosen.ExchangeRates[keys[choice]] = Double.Parse(Console.ReadLine());
+            
+                // Uses "keys" list to set rate for correct currency
+            chosen.ExchangeRates[keys[choice]] = (double)Format.DecimalInput();
             Console.WriteLine($"New rate for {chosen.NameShort} -> {keys[choice]}: {chosen.ExchangeRates[keys[choice]]} ");
             xdh.Save(chosen);
                 Console.WriteLine("Do you wish to edit another rate?");
@@ -136,6 +144,7 @@ namespace TH_Bank
                 }
                 else
                 {
+                    // Sets last review time to current time when done editing rates.
                     ExchangeCurrency.Review(DateTime.Now);
                     Console.WriteLine("Currency review is done");
                     editing = false;
