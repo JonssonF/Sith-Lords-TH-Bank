@@ -64,10 +64,6 @@ namespace TH_Bank
                     case 7:
                         Close(); // Close application.
                         break;
-                    case 8:
-                        break;
-                    default:
-                        break;
                 }
             
         }
@@ -292,8 +288,8 @@ namespace TH_Bank
                     }
                     break;
                 case 3:
-                    break;
-                default:
+                    Console.Clear();
+                    ShowMenu();
                     break;
             }
 
@@ -380,10 +376,10 @@ namespace TH_Bank
 
             AccountFactory acc1 = new AccountFactory();
             Console.WriteLine("In which currency would you like your account to be denominated?\n");
-            Console.WriteLine("[1] SEK - Swedish kronor. ");
-            Console.WriteLine("[2] USD - US Dollar. ");
-            Console.WriteLine("[3] EUR - EU Euro. ");
-            Console.Write("Enter currency: ");
+            Console.WriteLine("[1] SEK - Swedish kronor");
+            Console.WriteLine("[2] USD - US Dollar");
+            Console.WriteLine("[3] EUR - EU Euro");
+            Console.Write("\nEnter currency: ");
             int currencyChoice = Format.Choice(3);
             Console.WriteLine(currencyChoice);
             string currency = "";

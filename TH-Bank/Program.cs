@@ -155,7 +155,7 @@ namespace TH_Bank
 
             while (loginAttempts < maxAttempts)
             {
-                Console.WriteLine($"{userName} please type in your password.");
+                Console.WriteLine($"{userName} please type in your password: ");
                 passWord = HidePassword();
 
 
