@@ -62,7 +62,7 @@
                 "  | | |  _  | | ___ \\  _  | . ` |    \\ \r\n" +
                 "  | | | | | | | |_/ / | | | |\\  | |\\  \\\r\n" +
                 "  \\_/ \\_| |_/ \\____/\\_| |_|_| \\_|_| \\_/\n");
-            Console.WriteLine($"\n##Username:{current.UserName}  ##Access:{current.UserType}.");
+            Console.WriteLine($"\n##Username:{current.UserName}  ##Access:{current.UserType}");
         }
 
         /*------------Methods to create dynamic border based on length on menu options--------*/
