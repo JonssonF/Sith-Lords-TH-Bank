@@ -12,6 +12,7 @@ namespace TH_Bank
         {
             //Bank.Intro();
             Bank.LogIn(new UserDataHandler());
+
         }
     }
 }
