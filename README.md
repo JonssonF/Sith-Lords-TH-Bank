@@ -1,5 +1,10 @@
  # **TH-Bank - A school group-project.**
 
+< Console Application >
+< C# .NET v.8. >
+
+
+ # **Code description.**
 This application is a mock-up of a banking app. The basic structure is as follows:
 Menu objects -> User interface code
 DataHandler objects -> Saves and loads information from file in real time
