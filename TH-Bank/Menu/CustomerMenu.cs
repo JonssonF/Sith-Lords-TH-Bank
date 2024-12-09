@@ -556,7 +556,7 @@ namespace TH_Bank
             {
                 Console.Clear();
                 LoanLogo();
-                //user.LoanLimit = user.SetMaxLoan();
+                user.LoanLimit = user.SetMaxLoan();
                 Console.WriteLine($"::[ Loan :******* ]::..::[ Max Amount: ******* ]::..::[ Interest: ******* ]::..");
                 Console.WriteLine("--------------------------------------------------------------------------------");
                 if(user.LoanLimit <= 0)
@@ -567,7 +567,7 @@ namespace TH_Bank
                     Thread.Sleep(1500);
                     ShowMenu();
                 }
-                Console.WriteLine($"Wich type of loan would you like to apply for {user.UserName}?\n");
+                Console.WriteLine($"Which type of loan would you like to apply for {user.UserName}?\n");
                 Console.WriteLine("[1] Car - Loan.");
                 Console.WriteLine("[2] House - Loan.");
                 Console.WriteLine("[3] Return to Loan menu.\n");
@@ -800,6 +800,7 @@ namespace TH_Bank
                 }
                 Console.Write("\nPress any key to go to main menu. . .");
                 Console.ReadKey();
+                Console.Clear();
                 ShowMenu();
             }
 
