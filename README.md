@@ -14,7 +14,7 @@ Facade objects -> Contains logic that uses several other objects (like making a 
 
 There are five main abstract classes that objects in the program inherit from:
 
-<br>User objects - Customers, admins</br>
+User objects - Customers, admins<br>
 <br>Account objects - Salary account, Savings account</br>
 <br>Loan objects - Car loan, House loan</br>
 <br>Menu objects - Customer menu, Admin menu</br>
