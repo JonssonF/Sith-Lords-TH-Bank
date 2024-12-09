@@ -11,13 +11,13 @@ namespace TH_Bank
             _menu = new string[] // Menu in array = easy to add options.
             {
 
-                "1. Accounts",
-                "2. New transaction",
-                "3. View transactions",
-                "4. Loan",
-                "5. Open new account",
-                "6. Logout",
-                "7. Exit program",
+                "[1] Accounts",
+                "[2] New transaction",
+                "[3] View transactions    ",
+                "[4] Loan",
+                "[5] Open new account",
+                "[6] Logout",
+                "[7] Exit program",
 
             };
             menuWidth = CalculateWidth(extraWidth: 10);
