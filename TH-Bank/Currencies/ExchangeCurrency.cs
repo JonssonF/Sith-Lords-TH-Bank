@@ -47,7 +47,7 @@
             return amount * (decimal)rate;
         }
 
-        // This method adds new currencies to bank
+        // This method adds new currencies to bank system. Not implemented yet.
         public static void AddCurrency(Currency c, ExchangeDataHandler ex)
         {
             currencies = currencies.Append(c).ToArray();
