@@ -171,6 +171,7 @@ namespace TH_Bank
                 Console.WriteLine($"Username: {user.UserName} has no transactions to show.");
                 Console.ResetColor();
                 Thread.Sleep(2000);
+                Console.Clear();
                 ShowMenu();
                 return;
             }
@@ -245,6 +246,7 @@ namespace TH_Bank
                         Console.WriteLine("\nTo and from account are the same. Transaction aborted." +
                             "\nPress any key to return to menu. . .");
                         Console.ReadKey();
+                        Console.Clear();
                         ShowMenu();
                     }
                     else
@@ -285,6 +287,7 @@ namespace TH_Bank
                         Console.WriteLine("\nInvalid account number. Transaction aborted." +
                             "\nPress any key to return to menu. . .");
                         Console.ReadKey();
+                        Console.Clear();
                         ShowMenu();
                     }
                     break;
@@ -308,7 +311,7 @@ namespace TH_Bank
 
             Console.Clear();
             ShowAccounts(user, adh);
-            Console.WriteLine($"\n[{amount.ToString("0.00")} {fromAccount.Currency}] will be tranferred from account " +
+            Console.WriteLine($"\n[{amount.ToString("0.00")} {fromAccount.Currency}] will be transferred from account " +
                 $"[{fromAccount.AccountNumber}] to account [{toAccount.AccountNumber}]" +
                 $"\nDo you wish to continue?\n\n[1] - Yes\n[2] - No");   // Possibility for user to abort transaction
 
@@ -343,6 +346,7 @@ namespace TH_Bank
             }
             Console.Write("Press any key to return to menu. . .");
             Console.ReadKey();
+            Console.Clear();
         }
 
         public int ValidOwnAccount(string toOrFrom)  // Method for valid user input regarding own accounts
@@ -663,31 +667,53 @@ namespace TH_Bank
                 Console.Write($"We can offer you a {currentLoan} for the desired amount of: {amount.ToString("C")}.\n\n" +
                     $"What repayment term would you prefer?");
 
-                Console.WriteLine("\n[1] 6 Months.");
-                Console.WriteLine("[2] 12 Months.");
-                Console.WriteLine("[3] 18 Months.");
+                Console.WriteLine($"\n[1] 6 {(currentLoan == "Car - Loan" ? "Months" : "Years")}.");
+                Console.WriteLine($"[2] 12 {(currentLoan == "Car - Loan" ? "Months" : "Years")}.");
+                Console.WriteLine($"[3] 18 {(currentLoan == "Car - Loan" ? "Months" : "Years")}.");
                 Console.WriteLine("\n[4] Cancel loan negotiations.\n");
                 Console.Write("Choose term:");
 
                 int userTime = Format.Choice(4);
                 decimal intCal = 0;
+                LastPay = DateTime.Now;
                 switch (userTime)
                 {
                     case 1:
                         userTime = 6;
-                        LastPay = LastPay.AddMonths(6);
+                        if (currentLoan == "Car - Loan")
+                        {
+                            LastPay = LastPay.AddMonths(6);
+                        }
+                        else
+                        {
+                            LastPay = LastPay.AddYears(6);
+                        }
                         intCal = interestCalc(amount, interest, 0.5);
                         PresentLoan(userTime, intCal, amount);
                         break;
                     case 2:
                         userTime = 12;
-                        LastPay = LastPay.AddMonths(12);
+                        if (currentLoan == "Car - Loan")
+                        {
+                            LastPay = LastPay.AddMonths(12);
+                        }
+                        else
+                        {
+                            LastPay = LastPay.AddYears(12);
+                        }
                         intCal = interestCalc(amount, interest, 1);
                         PresentLoan(userTime, intCal, amount);
                         break;
                     case 3:
                         userTime = 18;
-                        LastPay = LastPay.AddMonths(18);
+                        if (currentLoan == "Car - Loan")
+                        {
+                            LastPay = LastPay.AddMonths(18);
+                        }
+                        else
+                        {
+                            LastPay = LastPay.AddYears(18);
+                        }
                         intCal = interestCalc(amount, interest, 1.5);
                         PresentLoan(userTime, intCal, amount);
                         break;
@@ -716,7 +742,7 @@ namespace TH_Bank
                 Console.WriteLine(new string('-', 80));
                 Console.ForegroundColor = C;
                 Console.Write($"\n[{userTime}]");
-                Console.Write(" Months");
+                Console.Write($" {(currentLoan == "Car - Loan" ? "Months" : "Years")}");
                 Console.ResetColor();
                 Console.Write(". Last payment on ");
                 Console.ForegroundColor = C;
@@ -735,6 +761,12 @@ namespace TH_Bank
                 switch (choice)
                 {
                     case 1:
+                        if (userTime == 6)
+                        { LastPay = LastPay.AddMonths(6); }
+                        else if (userTime == 12)
+                        { LastPay = LastPay.AddMonths(12); }
+                        else
+                        { LastPay = LastPay.AddMonths(18); }
                         SaveLoan(ActiveUser.GetInstance(), new LoanDataHandler(), new LoanFactory(), new AccountDataHandler(), intCal, amount);
                         break;
                     case 2:
@@ -866,7 +898,13 @@ namespace TH_Bank
             void LoanLogo()
             {
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine(" ________  __    __          __        ______    ______   __    __ \r\n|        \\|  \\  |  \\        |  \\      /      \\  /      \\ |  \\  |  \\\r\n \\$$$$$$$$| $$  | $$        | $$     |  $$$$$$\\|  $$$$$$\\| $$\\ | $$\r\n   | $$   | $$__| $$ ______ | $$     | $$  | $$| $$__| $$| $$$\\| $$\r\n   | $$   | $$    $$|      \\| $$     | $$  | $$| $$    $$| $$$$\\ $$\r\n   | $$   | $$$$$$$$ \\$$$$$$| $$     | $$  | $$| $$$$$$$$| $$\\$$ $$\r\n   | $$   | $$  | $$        | $$_____| $$__/ $$| $$  | $$| $$ \\$$$$\r\n   | $$   | $$  | $$        | $$     \\\\$$    $$| $$  | $$| $$  \\$$$\r\n    \\$$    \\$$   \\$$         \\$$$$$$$$ \\$$$$$$  \\$$   \\$$ \\$$   \\$$\r\n");
+                Console.WriteLine("" +
+                    " _____ _   _        _                         _____           _   _             \r\n" +
+                    "|_   _| | | |      | |                       /  ___|         | | (_)            \r\n" +
+                    "  | | | |_| |______| |     ___   __ _ _ __   \\ `--.  ___  ___| |_ _  ___  _ __  \r\n" +
+                    "  | | |  _  |______| |    / _ \\ / _` | '_ \\   `--. \\/ _ \\/ __| __| |/ _ \\| '_ \\ \r\n" +
+                    "  | | | | | |      | |___| (_) | (_| | | | | /\\__/ /  __/ (__| |_| | (_) | | | |\r\n" +
+                    "  \\_/ \\_| |_/      \\_____/\\___/ \\__,_|_| |_| \\____/ \\___|\\___|\\__|_|\\___/|_| |_|\r\n");
                 Console.ResetColor();
                 Console.WriteLine(new string('-', 80));
                 Console.WriteLine(centeredText);

@@ -23,7 +23,7 @@ namespace TH_Bank
                 }
 
             } while (!isNumber || num > max || num == 0); // exits while loop only if number is not bigger
-                                              // than the max index of the active users accounts.
+                                                          // than the max index of the active users accounts.
             return num;
         }
 
@@ -116,8 +116,6 @@ namespace TH_Bank
             return number;
         }
 
-       
-
         private static Random randaccount = new Random();
         public static int UniqueAccountNo(string account)
         {
@@ -127,41 +125,34 @@ namespace TH_Bank
             return int.Parse(accountNumber);
         }
 
-    
-    public static string StringMinimumInput(int minimumInput) // Method to only accept valid keypress
-    {
-        bool isNumber = false;
-        string toReturn = "";
-        ConsoleKeyInfo cki;
-        char character;
+        public static string StringMinimumInput(int minimumInput) // Method to only accept valid keypress
+        {
+            bool isNumber = false;
+            string toReturn = "";
+            ConsoleKeyInfo cki;
+            char character;
 
-        do
-        {   // Takes input 
-            cki = Console.ReadKey(true);
-            character = cki.KeyChar;
+            do
+            {   // Takes input 
+                cki = Console.ReadKey(true);
+                character = cki.KeyChar;
 
-            if (cki.Key != ConsoleKey.Backspace && cki.Key != ConsoleKey.Enter)
-            {
-                        toReturn += cki.KeyChar;
-                        Console.Write(cki.KeyChar); 
-            } // Backspace key delete characters from the string
-            else if (cki.Key == ConsoleKey.Backspace && toReturn.Length > 0)
-            {
-                toReturn = toReturn.Substring(0, (toReturn.Length - 1));
-                Console.Write("\b \b");
-            }
- 
-                
-            // Exits while loop when user presses enter after entering at least x characters
-        } while (cki.Key != ConsoleKey.Enter || toReturn.Length < minimumInput);
+                if (cki.Key != ConsoleKey.Backspace && cki.Key != ConsoleKey.Enter)
+                {
+                    toReturn += cki.KeyChar;
+                    Console.Write(cki.KeyChar);
+                } // Backspace key delete characters from the string
+                else if (cki.Key == ConsoleKey.Backspace && toReturn.Length > 0)
+                {
+                    toReturn = toReturn.Substring(0, (toReturn.Length - 1));
+                    Console.Write("\b \b");
+                }
+                // Exits while loop when user presses enter after entering at least x characters
+            } while (cki.Key != ConsoleKey.Enter || toReturn.Length < minimumInput);
 
-        Console.WriteLine();
+            Console.WriteLine();
 
-
-        return toReturn;
-    }
-
-        
-
+            return toReturn;
+        }
     }
 }
