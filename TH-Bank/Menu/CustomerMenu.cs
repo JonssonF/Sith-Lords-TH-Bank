@@ -663,31 +663,53 @@ namespace TH_Bank
                 Console.Write($"We can offer you a {currentLoan} for the desired amount of: {amount.ToString("C")}.\n\n" +
                     $"What repayment term would you prefer?");
 
-                Console.WriteLine("\n[1] 6 Months.");
-                Console.WriteLine("[2] 12 Months.");
-                Console.WriteLine("[3] 18 Months.");
+                Console.WriteLine($"\n[1] 6 {(currentLoan == "Car - Loan" ? "Months" : "Years")}.");
+                Console.WriteLine($"[2] 12 {(currentLoan == "Car - Loan" ? "Months" : "Years")}.");
+                Console.WriteLine($"[3] 18 {(currentLoan == "Car - Loan" ? "Months" : "Years")}.");
                 Console.WriteLine("\n[4] Cancel loan negotiations.\n");
                 Console.Write("Choose term:");
 
                 int userTime = Format.Choice(4);
                 decimal intCal = 0;
+                LastPay = DateTime.Now;
                 switch (userTime)
                 {
                     case 1:
                         userTime = 6;
-                        LastPay = LastPay.AddMonths(6);
+                        if (currentLoan == "Car - Loan")
+                        {
+                            LastPay = LastPay.AddMonths(6);
+                        }
+                        else
+                        {
+                            LastPay = LastPay.AddYears(6);
+                        }
                         intCal = interestCalc(amount, interest, 0.5);
                         PresentLoan(userTime, intCal, amount);
                         break;
                     case 2:
                         userTime = 12;
-                        LastPay = LastPay.AddMonths(12);
+                        if (currentLoan == "Car - Loan")
+                        {
+                            LastPay = LastPay.AddMonths(12);
+                        }
+                        else
+                        {
+                            LastPay = LastPay.AddYears(12);
+                        }
                         intCal = interestCalc(amount, interest, 1);
                         PresentLoan(userTime, intCal, amount);
                         break;
                     case 3:
                         userTime = 18;
-                        LastPay = LastPay.AddMonths(18);
+                        if (currentLoan == "Car - Loan")
+                        {
+                            LastPay = LastPay.AddMonths(18);
+                        }
+                        else
+                        {
+                            LastPay = LastPay.AddYears(18);
+                        }
                         intCal = interestCalc(amount, interest, 1.5);
                         PresentLoan(userTime, intCal, amount);
                         break;
@@ -716,7 +738,7 @@ namespace TH_Bank
                 Console.WriteLine(new string('-', 80));
                 Console.ForegroundColor = C;
                 Console.Write($"\n[{userTime}]");
-                Console.Write(" Months");
+                Console.Write($" {(currentLoan == "Car - Loan" ? "Months" : "Years")}");
                 Console.ResetColor();
                 Console.Write(". Last payment on ");
                 Console.ForegroundColor = C;
@@ -735,6 +757,12 @@ namespace TH_Bank
                 switch (choice)
                 {
                     case 1:
+                        if (userTime == 6)
+                        { LastPay = LastPay.AddMonths(6); }
+                        else if (userTime == 12)
+                        { LastPay = LastPay.AddMonths(12); }
+                        else
+                        { LastPay = LastPay.AddMonths(18); }
                         SaveLoan(ActiveUser.GetInstance(), new LoanDataHandler(), new LoanFactory(), new AccountDataHandler(), intCal, amount);
                         break;
                     case 2:
