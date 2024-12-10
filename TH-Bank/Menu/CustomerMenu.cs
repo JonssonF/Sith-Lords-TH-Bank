@@ -171,6 +171,7 @@ namespace TH_Bank
                 Console.WriteLine($"Username: {user.UserName} has no transactions to show.");
                 Console.ResetColor();
                 Thread.Sleep(2000);
+                Console.Clear();
                 ShowMenu();
                 return;
             }
@@ -245,6 +246,7 @@ namespace TH_Bank
                         Console.WriteLine("\nTo and from account are the same. Transaction aborted." +
                             "\nPress any key to return to menu. . .");
                         Console.ReadKey();
+                        Console.Clear();
                         ShowMenu();
                     }
                     else
@@ -285,6 +287,7 @@ namespace TH_Bank
                         Console.WriteLine("\nInvalid account number. Transaction aborted." +
                             "\nPress any key to return to menu. . .");
                         Console.ReadKey();
+                        Console.Clear();
                         ShowMenu();
                     }
                     break;
@@ -308,7 +311,7 @@ namespace TH_Bank
 
             Console.Clear();
             ShowAccounts(user, adh);
-            Console.WriteLine($"\n[{amount.ToString("0.00")} {fromAccount.Currency}] will be tranferred from account " +
+            Console.WriteLine($"\n[{amount.ToString("0.00")} {fromAccount.Currency}] will be transferred from account " +
                 $"[{fromAccount.AccountNumber}] to account [{toAccount.AccountNumber}]" +
                 $"\nDo you wish to continue?\n\n[1] - Yes\n[2] - No");   // Possibility for user to abort transaction
 
@@ -343,6 +346,7 @@ namespace TH_Bank
             }
             Console.Write("Press any key to return to menu. . .");
             Console.ReadKey();
+            Console.Clear();
         }
 
         public int ValidOwnAccount(string toOrFrom)  // Method for valid user input regarding own accounts
