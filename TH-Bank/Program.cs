@@ -10,9 +10,9 @@ namespace TH_Bank
     {
         static void Main(string[] args)
         {
-            //Bank.Intro();
+            //Bank.Intro(); // Launches intro of program.
+            Bank.CreateFiles(); // Creating files for first time launch.
             Bank.LogIn(new UserDataHandler());
-
         }
     }
 }
