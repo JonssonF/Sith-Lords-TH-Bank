@@ -1,4 +1,7 @@
-﻿namespace TH_Bank
+﻿using Microsoft.VisualBasic;
+using System.Security.Principal;
+
+namespace TH_Bank
 {
     public class TransactionDataHandler : IMyDataHandler<Transaction>, IAggregateDataHandler<Transaction>
     {
@@ -20,26 +23,21 @@
             File.WriteAllLines(FilePath, openFile);
         }
 
-        public Transaction Load()
-        {
-            throw new NotImplementedException();
-        }
-
+        // Not needed at the moment
         public Transaction Load(string id)
         {
             throw new NotImplementedException();
         }
 
+        // Gets a list of all transactions in database
         public List<Transaction> LoadAll()
         {
             string[] openFile = File.ReadAllLines(FilePath);
 
             var transactions = new List<Transaction>();
             var accountDataHandler = new AccountDataHandler();
-
             foreach (string line in openFile)
             {
-
                     string[] variables = line.Split('|');
                     string id = variables[0];
                     string dateTime = variables[1];
@@ -57,6 +55,7 @@
             return transactions;
         }
 
+        // Gets a list of transactions made from and to a certain user
         public List<Transaction> LoadAll(string userid)
         {
             string[] openFile = File.ReadAllLines(FilePath);

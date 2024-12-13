@@ -2,14 +2,31 @@
 {
     public abstract class Menu
     {
-        internal int optionCount;
-        internal bool access;
-        internal string[]? _menu;
-        internal int menuWidth;
+        protected int optionCount;
+        protected bool access;
+        protected string[]? _menu;
+        protected int menuWidth;
 
-        public abstract void ShowMenu();
+        public void ShowMenu()
+        {
+            do
+            {
+                LogoText();
 
-        public abstract void ShowAccounts(User user, AccountDataHandler activeUser);
+                DrawBorder();
+
+                foreach (string item in _menu)
+                {
+                    DrawMenuItem(item);
+                }
+
+                DrawBorder();
+                MenuChoices();
+                Console.Clear();
+            } while (access);
+        }
+
+        public abstract void MenuChoices();
 
         internal void Return() // Method to return to Login.
         {
@@ -17,8 +34,8 @@
             Console.WriteLine("Taking you to home screen.");
             Thread.Sleep(2000);
             Console.Clear();
-            ActiveUserSingleton.Reset();
-            Program.LogIn(new UserDataHandler());
+            ActiveUser.Reset();
+            Bank.LogIn(new UserDataHandler());
             access = false;
             bool login = true;
             return;
@@ -37,11 +54,8 @@
         public void LogoText()
         {
             User current = ActiveUserSingleton.GetInstance();
-            //Dictionary<string, Dictionary<string, double>> rates = ExchangeCurrency.AllCurrentRates;
-            ////double SEK = rates["SEK"]["SEK"];
-            //double SEKtoUSD = rates["SEK"]["USD"];            Återkommer till detta om jag har tid efter lån biten är utvecklad.
-            //double SEKtoEUR = rates["SEK"]["EUR"];
-
+            User current = ActiveUser.GetInstance();
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.Write("" +
                 " _____ _   _  ______  ___  _   _ _   __\r\n" +
                 "|_   _| | | | | ___ \\/ _ \\| \\ | | | / /\r\n" +
@@ -49,8 +63,8 @@
                 "  | | |  _  | | ___ \\  _  | . ` |    \\ \r\n" +
                 "  | | | | | | | |_/ / | | | |\\  | |\\  \\\r\n" +
                 "  \\_/ \\_| |_/ \\____/\\_| |_|_| \\_|_| \\_/\n");
-            Console.WriteLine($"\n##Username:{current.UserName}  ##Access:{current.UserType}.");
-            //Console.WriteLine($"##SEK:##USD:{SEKtoUSD}##EUR:{SEKtoEUR}");
+            Console.ResetColor();
+            Console.WriteLine($"\n##Username:{current.UserName}  ##Access:{current.UserType}");
         }
 
         /*------------Methods to create dynamic border based on length on menu options--------*/

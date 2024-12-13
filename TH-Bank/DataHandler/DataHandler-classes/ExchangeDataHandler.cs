@@ -1,6 +1,10 @@
 ﻿
 namespace TH_Bank
 {
+
+    // This class handles both Currency objects and exchange rates.
+    // Currently there are no ways to create new currencies from within
+    // the program.
     public class ExchangeDataHandler : IObjectHandler<Currency>
     { 
         public string FilePath { get; set; }
@@ -10,11 +14,13 @@ namespace TH_Bank
             FilePath = FilePaths.CurrencyPath;
         }
 
+        // Not needed at the moment
         public void Delete(Currency deleteThis)
         {
             throw new NotImplementedException();
         }
 
+        // Gets the last time exchange rates were updated
         public DateTime LoadLastReview()
         {
             string[] openFile = File.ReadAllLines(FilePath);
@@ -39,6 +45,7 @@ namespace TH_Bank
             
         }
 
+        // Saves a timestamp of the last currency review
         public void SaveReviewTime(DateTime dt)
         {
             var openFile = File.ReadAllLines(FilePath);
@@ -49,6 +56,7 @@ namespace TH_Bank
             
         }
 
+        // Gets exchange rates of a certain currency
         public Dictionary<string,double> LoadRates(string currency)
         {
             string[] openFile = File.ReadAllLines(FilePath);
@@ -67,11 +75,7 @@ namespace TH_Bank
             return loaded;
         }
 
-        public List<Currency> LoadAll()
-        {
-            throw new NotImplementedException();
-        }
-
+        // Saves a currency and its exchange rates to file
         public void Save(Currency saveThis)
         {
             string[] openFile = File.ReadAllLines(FilePath);

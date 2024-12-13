@@ -27,14 +27,41 @@ namespace TH_Bank
             }
 
             File.WriteAllLines(FilePath, openFile);
-
-
         }
 
         public Account Load(string accountNumber)
         {
-            throw new NotImplementedException();
+            string[] openFile = File.ReadAllLines(FilePath);
+
+            foreach (string line in openFile)
+            {
+                // Makes sure the account that is put in the list is of correct type
+                // Is the same in several methods, could probably be aggregated.
+                if (line.Contains("SalaryAccount") && line.Length > 19 && line.Contains(accountNumber))
+                {
+                    string[] variables = line.Split('|');
+
+                    string ownerid = variables[0];
+                    int accountnumber = Int32.Parse(variables[1]);
+                    decimal balance = decimal.Parse(variables[2]);
+                    string currency = variables[3];
+
+                    return new SalaryAccount(ownerid, balance, accountnumber, currency);
+                }
+                else if (line.Contains("SavingsAccount") && line.Length > 19 && line.Contains(accountNumber))
+                {
+                    string[] variables = line.Split('|');
+
+                    string ownerid = variables[0];
+                    int accountnumber = Int32.Parse(variables[1]);
+                    decimal balance = decimal.Parse(variables[2]);
+                    string currency = variables[3];
+                    return new SavingsAccount(ownerid, balance, accountnumber, currency);
+                }
+            }
+            throw new Exception("Invalid Account type, can't be Loaded");
         }
+                
 
         public List<Account> LoadAll()
         {
@@ -44,7 +71,7 @@ namespace TH_Bank
 
             foreach (string line in openFile)
             {
-
+                
                 if (line.Contains("SalaryAccount") && line.Length > 19)
                 {
                     string[] variables = line.Split('|');
@@ -64,7 +91,6 @@ namespace TH_Bank
                     int accountnumber = Int32.Parse(variables[1]);
                     decimal balance = decimal.Parse(variables[2]);
                     string currency = variables[3];
-                    //$"{OwnerID}|{AccountNumber}|{Balance}|{Currency}|{AccountType}";
                     accounts.Add(new SavingsAccount(ownerid,balance, accountnumber, currency));
                 }
             }
@@ -130,6 +156,7 @@ namespace TH_Bank
             throw new NotImplementedException();
         }
 
+        // Gets the interest rate of an account type.
         public double GetInterest(string accountType)
         {
             string[] openFile = File.ReadAllLines(FilePath);
