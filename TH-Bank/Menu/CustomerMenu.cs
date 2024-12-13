@@ -195,8 +195,10 @@ namespace TH_Bank
 
                 if (t.FromAccount.OwnerID != user.Id && t.ToAccount.OwnerID == user.Id)
                 {
+
                     textColor = ConsoleColor.Green;   // Transactions from other users are Green with + 
                     signedAmount = $"+{signedAmount}";
+
                 }
                 else if (t.FromAccount.OwnerID == user.Id && t.ToAccount.OwnerID != user.Id)
                 {
@@ -678,6 +680,7 @@ namespace TH_Bank
                 LastPay = DateTime.Now;
                 switch (userTime)
                 {
+                
                     case 1:
                         userTime = 6;
                         if (currentLoan == "Car - Loan")

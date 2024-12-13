@@ -53,6 +53,7 @@
 
         public void LogoText()
         {
+            User current = ActiveUserSingleton.GetInstance();
             User current = ActiveUser.GetInstance();
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.Write("" +
